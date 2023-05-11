@@ -48,7 +48,7 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
     }
 </script>
 <div id="header"
-     class="relative z-30 w-full border-b shadow bg-container-lighter border-container-lighter"
+     class="relative z-30 w-full border-b shadow text-giallo bg-container-lighter border-container-lighter"
      x-data="initHeader()"
      @keydown.window.escape="searchOpen = false;"
      @private-content-loaded.window="getData(event.detail.data)"
@@ -80,9 +80,7 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
                    <?= $escaper->escapeHtml(__('Compare Products')) ?>
                 </span>
 
-                <span class="absolute top-0 right-0 h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold
-                    leading-none text-center text-white uppercase transform -translate-x-1
-                    translate-y-1/2 bg-yellow-500 rounded-full"
+                <span class="absolute top-0 right-0 h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-1 translate-y-1/2 bg-yellow-500 rounded-full"
                 >
                     <span x-text="itemCount"></span>
                     <span x-show="itemCount === 1" class="sr-only">
@@ -137,9 +135,7 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
                 ) ?>
 
                 <span x-text="cart.summary_count"
-                      class="absolute top-0 right-0 hidden h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold
-                        leading-none text-center text-white uppercase transform -translate-x-1
-                        translate-y-1/2 rounded-full bg-primary"
+                      class="absolute top-0 right-0 hidden h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-1 translate-y-1/2 rounded-full bg-primary"
                       :class="{
                         'hidden': !cart.summary_count,
                         'block': cart.summary_count }"

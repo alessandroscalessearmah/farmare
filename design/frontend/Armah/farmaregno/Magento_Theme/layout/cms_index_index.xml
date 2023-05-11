@@ -7,25 +7,73 @@
  * See https://hyva.io/license
  */
 -->
-<page layout="3columns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page layout="3columns"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="hyva_product_slider" />
     <body>
-        <referenceContainer name="content">
+        <!-- SLIDE -->
+        <referenceContainer name="top.container">
+            <block class="Magento\Theme\Block\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" />
+            <container name="home.first.row" htmlId="home-first-row" htmlTag="div" htmlClass="z-0">
+                <block class="Magento\Cms\Block\Block" name="home-main-slide">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-main-slide</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <!--  -->
 
+
+
+
+        <!-- FOOTER -->
+
+        <referenceContainer name="footer">
+            <container name="home.pre.footer" before="-">
+                <container name="home.banner.centrale.garanzia" htmlId="home-banner-centrale-garanzia-id" htmlTag="div" htmlClass="z-0">
+                    <block class="Magento\Cms\Block\Block" name="home-banner-centrale-garanzia">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">home-banner-centrale-garanzia</argument>
+                        </arguments>
+                    </block>
+                </container>
+                <container name="container.blocco.banner.servizi" htmlTag="div" htmlClass="home-altezza-xml-banner-servizi">
+                    <container name="blocco.banner.servizi" htmlTag="div" htmlClass="container">
+                        <block class="Magento\Cms\Block\Block" name="home-banner-servizi">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">home-banner-servizi</argument>
+                            </arguments>
+                        </block>
+                    </container>
+                </container>
+                <container name="container.home.trustpilot.info" htmlTag="div" htmlClass="container">
+                    <block class="Magento\Cms\Block\Block" name="home.trustpilot.info">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">home-trustpilot-info</argument>
+                        </arguments>
+                    </block>
+                </container>
+                <container name="container.home.blog" htmlTag="div" htmlClass="container">
+                    <block class="Magento\Cms\Block\Block" name="home.blog">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">home-blog</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
         </referenceContainer>
 
+        <!--  -->
 
 
 
 
         <!-- rimozione tema default -->
         <referenceBlock name="hero" template="Magento_Theme::elements/hero.phtml" remove="true" />
-        <referenceBlock name="content-1" template="Magento_Theme::elements/content-1.phtml"
-            remove="true" />
-        <referenceBlock name="slider-1"
-            template="Magento_Catalog::product/slider/product-slider.phtml" remove="true" />
-        <referenceBlock name="slider-2"
-            template="Magento_Catalog::product/slider/product-slider.phtml" remove="true" />
+        <referenceBlock name="content-1" template="Magento_Theme::elements/content-1.phtml" remove="true" />
+        <referenceBlock name="slider-1" template="Magento_Catalog::product/slider/product-slider.phtml" remove="true" />
+        <referenceBlock name="slider-2" template="Magento_Catalog::product/slider/product-slider.phtml" remove="true" />
         <referenceBlock name="page.main.title" remove="true" />
         <!-- rimozione tema default -->
     </body>

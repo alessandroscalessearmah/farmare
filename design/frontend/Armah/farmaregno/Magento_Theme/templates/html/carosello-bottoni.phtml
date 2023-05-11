@@ -1,0 +1,120 @@
+<script src="https://cdn.jsdelivr.net/npm/swiper@8.4.6/swiper-bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/swiper@8.4.6/swiper-bundle.min.css" rel="stylesheet">
+</link>
+
+<div x-data="{swiper: null}" x-init="swiper = new Swiper($refs.container, {
+      loop: false,
+      slidesPerView: 1.5,
+      spaceBetween: 4,
+
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+  
+      breakpoints: {
+        640: {
+          slidesPerView: 2.5,
+          spaceBetween: 4,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 4,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 4,
+        },
+      },
+    })" class="flex flex-row w-full overflow-x-hidden">
+
+    <div class="swiper-button-next right-custom-pagebuilder-carosello"></div>
+  <div class="swiper-button-prev left-custom-pagebuilder-carosello"></div>
+
+  <div class="w-full swiper-container pb-0" x-ref="container">
+    <div class="swiper-wrapper">
+      <!-- Slides -->
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary hover:bg-secondary-darker" href="/farmaci-da-banco/allergie/antistaminici.html">Antistaminici</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary-lighter hover:bg-secondary" href="/farmaci-da-banco/influenza-e-raffreddore/raffreddore-e-naso-chiuso.html">Raffreddore e Naso chiuso</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary hover:bg-secondary-darker" href="/farmaci-da-banco/dolore-e-infiammazione/dolori-muscolari-e-articolari.html">Dolori Muscolari e Articolari</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary-lighter hover:bg-secondary" href="/farmaci-da-banco/occhi/secchezza-oculare.html">Secchezza Oculare</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary hover:bg-secondary-darker" href="/integratori-e-alimenti/integratori-alimentari/concentrazione-e-memoria.html">Concentrazione e Memoria</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary-lighter hover:bg-secondary" href="/integratori-e-alimenti/integratori-alimentari/vitamine-e-sali-minerali.html">Vitamine e Sali Minerali</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary hover:bg-secondary-darker" href="/integratori-e-alimenti/integratori-dimagranti.html">Integratori Dimagranti</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary-lighter hover:bg-secondary" href="/integratori-e-alimenti/integratori-sportivi.html">Integratori Sportivi</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary hover:bg-secondary-darker" href="/cosmetica/prodotti-solari/viso.html">Creme Solari</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-slide">
+        <div class="flex flex-col overflow-hidden rounded">
+          <div class="flex-shrink-0">
+            <a class="justify-center object-cover py-4 text-sm font-normal text-gray-900 shadow-none rounded-xl btn bg-secondary-lighter hover:bg-secondary" href="/cosmetica/corpo/esfolianti-corpo.html">Esfolianti Corpo</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

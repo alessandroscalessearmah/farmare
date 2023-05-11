@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+	<table name="armah_quickmenu_quickmenu" resource="default" engine="innodb" comment="armah_quickmenu_quickmenu Table">
+		<column xsi:type="int" name="quickmenu_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+		<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="quickmenu_id"/>
+		</constraint>
+		<column name="block_name" nullable="true" xsi:type="text" comment="block_name"/>
+		<column name="block_content_type" nullable="true" xsi:type="varchar" comment="block_content_type" length="255"/>
+		<column name="block_main_category" nullable="true" xsi:type="text" comment="block_main_category"/>
+		<column name="block_top_brands" nullable="true" xsi:type="text" comment="block_top_brands"/>
+		<column name="block_icon" nullable="true" xsi:type="text" comment="block_icon"/>
+		<column name="block_categories" nullable="true" xsi:type="text" comment="block_categories"/>
+	</table>
+</schema>

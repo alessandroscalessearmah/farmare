@@ -1,0 +1,88 @@
+<?php
+$quickBlocks = $block->renderBlocks();
+$count = count($quickBlocks);
+$columns = ($count == 6) ? 3 : 4;
+?>
+<h2 class="reparti-in-evidenza"><?= $escaper->escapeHtmlAttr(__('Featured Departments')) ?></h2>
+<div class="primo-div-quickmenu">
+    <?php foreach ($quickBlocks as $block) : ?>
+        <?php if (isset($block[0])) : ?>
+            <div class="p-m-menu">
+            <a class="text-a-menu-items" href="<?= $block[0]['url'] ?>"><span class="text-span-menu-items"><?= strtolower($block[0]["name"]) ?></span></a>
+
+                <div class="div-img-menu">
+                    <!-- <img class="w-h-menu" src="data:image/svg+xml;base64,<.?= $block[0]["svg"] ?>" alt="<.?= $block[0]["name"] ?>"> -->
+                </div>
+                <div class="div-text-menu">
+                    <?php $i = 0; ?>
+                    <?php foreach ($block as $key => $child) : ?>
+                        <?php if ($child["name"] != null) : ?>
+                            <?php if ($i++ == 0) : ?>
+
+                            <?php else : ?>
+                                <a class="text-menu-items" href="<?= $child['url'] ?>"><?= strtolower($child["name"]) ?></a>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+
+
+<?php if (count($quickBlocks) > 0) : ?>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8.4.6/swiper-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/swiper@8.4.6/swiper-bundle.min.css" rel="stylesheet" />
+<?php endif; ?>
+
+
+<div x-data="{swiper: null}" x-init="swiper = new Swiper($refs.container, {
+      loop: false,
+      slidesPerView: 2,
+      spaceBetween: 4,
+  
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 4,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 4,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 0,
+        },
+      },
+    })" class="relative flex flex-row w-full mx-auto mt-10 overflow-x-hidden lg:hidden">
+
+
+    <div class="w-full pb-3 swiper-container" x-ref="container">
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <?php foreach ($quickBlocks as $block) : ?>
+                <?php if (isset($block[0])) : ?>
+                    <div class="swiper-slide p-m-menu">
+                        <div class="div-img-menu">
+                            <img class="w-h-menu" src="data:image/svg+xml;base64,<?= $block[0]["svg"] ?>" alt="<?= $block[0]["name"] ?>">
+                        </div>
+                        <div class="div-text-menu">
+                            <?php $i = 0; ?>
+                            <?php foreach ($block as $key => $child) : ?>
+                                <?php if ($child["name"] != null) : ?>
+                                    <?php if ($i++ == 0) : ?>
+                                        <a class="text-a-menu-items" href="<?= $child['url'] ?>"><span class="text-span-menu-items"><?= $child["name"] ?></span></a>
+                                    <?php else : ?>
+                                        <a class="text-menu-items" href="<?= $child['url'] ?>"><?= $child["name"] ?></a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>

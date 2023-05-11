@@ -11,5 +11,133 @@ html {
 }
 
 body {
-    @apply text-black leading-normal text-base tracking-normal;
+    @apply text-base leading-normal tracking-normal text-black;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 16px; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #aaaaaa; 
+  border-radius: 16px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #969696; 
+}
+
+/* Margine 0 in PageBuilder */
+
+[data-content-type="row"] > div {
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+}
+
+/* slider */
+
+.pagebuilder-slider .glider-slide {
+    @apply m-0 !important;
+}
+
+#home-first-row .pagebuilder-slider .pagebuilder-slide-wrapper {
+    @apply md:h-[37vw];
+}
+@media (min-width: 1536px) {
+    #home-first-row .pagebuilder-slider .pagebuilder-slide-wrapper {
+        @apply 2xl:h-[630px] max-w-[1700px] mx-auto bg-contain;
+    }
+}
+@media (min-width: 1536px) and (max-width: 1700px) {
+    #home-first-row .pagebuilder-slider .pagebuilder-slide-wrapper {
+        @apply 2xl:min-h-[37vw] 2xl:h-[569px] !important;
+    }
+}
+
+ /* slide - carosello */
+
+ .widget-product-carousel .price-box.price-final_price {
+    @apply flex flex-row-reverse items-end justify-around h-full gap-2 px-6 mb-4;
+ }
+
+ /* mx - carosello */
+
+ .custom-pagebuilder-carosello {
+    @apply mx-16 relative
+ }
+ .left-custom-pagebuilder-carosello {
+    @apply -left-16 btn-primary btn rounded-full !important;
+ }
+ .right-custom-pagebuilder-carosello {
+    @apply -right-16 btn-primary btn rounded-full !important;
+ }
+ .swiper-button-next:after, .swiper-button-prev:after {
+    @apply text-xl text-white !important;
+ }
+
+   /* Mega menu */
+
+.reparti-in-evidenza {
+    @apply pb-3 mb-8 text-3xl font-bold tracking-tight border-b text-primary border-primary;
+}   
+.w-h-menu {
+    @apply w-full;
+}
+.div-img-menu {
+    @apply flex items-center justify-center w-full sm:m-auto;
+}
+.p-m-menu {
+    @apply flex flex-col items-start justify-start rounded sm:justify-center !important;
+}
+.text-a-menu-items {
+    @apply px-5 pt-5 pb-2 border-b w-full
+}
+.text-span-menu-items {
+    @apply text-sm font-black capitalize sm:text-base xl:text-base 2xl:text-xl hover:underline text-primary;
+}
+.div-text-menu {
+    @apply flex flex-col items-center justify-center w-full px-5 pt-5 pb-12 sm:items-start hover:bg-primary text-primary hover:text-white;
+}
+.div-text-menu:hover > a span {
+    @apply text-white;
+}
+.text-menu-items {
+    @apply capitalize py-0.5 text-sm sm:text-sm lg:text-xs xl:text-base font-medium text-center sm:text-left sm:truncate hover:underline;
+}
+.primo-div-quickmenu {
+    @apply hidden grid-cols-2 gap-4 tracking-tight lg:grid lg:grid-cols-2;
+}
+
+
+/* column - banner quickmenu */
+
+.gap-column .pagebuilder-column-line {
+    @apply gap-16;
+}
+.div-column-banner {
+    @apply h-[34rem] flex flex-col bg-primary gap-8 w-[32rem] p-8;
+}
+.secondo-div-column-banner {
+    @apply absolute z-10 w-[21rem] p-3 bg-white top-28 right-4;
+}
+
+/* width - svg - homebanner */
+
+.w-svg-banner-servizi {
+    @apply w-14 h-14;
+}
+
+/* banner servizi */
+
+.home-altezza-xml-banner-servizi {
+    @apply flex items-center h-[18rem] sm:h-80 lg:h-36 xl:h-28 bg-primary-darker;
 }

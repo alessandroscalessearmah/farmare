@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Armah::top_level" title="Armah" module="Armah_Quickmenu" sortOrder="9999" resource="Magento_Backend::content"/>
+		<add id="Armah_Quickmenu::armah_quickmenu_quickmenu" title="Quickmenu" module="Armah_Quickmenu" sortOrder="9999" resource="Magento_Backend::content" parent="Armah::top_level" action="armah_quickmenu/quickmenu/index"/>
+	</menu>
+</config>

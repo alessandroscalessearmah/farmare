@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Armah\Quickmenu\Api\QuickmenuRepositoryInterface" type="Armah\Quickmenu\Model\QuickmenuRepository"/>
+	<preference for="Armah\Quickmenu\Api\Data\QuickmenuInterface" type="Armah\Quickmenu\Model\Quickmenu"/>
+	<preference for="Armah\Quickmenu\Api\Data\QuickmenuSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Armah\Quickmenu\Model\ResourceModel\Quickmenu\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">armah_quickmenu_quickmenu</argument>
+			<argument name="resourceModel" xsi:type="string">Armah\Quickmenu\Model\ResourceModel\Quickmenu\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="armah_quickmenu_quickmenu_listing_data_source" xsi:type="string">Armah\Quickmenu\Model\ResourceModel\Quickmenu\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+</config>
