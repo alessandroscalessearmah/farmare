@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\Escaper;
+use Magento\LayeredNavigation\Block\Navigation;
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Navigation $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+?>
+<?php if ($block->canShowBlock()) : ?>
+    <div class="items-center hidden pb-6 overflow-y-hidden lg:flex lg:border-t lg:last-of-type:border-b lg:py-0 lg:overflow-y-visible lg:items-baseline lg:bg-transparent" x-data="initLayeredNavigation()" x-init="checkIsMobileResolution()" @resize.window.debounce="checkIsMobileResolution()" @visibilitychange.window.debounce="checkIsMobileResolution()">
+        <div class="flex items-center justify-between block-title">
+            <span class="flex items-center mr-2 text-xl font-bold select-none text-primary md:text-base">
+                <?= $escaper->escapeHtml(__('Filters')) ?>
+                <?= $heroicons->ChevronRightHtml('w-1/3'); ?>
+            </span>
+        </div>
+        <div class="flex flex-wrap justify-start w-full lg:w-full block-content filter-content" x-data="{ openFilters: {} }" @click.away="Object.keys(openFilters).forEach((key) => { openFilters[key] = false })">
+            <?= $block->getChildHtml('state') ?>
+            <?php foreach ($block->getFilters() as $key => $filter) : ?>
+                <?php if ($filter->getItemsCount()) : ?>
+                    <div class="relative p-5 text-xl border-r filter-option md:text-xl lg:flex" x-data="{ open: false }" @toggle-filter.window="if (event.detail.open && event.detail.key !== '<?= $key ?>') open = false" @click.window="open = false">
+                        <div class="flex items-center justify-between cursor-pointer filter-options-title hover:text-gray-600 border-container" @click.stop="open = !open; $dispatch('toggle-filter', { key: '<?= $key ?>', open: open })">
+                            <span class="text-xl font-semibold capitalize select-none title md:text-sm">
+                                <?= $escaper->escapeHtml(__($filter->getName())) ?>
+                            </span>
+                            
+                        </div>
+                        <template x-if="open">
+                            <div class="left-0 z-10 p-2 mt-3 bg-white shadow min-w-[22rem] lg:absolute top-full filter-options-content drop-shadow-xl">
+                                <?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?>
+                            </div>
+                        </template>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="block border border-container md:border-0 md:bg-transparent md:py-0 md:px-0 lg:hidden" x-data="initLayeredNavigation()" x-init="checkIsMobileResolution()" @resize.window.debounce="checkIsMobileResolution()" @visibilitychange.window.debounce="checkIsMobileResolution()">
+        <div class="flex items-center justify-between px-3 py-2 rounded lg:hidden lg:p-0 bg-arancio" @click="blockOpen = !blockOpen">
+            <span class="text-lg font-bold text-white uppercase">
+                <?= $escaper->escapeHtml(__('Filtra')) ?>
+            </span>
+            <span class="hidden px-1 py-1" :class="{ 'block' : isMobile, 'hidden': !isMobile }">
+                <?= $heroicons->menuHtml(
+                    'transition-transform transform duration-300 ease-in-out text-white',
+                    24,
+                    24,
+                    [":class" => "{ 'rotate-180': blockOpen }"]
+                ); ?>
+            </span>
+        </div>
+
+        <div class="block block-content filter-content" :class="{'bg-white h-screen lg:h-auto overflow-x-hidden overflow-y-auto lg:overflow-y-hidden fixed lg:static top-0 left-0 w-full lg:w-auto z-50' : open}" x-cloak x-show.transition.in.opacity.duration.600="blockOpen || !isMobile" x-show.transition.out.opacity.duration.600="blockOpen || !isMobile">
+
+            <div class="flex items-center w-full p-4 ml-auto lg:hidden" @click="blockOpen = false">
+                <span class="text-2xl font-semibold uppercase text-secondary"><?= $escaper->escapeHtml(__("Filters")) ?></span>
+                <?= $heroicons->XCircleHtml('ml-auto text-gray-800'); ?>
+            </div>
+            <?= $block->getChildHtml('state') ?>
+            <?php foreach ($block->getFilters() as $key => $filter) : ?>
+                <?php if ($filter->getItemsCount()) : ?>
+                    <?php $status = ($key == 0) ? "true" : "false"; ?>
+                    <div class="w-auto mt-4 lg:px-0 filter-option last-of-type:border-none" :class="{ 'border-none pb-4': open }" x-data="{ open: <?= $status ?> }">
+                        <div class="flex items-center justify-between px-5 py-2 text-gray-800 border-b cursor-pointer border-b-secondary lg:px-2 filter-options-title" @click="open = !open">
+                            <span class="text-lg font-bold uppercase title md:text-lg">
+                                <?= $escaper->escapeHtml(__($filter->getName())) ?>
+                            </span>
+                            <span class="px-1 py-1 rounded border-container">
+                                <?= $heroicons->plusHtml(
+                                    'transition-transform transform duration-300 ease-in-out text-black',
+                                    14,
+                                    14,
+                                    [":class" => "{ 'rotate-180': open }"]
+                                ); ?>
+                            </span>
+                        </div>
+                        <template x-if="open">
+                            <div class="container pt-3 border-t lg:px-0 border-secondary filter-options-content">
+                                <?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?>
+                            </div>
+                        </template>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script>
+        function initLayeredNavigation() {
+            return {
+                isMobile: false,
+                blockOpen: false,
+                checkIsMobileResolution() {
+                    this.isMobile = window.matchMedia('(max-width: 1023px)').matches;
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

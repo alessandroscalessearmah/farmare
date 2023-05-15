@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -12,10 +13,16 @@ use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
+use Hyva\Theme\ViewModel\SvgIcons;
+use Hyva\Theme\ViewModel\Wishlist;
+use Magento\Wishlist\Helper\Data as WishlistHelper;
 
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var ViewModelRegistry $viewModels */
+
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
 
 /** @var HeroiconsOutline $heroicons */
 $heroicons = $viewModels->require(HeroiconsOutline::class);
@@ -23,17 +30,37 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
 /** @var Hyva\Theme\ViewModel\StoreConfig $storeConfig */
 $storeConfig = $viewModels->require(Hyva\Theme\ViewModel\StoreConfig::class);
 $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sidebar::XML_PATH_CHECKOUT_SIDEBAR_DISPLAY);
+$wishlistViewModel = $viewModels->require(Wishlist::class);
+$wishlistHelper = $this->helper(WishlistHelper::class);
+
 ?>
 <script>
-    function initHeader () {
+    function initHeader() {
         return {
             searchOpen: false,
             cart: {},
+            scrolled: false,
+            wishlistProducts: null,
+            wishlistItemCount: 0,
+            wishlistCountLabel: null,
+            wishlistItems: {},
             getData(data) {
-                if (data.cart) { this.cart = data.cart }
+                if (data.cart) {
+                    this.cart = data.cart
+                }
+                if (data.wishlist) {
+                    this.wishlistProducts = data.wishlist;
+                    this.wishlistCountLabel = '(' + this.wishlistProducts.counter + ')';
+                    this.wishlistItemCount = this.wishlistProducts.items.length;
+                    this.wishlistItems = this.wishlistProducts.items;
+                }
+            },
+            handleScroll() {
+                this.scrolled = window.scrollY > 10;
             }
         }
     }
+
     function initCompareHeader() {
         return {
             compareProducts: null,
@@ -47,116 +74,93 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
         }
     }
 </script>
-<div id="header"
-     class="relative z-30 w-full border-b shadow text-giallo bg-container-lighter border-container-lighter"
-     x-data="initHeader()"
-     @keydown.window.escape="searchOpen = false;"
-     @private-content-loaded.window="getData(event.detail.data)"
->
-    <div class="container flex flex-wrap items-center justify-between w-full px-6 py-3 mx-auto mt-0">
-        <!--Logo-->
-        <?= $block->getChildHtml('logo'); ?>
+<div id="header" class="z-30 w-full border-b bg-primary" x-data="initHeader()" @keydown.window.escape="searchOpen = false;" @private-content-loaded.window="getData(event.detail.data)" @scroll.window="handleScroll">
+    <div :class="{'py-1 sm:py-2': scrolled, 'py-1 md:pt-6 md:pb-5': !scrolled}" class="container flex flex-row items-center justify-between w-full px-6 mx-auto mt-0 duration-300 ease-in-out transition-padding">
 
-        <!--Main Navigation-->
-        <?= $block->getChildHtml('topmenu') ?>
+        <!-- mobile -->
+        <?= $block->getChildHtml("topmenu.mobile") ?>
 
-        <div class="flex items-center order-3">
-            <!--Compare Icon-->
-            <a id="compare-link"
-               class="relative invisible inline-block mx-1 no-underline sm:ml-3 hover:text-black"
-               :class="{ 'invisible': !(itemCount > 0) }"
-               href="<?= $escaper->escapeUrl($block->getUrl('catalog/product_compare/index')) ?>"
-               title="<?= $escaper->escapeHtml(__('Compare Products')) ?>"
-               x-data="initCompareHeader()"
-               @private-content-loaded.window="receiveCompareData($event.detail.data)"
-            >
-                <?= $heroicons->scaleHtml(
-                    "w-8 h-8 md:h-6 md:w-6 hover:text-black",
-                    25,
-                    25
-                ) ?>
+        <div class="flex flex-row items-center justify-center lg:justify-between order-2 w-3/5 md:w-2/4 lg:order-1 lg:w-[30%] h-14">
 
-                <span class="sr-only label">
-                   <?= $escaper->escapeHtml(__('Compare Products')) ?>
-                </span>
+            <!--Logo-->
+            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-90' : 'scale-100'">
+                <?= $block->getChildHtml('logo'); ?>
+            </div>
+            <div class="hidden lg:hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-numero-whatsapp')->toHtml(); ?></div>
 
-                <span class="absolute top-0 right-0 h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-1 translate-y-1/2 bg-yellow-500 rounded-full"
-                >
-                    <span x-text="itemCount"></span>
-                    <span x-show="itemCount === 1" class="sr-only">
-                        <?= $escaper->escapeHtml(__('item')) ?>
-                    </span>
-                    <span x-show="itemCount > 1" class="sr-only">
-                        <?= $escaper->escapeHtml(__('items')) ?>
-                    </span>
-                </span>
-            </a>
 
-            <!--Search Icon-->
-            <button id="menu-search-icon"
-                    class="inline-block ml-1 no-underline sm:ml-3 hover:text-black"
-                    @click.prevent="
-                        searchOpen = !searchOpen;
-                        $nextTick(() => {
-                         const searchInput = document.querySelector('#search');
-                         searchInput.focus();
-                         searchInput.select();
-                     });
-                    "
-            >
-                <span class="sr-only label">
-                    <?= $escaper->escapeHtml(__('Search')) ?>
-                </span>
+        </div>
 
-                <?= $heroicons->searchHtml(
-                    "w-8 h-8 md:h-6 md:w-6 hover:text-black",
-                    25,
-                    25
-                ) ?>
-            </button>
+        <div class="relative flex-row items-start hidden xl:px-4 2xl:px-8 lg:order-2 lg:justify-center xl:justify-between lg:w-[40%] xl:w-2/5 2xl:w-5/12 lg:flex" id="search-content">
 
-            <!--Customer Icon & Dropdown-->
-            <?= $block->getChildHtml('customer') ?>
 
-            <!--Cart Icon-->
-            <a id="menu-cart-icon"
-               <?php if ($showMiniCart): ?>@click.prevent.stop="$dispatch('toggle-cart',{});"<?php endif ?>
-               class="relative inline-block ml-1 no-underline sm:ml-3 hover:text-black"
-               href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>"
-            >
-                <span class="sr-only label">
-                    <?= $escaper->escapeHtml(__('Cart')) ?>
-                </span>
+            <!--Search-->
+            <div class="relative flex w-full">
+                <?= $block->getChildHtml("header-search") ?>
 
-                <?= $heroicons->shoppingCartHtml(
-                    "w-8 h-8 md:h-6 md:w-6 hover:text-black",
-                    25,
-                    25
-                ) ?>
+            </div>
 
-                <span x-text="cart.summary_count"
-                      class="absolute top-0 right-0 hidden h-5 px-2 py-1 -mt-5 -mr-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-1 translate-y-1/2 rounded-full bg-primary"
-                      :class="{
-                        'hidden': !cart.summary_count,
-                        'block': cart.summary_count }"
-                ></span>
-            </a>
+        </div>
+        <div class="flex flex-row h-full items-center justify-end md:justify-end xl:justify-between order-3 w-1/5 md:w-1/4 xl:w-[30%] xl:ml-2 2xl:ml-0">
+
+            <div class="flex items-center justify-between w-full">
+
+                <!--Search Icon-->
+                <div class="flex items-center mr-1 md:mr-0 lg:mr-2 lg:hidden lg:justify-start">
+                    <button id="menu-search-icon" type="submit" title="<?= $escaper->escapeHtml(__("Search")) ?>" class="lg:hidden action search" aria-label="Search" @click.prevent=" searchOpen = !searchOpen; $nextTick(function () { document.querySelector('#search').select(); }); ">
+                        <?= $heroicons->searchHtml('text-primary lg:text-white border-current inline w-6 h-6'); ?>
+                    </button>
+                </div>
+
+                <div class="flex flex-row items-center justify-between w-full">
+
+                    <!-- header-blocco-spedizione-gratuita -->
+                    <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-spedizione-gratuita')->toHtml(); ?></div>
+
+                    <!-- header-blocco-spedizione-gratuita -->
+                    <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-whatsapp')->toHtml(); ?></div>
+
+                    <!--Customer Icon & Dropdown-->
+                    <div class="flex flex-col items-center font-bold leading-5 text-white">
+                        <a id="customer-menu" class="relative flex-col items-center hidden no-underline lg:flex" @click.prevent.stop="$dispatch('toggle-customer',{});" href="#">
+                            <?= $hyvaicons->userHtml('text-primary lg:text-white border-current inline w-7 h-6'); ?>
+                            <?= $escaper->escapeHtml(__('Login')); ?>
+                        </a>
+
+                    </div>
+                    <!--Carrello-->
+                    <div class="flex flex-col font-bold leading-5 text-white">
+
+                        <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
+                            <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-5 h-7'); ?>
+
+                            <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-5 h-5 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-3 sm:px-0 bg-giallo"></span>
+                            <?= $escaper->escapeHtml(__('Cart')); ?>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
     <!--Search-->
-    <div class="absolute z-10 w-full border-t shadow-sm bg-container-lighter border-container-lighter"
-         id="search-content"
-         :class="{ 'block': searchOpen}" x-cloak x-show="searchOpen"
-         @click.outside="searchOpen = false"
-    >
+    <div class="absolute z-10 w-full bg-white border-t shadow-sm border-container-lighter" id="search-content" :class="{ 'block': searchOpen}" x-cloak x-show="searchOpen" @click.outside="searchOpen = false">
         <?= $block->getChildHtml('header-search'); ?>
     </div>
 
-    <!--Cart Drawer-->
-    <?= $block->getChildHtml('cart-drawer'); ?>
-
-    <!--Authentication Pop-Up-->
-    <?= $block->getChildHtml('authentication-popup'); ?>
 </div>
+
+<!--Wishlist Drawer-->
+<?= $block->getChildHtml("wishlist-drawer") ?>
+
+<!--Customer Drawer-->
+<?= $block->getChildHtml("customer-drawer") ?>
+
+<!--Cart Drawer-->
+<?= $block->getChildHtml("cart-drawer") ?>
+
+<!--Authentication Pop-Up-->
+<?= $block->getChildHtml("authentication-popup") ?>
+
 

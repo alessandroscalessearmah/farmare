@@ -1,0 +1,196 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\ReCaptcha;
+use Magento\Framework\Escaper;
+use Magento\Customer\Block\Account\Customer;
+
+/** @var Escaper $escaper */
+/** @var Customer $block */
+/** @var ViewModelRegistry $viewModels */
+/** @var ReCaptcha $recaptcha */
+/** @var HeroiconsOutline $heroicons */
+
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+
+// Do not replace this with $viewModels->require(ReCaptcha::class); that might break the dependency
+// on the Magento_ReCaptchaCustomer module
+$recaptcha = $block->getData('viewModelRecaptcha');
+?>
+<script>
+    function initAuthentication() {
+        return {
+            open: false,
+            showPassword: false,
+            forceAuthentication: false,
+            checkoutUrl: '<?= $escaper->escapeUrl($block->getUrl('')) ?>',
+            accountUrl: '<?= $escaper->escapeUrl($block->getUrl('')) ?>',
+            errors: 0,
+            hasCaptchaToken: 0,
+            displayErrorMessage: false,
+            errorMessages: [],
+            setErrorMessages: function setErrorMessages(messages) {
+                this.errorMessages = [messages];
+                this.displayErrorMessage = this.errorMessages.length;
+            },
+            submitForm: function() {
+                // Do not rename $form, the variable is expected to be declared in the recaptcha output
+                const $form = document.querySelector('#login-form');
+                <?= $recaptcha ? $recaptcha->getValidationJsHtml('customer_login', 'auth-popup') : '' ?>
+
+                if (this.errors === 0) {
+                    this.dispatchLoginRequest($form);
+                }
+            },
+            onPrivateContentLoaded: function(data) {
+                const isLoggedIn = data.customer && data.customer.firstname;
+                if (data.cart && !isLoggedIn) {
+                    this.forceAuthentication = !data.cart.isGuestCheckoutAllowed;
+                }
+            },
+            redirectIfAuthenticated: function(event) {
+                if (event.detail && event.detail.url) {
+                    this.checkoutUrl = event.detail.url;
+                }
+                if (!this.forceAuthentication) {
+                    window.location.href = this.checkoutUrl;
+                }
+            },
+            dispatchLoginRequest: function(form) {
+                this.isLoading = true;
+                const username = this.$refs['customer-email'].value;
+                console.log(username);
+                const password = this.$refs['customer-password'].value;
+                const formKey = hyva.getFormKey();
+                const bodyFields = {
+                    'username': username,
+                    'password': password,
+                    'formKey': formKey
+                };
+                <?php // All recaptcha variants set a input field g-recaptcha-response value 
+                ?>
+                const fieldName = '<?= $recaptcha
+                                        ? $escaper->escapeJs($recaptcha->getResultTokenFieldName('customer_login'))
+                                        : '' ?>';
+                const recaptchaField = fieldName && form[fieldName];
+                if (recaptchaField) {
+                    bodyFields[fieldName] = recaptchaField.value;
+                }
+                fetch('<?= $escaper->escapeUrl($block->getUrl('customer/ajax/login')) ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(bodyFields)
+                }).then(response => {
+                    return response.json()
+                }).then(data => {
+                    this.isLoading = false;
+                    if (data.errors) {
+                        dispatchMessages([{
+                            type: 'error',
+                            text: data.message
+                        }], 5000);
+                        this.errors = 1;
+                        this.hasCaptchaToken = 0;
+                    } else {
+                        window.location.href = this.accountUrl;
+                    }
+                });
+            }
+        }
+    }
+</script>
+<section id="authentication-popup" x-data="initAuthentication()" @private-content-loaded.window="onPrivateContentLoaded($event.detail.data)">
+    <div class="flex flex-col h-full py-6 space-y-8 overflow-y-auto bg-white">
+        <div class="mx-4 block-customer-login">
+            <h2 id="authenticate-customer-login" class="pb-3 text-base font-medium leading-7 text-black border-b border-arancio">
+                <?= $escaper->escapeHtml(__('If you have an account, sign in with your email address.')) ?>
+            </h2>
+
+            <form class="form form-login" method="post" @submit.prevent="submitForm();" id="login-form">
+                <?= $recaptcha ? $recaptcha->getInputHtml('customer_login', 'auth-popup') : '' ?>
+                <div class="fieldset login">
+                    <div class="field email required">
+                        <label class="pt-4 pb-2 label" for="customer-email">
+                            <span><?= $escaper->escapeHtml(__('Email Address')) ?></span>
+                        </label>
+                        <div class="control">
+                            <input name="username" x-ref="customer-email" @change="errors = 0" type="email" required class="w-3/4 form-input input-text focus:ring-0 focus:border-arancio">
+                        </div>
+                    </div>
+                    <div class="field password required">
+                        <label for="pass" class="pb-2 label">
+                            <span>
+                                <?= $escaper->escapeHtml(__('Password')) ?>
+                            </span>
+                        </label>
+                        <div class="relative control">
+                            <input name="password" :type="!showPassword ? 'password' : 'text'" class="w-3/4 form-input input-text focus:ring-0 focus:border-arancio" required x-ref="customer-password" @change="errors = 0">
+                            <div class="absolute top-0 bottom-0 right-[100px] flex items-center pr-3 text-sm leading-5">
+
+                                <svg class="h-5 text-black" fill="none" @click="showPassword = !showPassword" :class="{'hidden': !showPassword, 'block':showPassword }" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512">
+                                    <path fill="currentColor" d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z">
+                                    </path>
+                                </svg>
+
+                                <svg class="h-5 text-black" fill="none" @click="showPassword = !showPassword" :class="{'block': !showPassword, 'hidden':showPassword }" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512">
+                                    <path fill="currentColor" d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z">
+                                    </path>
+                                </svg>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <input name="context" type="hidden" value="checkout" />
+                    <div class="flex flex-row-reverse items-center justify-between pt-4 pb-2 mt-6 border-t border-gray-200 align-centers">
+                        <button type="submit" class="inline-flex rounded btn bg-arancio hover:bg-arancio-lighter">
+                            <?= $escaper->escapeHtml(__('Sign In')) ?>
+                        </button>
+                        <a class="text-lg text-black font-base" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/forgotpassword')) ?>">
+                            <?= $escaper->escapeHtml(__('Forgot Your Password?')) ?>
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="mx-4">
+            <?= $recaptcha ? $recaptcha->getLegalNoticeHtml('customer_login') : '' ?>
+        </div>
+        <div class="mx-4 block-new-customer">
+            <h2 id="authenticate-new-customer" class="mb-2 text-lg font-medium leading-7 text-black">
+                <?= $escaper->escapeHtml(__('New Customers')) ?>
+            </h2>
+
+            <div class="block-content">
+                <p class="mb-1">
+                    <?= $escaper->escapeHtml(__('Creating an account has many benefits:')) ?>
+                </p>
+                <ul class="pl-5 list-disc">
+                    <li> <?= $escaper->escapeHtml(__('See order and shipping status')) ?></li>
+                    <li> <?= $escaper->escapeHtml(__('Track order history')) ?></li>
+                    <li> <?= $escaper->escapeHtml(__('Check out faster')) ?></li>
+                </ul>
+                <div class="flex items-center justify-between mt-6 mb-2 actions-toolbar">
+                    <a href="<?= $escaper->escapeUrl($block->getUrl('customer/account/create')) ?>" class="inline-flex rounded btn bg-arancio hover:bg-arancio-lighter">
+                        <?= $escaper->escapeHtml(__('Create an Account')) ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

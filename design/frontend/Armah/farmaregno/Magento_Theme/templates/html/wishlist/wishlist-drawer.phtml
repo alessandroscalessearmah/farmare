@@ -1,0 +1,325 @@
+<?php
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\StoreConfig;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Magento\Wishlist\Helper\Data as WishlistHelper;
+use Hyva\Theme\ViewModel\Customer;
+use Magento\Customer\Model\Account\Redirect;
+
+/** @var Escaper $escaper */
+/** @var Template $block */
+/** @var ViewModelRegistry $viewModels */
+
+$storeConfig = $viewModels->require(StoreConfig::class);
+$wishlistHelper = $this->helper(WishlistHelper::class);
+$maxItemsToDisplay = $storeConfig->getStoreConfig('checkout/sidebar/max_items_display_count');
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+/** @var Customer $customer */
+$customer = $viewModels->require(Customer::class);
+$isCustomerLoggedIn = $customer->customerLoggedIn();
+
+?>
+<script>
+    function initWishlistDrawer() {
+        function wishlistSidebarFetchHandler(body, postUrl, isRemoveAction = true) {
+            const messages = {
+                "success": isRemoveAction
+                    ? "<?= $escaper->escapeJs(__("%1 has been removed from your Wish List")) ?>"
+                    : "<?= $escaper->escapeJs(__("%1 has been added to your Wish List.")) ?>",
+                "warning": isRemoveAction
+                    ? "<?= $escaper->escapeJs(__("Could not remove item from your Wish List")) ?>"
+                    : "<?= $escaper->escapeJs(__('Could not add item to your Wish List.')) ?>",
+            }
+
+            const postHeaders = {
+                "headers": {
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+                body: body,
+                "method": "POST",
+                "mode": "cors",
+                "credentials": "include"
+            };
+
+            return fetch(postUrl, postHeaders).then(function (response) {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    return response.json();
+                } else {
+                    const message = { type: "warning", text: messages.warning };
+                    window.dispatchMessages && window.dispatchMessages([message], 5000);
+                }
+            }).then(function (response) {
+                if (!response) return;
+                const message = {
+                    type: (response.success) ? "success" : "error",
+                    text: (response.success) ? messages.success : response.error_message
+                }
+                window.dispatchMessages && window.dispatchMessages([message], 5000);
+                window.dispatchEvent(new CustomEvent("reload-customer-section-data"));
+            }).catch(function (error) {
+                const message = { type: "error", text: error };
+                window.dispatchMessages && window.dispatchMessages([message], 5000);
+            });
+        }
+
+        return {
+            open: false,
+            isLoading: false,
+            wishlistProducts: null,
+            itemCount: 0,
+            wishlistCountLabel: null,
+            wishlistItems: {},
+            login: BASE_URL + "wishlist/index/add/",
+            isCustomerLoggedIn: "<?= $isCustomerLoggedIn ?>",
+            receiveWishlistData: function (data) {
+                if (data.wishlist) {
+                    this.wishlistProducts = data.wishlist;
+                    this.wishlistCountLabel = '(' + this.wishlistProducts.counter + ')';
+                    this.itemCount = this.wishlistProducts.items.length;
+                    this.wishlistItems = this.wishlistProducts.items;
+                }
+            },
+            addToCart: function (json) {
+                const obj = JSON.parse(json);
+                console.log(obj);
+                const postUrl = obj.action;
+                const body = "form_key=" + hyva.getFormKey() + "&item=" + obj.data.item + "&qty=" + obj.data.qty + "&uenc=" + btoa(window.location.href);
+                wishlistSidebarFetchHandler(body, postUrl, /* isRemoveAction */ false);
+            },
+            removeFromWishlist: function(json) {
+                const obj = JSON.parse(json);
+                const postUrl = obj.action;
+                const body = "form_key=" + hyva.getFormKey() + "&item=" + obj.data.item+"&uenc=" + btoa(window.location.href);
+                wishlistSidebarFetchHandler(body, postUrl);
+            }
+        }
+    }
+
+</script>
+<section id="wishlist-drawer"
+         x-data="initWishlistDrawer()"
+         @private-content-loaded.window="receiveWishlistData($event.detail.data)"
+         @toggle-wishlist.window="open=true"
+         @keydown.window.escape="open=false"
+>
+    <template x-if="itemCount && isCustomerLoggedIn">
+        <div role="dialog"
+             aria-labelledby="wishlist-drawer-title"
+             aria-modal="true"
+             @click.away="open=false"
+             class="fixed inset-y-0 left-0 z-30 flex max-w-full">
+
+            <div class="backdrop"
+                 x-show="open"
+                 x-transition:enter="ease-in-out duration-500"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in-out duration-500"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="open=false"
+                 aria-label="Close panel">
+                
+            </div>
+            <div class="relative w-screen max-w-md shadow-2xl"
+                 x-show="open"
+                 x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+                 x-transition:enter-start="-translate-x-full"
+                 x-transition:enter-end="-translate-x-0"
+                 x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                 x-transition:leave-start="-translate-x-0"
+                 x-transition:leave-end="-translate-x-full"
+            >
+                <div
+                        x-show="open"
+                        x-transition:enter="ease-in-out duration-500"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="ease-in-out duration-500"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" class="absolute top-0 right-0 flex p-2">
+                    <button @click="open=false" aria-label="Close panel"
+                            class="p-2 text-gray-300 transition duration-150 ease-in-out hover:text-black">
+                        <?= $heroicons->xHtml(); ?>
+                    </button>
+                </div>
+                <div class="flex flex-col h-full py-6 space-y-3 bg-white shadow-xl">
+                    <header class="px-4 sm:px-6">
+                        <h2 id="wishlist-drawer-title" class="text-[1.75rem] font-bold text-black">
+                            <?= $escaper->escapeHtml(__('My Wish List')) ?>
+                            <span class="text-xs counter" x-html="wishlistCountLabel"></span>
+                        </h2>
+                    </header>
+                    <div class="relative grid pb-3 overflow-y-auto bg-white border-b sm:gap-8 sm:px-6 border-container">
+                        <ul class="my-3">
+                            <template x-for="product in wishlistItems">
+                                <li class="flex items-start mb-4">
+                                    <a :href="product.product_url"
+                                       class="flex-shrink-0 block w-16 h-10 mb-3 mr-4"
+                                       :title="product.product_name">
+                                        <img :src="product.image.src" :alt="product.product_name" loading="lazy">
+                                    </a>
+                                    <div class="product-item-details">
+                                        <strong class="mr-2 text-lg font-normal leading-6">
+                                            <a :href="product.product_url" :title="product.product_name" x-html="product.product_name"></a>
+                                        </strong>
+                                        <div class="mr-2 text-lg font-bold leading-6 text-arancio" x-html="product.product_price"></div>
+                                        <template x-if="product.product_is_saleable_and_visible">
+                                            <div class="my-8 actions-primary -ml-28">
+                                                <template x-if="!product.product_has_required_options">
+                                                    <button
+                                                            @click.prevent="addToCart(product.add_to_cart_params)"
+                                                            class="text-sm rounded-none action tocart btn bg-arancio hover:bg-arancio-lighter
+                                                            title="<?= $escaper->escapeHtmlAttr(__('Add to Cart')) ?>">
+                                                        <span><?= $escaper->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <button
+                                            @click.prevent="removeFromWishlist(product.delete_item_params)"
+                                            aria-label="<?= $escaper->escapeHtmlAttr(__('Remove Product')) ?>"
+                                            class="inline-flex items-center justify-center flex-shrink-0 p-1 ml-auto text-gray-500 hover:text-primary"
+                                            title="<?= $escaper->escapeHtmlAttr(__('Remove Product')) ?>">
+                                        <?= $heroicons->trashHtml('h-6 w-6', 25, 25); ?>
+                                    </button>
+                                </li>
+                            </template>
+                        </ul>
+                        <div class="flex flex-wrap items-center space-x-4 text-base">
+                            <a href="<?= $escaper->escapeUrl($block->getUrl('wishlist')) ?>"
+                               title="<?= $escaper->escapeHtmlAttr(__('Go to Wish List')); ?>"
+                               class="px-4 text-sm text-gray-500 hover:text-primary">
+                                <span><?= $escaper->escapeHtml(__('Go to Wish List')); ?></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template x-if="!isCustomerLoggedIn" x-cloak>
+        <div role="dialog"
+             aria-labelledby="wishlist-drawer-title"
+             aria-modal="true"
+             @click.away="open=false"
+             class="fixed inset-y-0 left-0 z-30 flex max-w-full">
+
+            <div class="backdrop"
+                 x-show="open"
+                 x-transition:enter="ease-in-out duration-500"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in-out duration-500"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="open=false"
+                 aria-label="Close panel">
+
+            </div>
+
+            <div class="relative w-screen max-w-md shadow-2xl"
+                 x-show="open"
+                 x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+                 x-transition:enter-start="-translate-x-full"
+                 x-transition:enter-end="-translate-x-0"
+                 x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                 x-transition:leave-start="-translate-x-0"
+                 x-transition:leave-end="-translate-x-full"
+            >
+                <div
+                        x-show="open"
+                        x-transition:enter="ease-in-out duration-500"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="ease-in-out duration-500"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" class="absolute top-0 right-0 flex p-2">
+                    <button @click="open=false" aria-label="Close panel"
+                            class="p-2 text-gray-300 transition duration-150 ease-in-out hover:text-black">
+                        <?= $heroicons->xHtml(); ?>
+                    </button>
+                </div>
+                <div class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl">
+                    <header class="px-4 sm:px-6">
+                        <h2 class="text-2xl font-bold leading-7 text-black">
+                            <?= $escaper->escapeHtml(__('Login')) ?>
+                        </h2>
+                    </header>
+                    <?= $block->getChildHtml("wishlist-drawer-login") ?>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template x-if="isCustomerLoggedIn && !itemCount" x-cloak>
+        <div role="dialog"
+             aria-labelledby="wishlist-drawer-title"
+             aria-modal="true"
+             @click.away="open=false"
+             class="fixed inset-y-0 left-0 z-30 flex max-w-full">
+
+            <div class="backdrop"
+                 x-show="open"
+                 x-transition:enter="ease-in-out duration-500"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in-out duration-500"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 @click="open=false"
+                 aria-label="Close panel">
+
+            </div>
+            <div class="relative w-screen max-w-md shadow-2xl"
+                 x-show="open"
+                 x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+                 x-transition:enter-start="-translate-x-full"
+                 x-transition:enter-end="-translate-x-0"
+                 x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+                 x-transition:leave-start="-translate-x-0"
+                 x-transition:leave-end="-translate-x-full"
+            >
+                <div
+                        x-show="open"
+                        x-transition:enter="ease-in-out duration-500"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="ease-in-out duration-500"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" class="absolute top-0 right-0 flex p-2">
+                    <button @click="open=false" aria-label="Close panel"
+                            class="p-2 text-gray-300 transition duration-150 ease-in-out hover:text-black">
+                        <?= $heroicons->xHtml(); ?>
+                    </button>
+                </div>
+                <div class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl">
+                    <header class="px-4 sm:px-6">
+                        <h2 id="wishlist-drawer-title" class="text-[2rem] font-bold text-black">
+                            <?= $escaper->escapeHtml(__('My Wish List')) ?>
+                            <!--<div x-html="itemCount"></div>-->
+                        </h2>
+                    </header>
+                    <div class="relative grid gap-6 px-4 py-6 overflow-y-auto bg-white border-b sm:gap-8 sm:px-6 border-arancio">
+                        <span><?= $escaper->escapeHtml(__('This Wish List has no Items')) ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</section>

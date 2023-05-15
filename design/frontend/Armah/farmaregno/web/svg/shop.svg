@@ -1,0 +1,21 @@
+<svg version="1.1" id="svg41" width="23.474609" height="26.827999" viewBox="0 0 23.47461 26.827999" sodipodi:docname="tema-farmaregno.ai"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:svg="http://www.w3.org/2000/svg">
+    <defs id="defs45">
+        <clipPath clipPathUnits="userSpaceOnUse" id="clipPath303">
+            <path d="M 0,3409.656 H 2560 V 0 H 0 Z" id="path301" />
+        </clipPath>
+    </defs>
+    <sodipodi:namedview id="namedview43" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:showpageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" showgrid="false" />
+    <g id="g49" inkscape:groupmode="layer" inkscape:label="Page 1" transform="matrix(1.3333333,0,0,-1.3333333,-2536.3703,4502.3464)">
+        <g id="g297">
+            <g id="g299" clip-path="url(#clipPath303)">
+                <g id="g313" transform="translate(1903.5358,3370.4719)">
+                    <path d="m 0,0 h 15.09 v -11.318 c 0,-0.694 -0.563,-1.257 -1.257,-1.257 H 1.258 C 0.563,-12.575 0,-12.012 0,-11.318 Z m 11.947,1.257 v 0.629 c 0,2.431 -1.971,4.402 -4.402,4.402 -2.431,0 -4.401,-1.971 -4.401,-4.402 V 1.257 h -4.402 v -12.575 c 0,-1.389 1.127,-2.515 2.516,-2.515 h 12.575 c 1.389,0 2.515,1.126 2.515,2.515 V 1.257 Z M 7.545,5.03 c 1.736,0 3.144,-1.407 3.144,-3.144 V 1.257 H 4.401 v 0.629 c 0,1.737 1.408,3.144 3.144,3.144" style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" id="path315" />
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,113 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\CustomerRegistration;
+use Magento\Customer\Block\Account\Customer;
+use Magento\Customer\Model\Account\Redirect;
+use Hyva\Theme\ViewModel\ReCaptcha;
+use Magento\Framework\Escaper;
+use Hyva\Theme\ViewModel\SvgIcons;
+use Magento\Customer\Block\Form\Login;
+
+/** @var Customer $block */
+///** @var Login $blockLogin */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+/** @var ReCaptcha $recaptcha */
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+/** @var SvgIcons $hyvaicons */
+/** @var HeroiconsSolid $heroiconsSolid */
+$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+
+$hyvaicons = $viewModels->require(SvgIcons::class);
+
+/** @var CustomerRegistration $customerRegistration */
+$customerRegistration = $viewModels->require(CustomerRegistration::class);
+$isCustomerLoggedIn = $block->customerLoggedIn();
+// Do not replace this with $viewModels->require(ReCaptcha::class); that might break the dependency
+// on the Magento_ReCaptchaCustomer module
+$recaptcha = $block->getData('viewModelRecaptcha');
+?>
+<script>
+    function initCustomerDrawer() {
+        return {
+            open: false,
+            isCustomerLoggedIn: "<?= $isCustomerLoggedIn ?>",
+        }
+    }
+</script>
+<section id="customer-drawer" x-data="initCustomerDrawer()" @toggle-customer.window="open = true" @keydown.window.escape="open = false">
+    <template x-if="!isCustomerLoggedIn">
+        <div role="dialog" aria-labelledby="customer-drawer-title" aria-modal="true" @click.away="open=false" class="fixed inset-y-0 left-0 z-30 flex max-w-full">
+
+            <div class="backdrop" x-show="open" x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="open=false" aria-label="Close panel">
+
+            </div>
+
+            <div class="relative w-screen max-w-md shadow-2xl" x-show="open" x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" x-transition:enter-start="-translate-x-full" x-transition:enter-end="-translate-x-0" x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" x-transition:leave-start="-translate-x-0" x-transition:leave-end="-translate-x-full">
+                <div x-show="open" x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-0 right-0 flex p-2 mt-2">
+                    <button @click="open=false" aria-label="Close panel" class="p-2 text-gray-300 transition duration-150 ease-in-out hover:text-black">
+                        <?= $heroicons->xHtml(); ?>
+                    </button>
+                </div>
+                <div class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl">
+                    <header class="px-4 sm:px-6">
+                        <h2 class="text-2xl font-bold leading-7 text-black">
+                            <?= $escaper->escapeHtml(__('Login')) ?>
+                        </h2>
+                    </header>
+                    <?= $block->getChildHtml("customer-drawer-login") ?>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template x-if="isCustomerLoggedIn">
+        <div role="dialog" aria-labelledby="customer-drawer-title" aria-modal="true" @click.away="open=false" class="fixed inset-y-0 left-0 z-30 flex max-w-full">
+
+            <div class="backdrop" x-show="open" x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click="open=false" aria-label="Close panel">
+
+            </div>
+            <div class="relative w-screen max-w-md shadow-2xl" x-show="open" x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700" x-transition:enter-start="-translate-x-full" x-transition:enter-end="-translate-x-0" x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700" x-transition:leave-start="-translate-x-0" x-transition:leave-end="-translate-x-full">
+                <div x-show="open" x-transition:enter="ease-in-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-500" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-0 right-0 flex p-2 mt-2">
+                    <button @click="open=false" aria-label="Close panel" class="p-2 text-gray-300 transition duration-150 ease-in-out hover:text-black">
+                        <?= $heroicons->xHtml(); ?>
+                    </button>
+                </div>
+                <div class="flex flex-col h-full py-6 space-y-6 bg-white shadow-xl">
+                    <header class="px-4 sm:px-6">
+                        <h2 x-data="{username : ''}" @private-content-loaded.window="username = $event.detail.data.customer.firstname" id="customer-drawer-title" class="flex gap-2 text-3xl font-bold text-black">
+                            <?= $escaper->escapeHtml(__('Welcome')); ?>
+                            <p x-text="username"></p>
+                        </h2>
+                    </header>
+                    <div class="w-full">
+                        <a class="flex items-center xl:text-[1.50rem] my-1 lg:px-5 lg:py-2 hover:bg-gray-100" href="<?= $escaper->escapeUrl($block->getUrl('customer/account')) ?>">
+                            <?= $heroicons->userHtml("h-6 w-6 mr-5", 25, 25) ?>
+                            <?= $escaper->escapeHtml(__('My Account')); ?>
+                        </a>
+                        <a class="flex items-center xl:text-[1.50rem] my-1 lg:px-5 lg:py-2 hover:bg-gray-100" href="<?= $escaper->escapeUrl($block->getUrl('wishlist')) ?>">
+                            <?= $heroicons->heartHtml("h-6 w-6 mr-5", 25, 25) ?>
+                            <?= $escaper->escapeHtml(__('My Wish List')); ?>
+                        </a>
+                        <a class="flex items-center xl:text-[1.50rem] my-1 lg:px-5 lg:py-2 hover:bg-gray-100" href="<?= $escaper->escapeUrl($block->getUrl('sales/order/history')) ?>">
+                            <?= $heroicons->shoppingBagHtml("h-6 w-6 mr-5", 25, 25) ?>
+                            <?= $escaper->escapeHtml(__('My Orders')); ?>
+                        </a>
+                        <a class="flex items-center xl:text-[1.50rem] my-1 lg:px-5 lg:py-2 hover:bg-gray-100" href="<?= $escaper->escapeUrl($block->getUrl('customer/address')) ?>">
+                            <?= $heroicons->identificationHtml("h-6 w-6 mr-5", 25, 25) ?>
+                            <?= $escaper->escapeHtml(__('Address Book')); ?></a>
+                        <a class="flex items-center btn rounded-none xl:text-[1.50rem] w-32 my-1 lg:px-5 lg:py-2 bg-arancio hover:bg-arancio-lighter" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/logout')) ?>">
+                            <?= $heroicons->logoutHtml("h-6 w-6 mr-5", 25, 25) ?>
+                            <?= $escaper->escapeHtml(__('Sign Out')); ?>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</section>

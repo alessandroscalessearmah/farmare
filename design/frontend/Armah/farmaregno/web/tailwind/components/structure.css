@@ -9,7 +9,7 @@ body {
 }
 
 .page-main {
-    @apply my-8;
+    @apply my-0;
 }
 
 .flex-columns-wrapper {
@@ -19,9 +19,21 @@ body {
         @apply flex-row;
     }
 }
+.checkout-cart-index .columns {
+    @apply mt-20 sm:mt-24 md:mt-28 !important;
+}
+.cms-page-view .columns {
+    @apply mt-0 !important;
+}
+.catalog-product-view .columns {
+    @apply mt-0 !important;
+}
+.cms-index-index .columns {
+    @apply mt-1 !important;
+}
 
 .columns {
-    @apply grid grid-cols-1 gap-x-8 gap-y-4 container;
+    @apply container grid grid-cols-1 mt-20 gap-x-8 gap-y-4 sm:mt-24 md:mt-40;
     grid-template-rows: auto minmax(0,1fr);
 
     .main {
@@ -32,15 +44,19 @@ body {
         @apply order-3;
     }
 
-    .product-main-full-width & {
-        @apply max-w-none;
+}
+.catalog-category-view .columns {
+    @apply container grid grid-cols-1 gap-0 mt-36 lg:mt-52 xl:mt-44 !important;
+    grid-template-rows: auto minmax(0,1fr);
+
+    .main {
+        @apply order-2;
     }
 
-    .page-main-full-width & {
-        @apply max-w-none px-0;
+    .sidebar {
+        @apply order-3;
     }
 }
-
 .page-with-filter {
     .columns {
         .sidebar-main {
@@ -58,7 +74,7 @@ body {
             @apply grid-cols-2;
 
             .main {
-                @apply col-span-2;
+                @apply col-span-1;
             }
 
             .sidebar {
@@ -98,7 +114,24 @@ body {
     .page-layout-3columns {
         .columns {
             .main {
-                @apply col-start-2 !important;
+                @apply col-start-1;
+            }
+            .sidebar {
+                @apply order-1;
+            }
+
+            .sidebar ~ .sidebar-additional {
+                @apply order-3;
+            }
+
+        }
+    }
+
+    .catalog-category-view .page-layout-2columns-left,
+    .page-layout-3columns {
+        .columns {
+            .main {
+                @apply col-start-1 !important;
             }
             .sidebar {
                 @apply order-1;
@@ -128,12 +161,19 @@ body {
             @apply grid-cols-4;
         }
     }
+    .catalog-category-view .page-layout-2columns-left,
+    .page-layout-2columns-right,
+    .page-layout-3columns {
+        .columns {
+            @apply grid-cols-1 !important;
+        }
+    }
 
     .page-layout-2columns-left,
     .page-layout-2columns-right {
         .columns {
             .main {
-                @apply col-span-3;
+                @apply col-span-1;
             }
         }
     }

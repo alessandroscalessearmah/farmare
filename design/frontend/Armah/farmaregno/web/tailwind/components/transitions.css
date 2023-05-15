@@ -14,3 +14,6 @@
 .transform-180 {
     transform: rotate(-180deg);
 }
+.duration-300 {
+    transition-duration: 300ms;
+}

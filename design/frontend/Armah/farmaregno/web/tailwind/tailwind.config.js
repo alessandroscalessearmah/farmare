@@ -132,6 +132,20 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '900': '#82340c',
           '950': '#461804',
         },
+        verde: {
+
+          '50': '#f4f9f8',
+          '100': '#d9eee9',
+          '200': '#b4dbd3',
+          lighter: '#86c2b8',
+          DEFAULT: '#5ca49a',
+          darker: '#438980',
+          '600': '#346d67',
+          '700': '#2c5954',
+          '800': '#274846',
+          '900': '#243d3b',
+          '950': '#102322',
+        }
 
       },
       backgroundColor: {
@@ -186,6 +200,20 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '800': '#a13d0b',
           '900': '#82340c',
           '950': '#461804',
+        },
+        verde: {
+
+          '50': '#f4f9f8',
+          '100': '#d9eee9',
+          '200': '#b4dbd3',
+          lighter: '#86c2b8',
+          DEFAULT: '#5ca49a',
+          darker: '#438980',
+          '600': '#346d67',
+          '700': '#2c5954',
+          '800': '#274846',
+          '900': '#243d3b',
+          '950': '#102322',
         },
         container: {
           lighter: '#ffffff',
@@ -245,6 +273,20 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '800': '#a13d0b',
           '900': '#82340c',
           '950': '#461804',
+        },
+        verde: {
+
+          '50': '#f4f9f8',
+          '100': '#d9eee9',
+          '200': '#b4dbd3',
+          lighter: '#86c2b8',
+          DEFAULT: '#5ca49a',
+          darker: '#438980',
+          '600': '#346d67',
+          '700': '#2c5954',
+          '800': '#274846',
+          '900': '#243d3b',
+          '950': '#102322',
         },
         container: {
           lighter: '#f5f5f5',

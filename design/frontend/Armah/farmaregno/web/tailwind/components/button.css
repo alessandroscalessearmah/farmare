@@ -1,6 +1,6 @@
 @layer components {
     .btn {
-        @apply flex bg-gray-500 rounded-lg px-4 py-2 text-white text-base font-medium shadow-md items-center;
+        @apply flex items-center px-4 py-2 text-base font-medium text-white bg-gray-500 rounded-lg shadow-md;
 
         @screen md {
             @apply px-6 text-lg;
@@ -22,25 +22,25 @@
          }
 
         &:focus {
-             @apply outline-none border-transparent ring-4 ring-primary ring-opacity-50;
+             @apply border-transparent outline-none ring-4 ring-primary ring-opacity-50;
         }
     }
 
 
     .btn-primary {
-        @apply bg-primary text-white shadow-md;
+        @apply text-sm font-bold text-white shadow-md bg-verde;
 
         &:hover {
-            @apply bg-primary-lighter text-white shadow-lg;
+            @apply text-white shadow-lg bg-verde-darker;
         }
 
     }
 
     .btn-secondary {
-        @apply bg-white border-2 border-primary-lighter text-black shadow-md;
+        @apply text-sm font-bold shadow-md bg-secondary text-primary;
 
     &:hover {
-        @apply bg-white border-primary-darker shadow-lg;
+        @apply shadow-lg bg-secondary-darker text-primary;
     }
 
     &:focus {

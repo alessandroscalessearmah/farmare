@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -8,6 +9,7 @@
 
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\SvgIcons;
 use Hyva\Theme\ViewModel\Navigation;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Escaper;
@@ -16,80 +18,126 @@ use Magento\Framework\Escaper;
 /** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
 
+// phpcs:disable Generic.Files.LineLength.TooLong
+
 /** @var Navigation $viewModelNavigation */
 $viewModelNavigation = $viewModels->require(Navigation::class);
 
 /** @var HeroiconsSolid $heroiconsSolid */
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
 
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
+
 $uniqueId = '_' . uniqid();
 
 // Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
-$menuItems = $viewModelNavigation->getNavigation(4);
+
+$menuItems = [[
+    "id" => 0,
+    "name" => "Apri il Menù",
+    "url" => "#",
+    "childData" =>
+    $viewModelNavigation->getNavigation(7)
+]];
+
 $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 
 ?>
-<div x-data="initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()"
-     class="z-20 order-2 sm:order-1 lg:order-2 navigation hidden lg:flex"
->
+<div x-data="initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()" class="z-20 order-4 hidden w-full navigation lg:flex">
     <!-- desktop -->
-    <div x-ref="nav-desktop"
-         @load.window="setActiveMenu($root)"
-         class="hidden lg:block lg:relative lg:min-h-0 lg:px-8 lg:w-auto lg:pt-0">
-        <nav
-            class="w-full duration-150 ease-in-out transform flex justify-start
-            w-auto relative min-h-0 transition-display"
-        >
-            <?php foreach ($menuItems as $index => $menuItem): ?>
-                <div class="relative mr-2 level-0"
-                     @mouseenter="hoverPanelActiveId = '<?= /* @noEscape */ (string) $index ?>'"
-                     @mouseleave="hoverPanelActiveId = 0"
-                >
-                    <span class="flex items-center block p-3 text-md bg-opacity-95">
-                        <a class="w-full py-3 text-base text-gray-700 hover:underline level-0"
-                           href="<?= $escaper->escapeUrl($menuItem['url']) ?>"
-                           title="<?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"
-                        >
-                            <?= $escaper->escapeHtml($menuItem['name']) ?>
-                        </a>
-                    </span>
-                    <?php if (!empty($menuItem['childData'])): ?>
-                        <div
-                            class="absolute z-10 hidden px-6 py-4 -ml-6 shadow-lg bg-container-lighter/95"
-                            :class="{
-                                'hidden' : hoverPanelActiveId !== '<?= /* @noEscape */ (string) $index ?>',
-                                'block' : hoverPanelActiveId === '<?= /* @noEscape */ (string) $index ?>'
-                            }">
-                            <?php foreach ($menuItem['childData'] as $subMenuItem): ?>
-                                <a href="<?= $escaper->escapeUrl($subMenuItem['url']) ?>"
-                                   title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                                   class="block w-full px-3 py-1 my-1 whitespace-nowrap first:mt-0 hover:underline"
-                                >
-                                    <span class="text-base text-gray-700">
-                                        <?= $escaper->escapeHtml($subMenuItem['name']) ?>
-                                    </span>
-                                </a>
-                            <?php endforeach; ?>
+    <div @load.window="setActiveMenu($root)" class="justify-between w-full mx-auto">
+        <nav class="flex flex-wrap -mx-2">
+            <?php foreach ($menuItems as $index => $itemLevel1) : ?>
+                <?php $singleItems = []; ?>
+                <div class="flex items-center px-2 transition transition-colors duration-500 border-b-2 border-transparent level-0 group/parent xl:px-0 xl:mx-4 hover:border-primary focus-within:border-primary" @mouseover.stop="hoverTopPosition = $event.currentTarget.offsetTop + $event.currentTarget.getBoundingClientRect().height">
+                    <a href="<?= $escaper->escapeUrl($itemLevel1['url']) ?>" @focus="hoverTopPosition = $event.currentTarget.parentNode.offsetTop + $event.currentTarget.parentNode.getBoundingClientRect().height" title="<?= $escaper->escapeHtmlAttr($itemLevel1['name']) ?>" class="order-2 block p-2 text-base font-semibold text-gray-700 level-0 whitespace-nowrap">
+                        <span><?= $escaper->escapeHtml($itemLevel1['name']) ?></span>
+                    </a>
+                    <?php if (!empty($itemLevel1['childData'])) : ?>
+                        <span class="items-center inline">
+                            <?= $hyvaicons->Bars3BottomLeftHtml('w-9 h-9 inline order-1', 25, 25) ?>
+                        </span>
+
+                        <div class="absolute left-0 z-10 w-full -mt-3 transition-opacity ease-out opacity-0 pointer-events-none top-full group-hover/parent:opacity-100 focus-within:opacity-100 group-hover/parent:pointer-events-auto" :style="`margin-top: 0; top: ${hoverTopPosition}px;`">
+                            <div class="container relative py-2 py-4 mx-auto bg-white shadow-xl min-h-screen-50" :style="`min-height: ${menuMinHeight}px`">
+                                <ul class="w-60">
+                                    <?php foreach ($itemLevel1['childData'] as $itemLevel2) : ?>
+                                        <?php $singleItems = []; ?>
+                                        <li class="flex items-center justify-between w-full group/child hover:bg-gray-100" <?php if (!empty($itemLevel2['childData'])) : ?> @mouseover.stop="setMenuMinHeight($event.currentTarget)" <?php endif; ?>>
+                                            <a href="<?= $escaper->escapeUrl($itemLevel2['url']) ?>" class="relative z-10 w-full px-2 py-2 capitalize break-words" @focus="setMenuMinHeight($event.currentTarget.parentNode)">
+                                                <?= strtolower($escaper->escapeHtml($itemLevel2['name'])) ?>
+                                            </a>
+                                            <?php if (!empty($itemLevel2['childData'])) : ?>
+                                                <span class="relative z-10 inline-block px-2 py-2">
+                                                    <?= $heroiconsSolid->chevronRightHtml('w-5 h-5 inline', 25, 25) ?>
+                                                </span>
+                                                <div class="container absolute top-0 left-0 w-full h-full opacity-0 pointer-events-none focus-within:opacity-100 group-hover/child:opacity-100 group-hover/child:pointer-events-auto">
+                                                    <ul class="grid flex-1 grid-cols-4 p-4 ml-60 gap-y-8 gap-x-8">
+                                                        <?php foreach ($itemLevel2['childData'] as $itemLevel3) : ?>
+                                                            <?php if (empty($itemLevel3['childData'])) : ?>
+                                                                <?php $singleItems[] = $itemLevel3 ?>
+                                                                <?php continue; ?>
+                                                            <?php endif; ?>
+                                                            <li class="level-1 min-w-48">
+                                                                <a href="<?= $escaper->escapeUrl($itemLevel3['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel3['name']) ?>" class="block px-2 py-1 text-base font-semibold leading-loose capitalize level-1 hover:underline">
+                                                                    <?= strtolower($escaper->escapeHtml($itemLevel3['name'])) ?>
+                                                                </a>
+
+                                                                <ul class="z-10 w-full">
+                                                                    <?php foreach ($itemLevel3['childData'] as $itemLevel4) : ?>
+                                                                        <li class="level-2">
+                                                                            <a href="<?= $escaper->escapeUrl($itemLevel4['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel4['name']) ?>" class="block px-2 py-1 text-lg capitalize level-2 md:text-sm hover:underline"><?= strtolower($escaper->escapeHtml($itemLevel4['name'])) ?></a>
+                                                                        </li>
+                                                                    <?php endforeach; ?>
+                                                                </ul>
+
+                                                            </li>
+                                                        <?php endforeach; ?>
+                                                        <?php if ($singleItems) : ?>
+                                                            <li class="level-1 min-w-48">
+                                                                <?php foreach ($singleItems as $item) : ?>
+                                                                    <a href="<?= $escaper->escapeUrl($item['url']) ?>" title="<?= $escaper->escapeHtmlAttr($item['name']) ?>" class="block p-1 text-base font-semibold leading-loose capitalize level-1 hover:underline">
+                                                                        <?= strtolower($escaper->escapeHtml($item['name'])) ?>
+                                                                    </a>
+                                                                <?php endforeach; ?>
+                                                            <?php endif; ?>
+                                                    </ul>
+                                                </div>
+                                            <?php endif ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
+
         </nav>
     </div>
+
 </div>
 <script>
     'use strict';
 
     const initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?> = () => {
         return {
-            hoverPanelActiveId: null,
+            hoverTopPosition: '100%',
+            menuMinHeight: 0,
+            setMenuMinHeight(targetElement) {
+                const childMenu = targetElement.querySelector('div.container.absolute');
+                childMenu && (this.menuMinHeight = childMenu.getBoundingClientRect().height);
+            },
             setActiveMenu(menuNode) {
                 Array.from(menuNode.querySelectorAll('a')).filter(link => {
                     return link.href === window.location.href.split('?')[0];
                 }).map(item => {
-                    item.classList.add('underline');
+                    if (!item.classList.contains('level-0')) {
+                        item.classList.add('underline');
+                    }
                     item.closest('div.level-0') &&
-                    item.closest('div.level-0').querySelector('a.level-0').classList.add('underline');
+                        item.closest('div.level-0').classList.add('border-secondary');
                 });
             }
         }
