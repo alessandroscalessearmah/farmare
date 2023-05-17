@@ -44,7 +44,7 @@ $menuItems = [[
 $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 
 ?>
-<div x-data="initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()" class="z-20 order-4 hidden w-full navigation lg:flex">
+<div x-data="initMenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()" class="z-20 items-center order-4 hidden w-full h-full navigation lg:flex">
     <!-- desktop -->
     <div @load.window="setActiveMenu($root)" class="justify-between w-full mx-auto">
         <nav class="flex flex-wrap -mx-2">

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -25,7 +24,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             messages: window.mageMessages || [],
             isEmpty() {
                 return this.messages.reduce(
-                    function(isEmpty, message) {
+                    function (isEmpty, message) {
                         return isEmpty && message === undefined
                     }, true
                 )
@@ -33,16 +32,18 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             removeMessage(messageIndex) {
                 this.messages[messageIndex] = undefined;
             },
-            addMessages(messages, hideAfter = 5000) {
+            addMessages(messages, hideAfter) {
                 messages.map((message) => {
                     this.messages = this.messages.concat(message);
-                    this.setHideTimeOut(this.messages.length - 1, hideAfter);
+                    if (hideAfter) {
+                        this.setHideTimeOut(this.messages.length -1, hideAfter);
+                    }
                 });
             },
             setHideTimeOut(messageIndex, hideAfter) {
-                setTimeout(() => {
+                setTimeout((messageIndex) => {
                     this.removeMessage(messageIndex);
-                }, hideAfter);
+                }, hideAfter, messageIndex);
             },
             eventListeners: {
                 ['@messages-loaded.window']() {
@@ -65,26 +66,36 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
         }
     }
 </script>
-<section id="messages" x-data="initMessages()" x-bind="eventListeners">
-    <div class="w-full" x-show="!isEmpty()">
-        <div role="alert" class="container py-3 mx-auto messages">
-            <template x-for="(message, index) in messages" :key="index">
-                <div x-show="message">
-                    <div class="message" :class="message.type" :ui-id="'message-' + message.type" 
-                         x-transition:enter="transition ease-out duration-300 transform"
-                         x-transition:enter-start="opacity-0 scale-90"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-300 transform"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-90"
-                    >
-                        <span x-html="message.text"></span>
-                        <a href="#" class="cursor-pointer close" title="close" @click.prevent="removeMessage(index)">
-                            <?= $heroicons->xHtml('text-white', 18, 18); ?>
-                        </a>
+<section id="messages"
+         x-data="initMessages()"
+         x-bind="eventListeners"
+>
+    <template x-if="!isEmpty()">
+        <div class="w-full">
+            <div role="alert" class="container py-3 mx-auto messages">
+                <template x-for="(message, index) in messages" :key="index">
+                    <div>
+                        <template x-if="message">
+                            <div class="message" 
+                                 :class="message.type"
+                                 :ui-id="'message-' + message.type"
+                                 x-transition:enter="transition ease-out duration-300" 
+                                 x-transition:enter-start="opacity-0 scale-90" 
+                                 x-transition:enter-end="opacity-100 scale-100" 
+                                 x-transition:leave="transition ease-in duration-300" 
+                                 x-transition:leave-start="opacity-100 scale-100" 
+                                 x-transition:leave-end="opacity-0 scale-90"
+                            >
+                                <span x-html="message.text"></span>
+                                <a href="#" class="cursor-pointer close" title="close"
+                                   @click.prevent="removeMessage(index)">
+                                    <?= $heroicons->xHtml('text-white', 18, 18); ?>
+                                </a>
+                            </div>
+                        </template>
                     </div>
-                </div>
-            </template>
+                </template>
+            </div>
         </div>
-    </div>
+    </template>
 </section>

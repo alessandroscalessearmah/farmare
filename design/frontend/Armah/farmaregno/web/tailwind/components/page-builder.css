@@ -59,22 +59,22 @@
 /* Tabs/Tab Item */
 [data-content-type='tabs'] {
     .tabs-navigation {
-        @apply block -mb-px p-0 shadow;
+        @apply block p-0 -mb-px shadow;
 
         li.tab-header {
-            @apply bg-gray-100 border border-b-0 border-solid border-gray-300 rounded-bl-none rounded-br-none inline-block relative my-0 mr-0 -ml-px max-w-full break-words;
+            @apply relative inline-block max-w-full my-0 mr-0 -ml-px break-words bg-gray-100 border border-b-0 border-gray-300 border-solid rounded-bl-none rounded-br-none;
 
             &:first-child {
                 @apply ml-0;
             }
 
             &.active {
-                @apply bg-white z-20;
+                @apply z-20 bg-white;
                 border-bottom: 1px solid white;
             }
 
             a.tab-title {
-                @apply cursor-pointer block text-sm font-semibold relative align-middle whitespace-normal py-3 px-5;
+                @apply relative block px-5 py-3 text-sm font-semibold whitespace-normal align-middle cursor-pointer;
 
                 span {
                     @apply font-semibold leading-5 text-black;
@@ -84,7 +84,7 @@
     }
 
     .tabs-content {
-        @apply rounded-sm bg-container-lighter shadow box-border border border-solid border-gray-300 relative overflow-hidden z-10;
+        @apply box-border relative z-10 overflow-hidden border border-gray-300 border-solid rounded-sm shadow bg-container-lighter;
 
         [data-content-type='tab-item'] {
             @apply box-border p-8;
@@ -125,7 +125,7 @@
     @apply max-w-full;
 
     [data-content-type='button-item'] {
-        @apply max-w-full mr-2 mb-2;
+        @apply max-w-full mb-2 mr-2;
 
         [data-element='link'],
         [data-element='empty_link'] {
@@ -139,7 +139,7 @@
         a,
         button,
         div {
-            @apply shadow-none inline-block;
+            @apply inline-block shadow-none;
 
             &.pagebuilder-button-link {
                 @apply box-border;
@@ -199,14 +199,14 @@ div {
     }
 
     .pagebuilder-video-container {
-        @apply overflow-hidden relative;
+        @apply relative overflow-hidden;
         border-radius: inherit;
         padding-top: 56.25%;
     }
 
     iframe,
     video {
-        @apply h-full w-full absolute left-0 top-0;
+        @apply absolute top-0 left-0 w-full h-full;
     }
 }
 
@@ -230,10 +230,10 @@ div {
         background-attachment: scroll !important;
 
         .pagebuilder-overlay {
-            @apply box-border relative transition duration-500 ease-in-out p-8;
+            @apply box-border relative p-8 transition duration-500 ease-in-out;
 
             &.pagebuilder-poster-overlay {
-                @apply items-center flex justify-center;
+                @apply flex items-center justify-center;
             }
 
             &:not(.pagebuilder-poster-overlay) {
@@ -253,7 +253,7 @@ div {
         }
 
         .pagebuilder-banner-button {
-            @apply transition-opacity duration-500 ease-in-out max-w-full break-words m-0 mt-5;
+            @apply max-w-full m-0 mt-5 break-words transition-opacity duration-500 ease-in-out;
             text-align: inherit;
         }
 
@@ -289,7 +289,7 @@ div {
 
 /* Slider */
 [data-content-type='slider'] {
-    @apply invisible relative;
+    @apply relative invisible;
 
     &.glider-initialized {
         @apply visible;
@@ -306,7 +306,7 @@ div {
     }
 
     .carousel-nav {
-        @apply absolute mb-2 bottom-0 bg-gray-50 bg-opacity-75;
+        @apply absolute bottom-0 mb-2 bg-opacity-75 bg-gray-50;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -351,7 +351,7 @@ div {
             }
 
             .pagebuilder-overlay {
-                @apply z-20 relative;
+                @apply relative z-20;
             }
 
             [id*='jarallax-container'] {
@@ -370,7 +370,7 @@ div {
             border-radius: inherit;
 
             &.pagebuilder-poster-overlay {
-                @apply items-center flex justify-center;
+                @apply flex items-center justify-center;
                 min-height: inherit;
             }
 
@@ -385,7 +385,7 @@ div {
         }
 
         .pagebuilder-slide-button {
-            @apply transition-opacity m-0 mt-5 max-w-full break-words;
+            @apply max-w-full m-0 mt-5 break-words transition-opacity;
             text-align: inherit;
         }
 
@@ -433,7 +433,7 @@ div {
 [data-content-type$='block'] {
     .block {
         p:last-child {
-            @apply mb-4 mt-0;
+            @apply mt-0 mb-4;
         }
     }
 }
@@ -453,14 +453,14 @@ div {
 /* Products */
 [data-content-type='products'][data-appearance='carousel'] {
     [data-role='glider-content'] {
-        grid-template-columns: repeat(100, calc(0% - 1rem));
+        grid-template-columns: repeat(100, calc(50% - 1rem));
 
         @screen md {
-            grid-template-columns: repeat(100, calc(0% - 1rem));
+            grid-template-columns: repeat(100, calc(33% - 1rem));
         }
 
         @screen lg {
-            grid-template-columns: repeat(100, calc(0% - 1rem));
+            grid-template-columns: repeat(4, calc(25% - 1rem));
         }
     }
 }
@@ -470,7 +470,7 @@ div {
  */
 
 .glider-contain {
-    @apply w-full my-0 mx-auto relative;
+    @apply relative w-full mx-auto my-0;
 }
 
 .glider {
@@ -481,7 +481,7 @@ div {
         cursor: grab;
 
         .glider-slide img {
-            @apply select-none pointer-events-none;
+            @apply pointer-events-none select-none;
         }
     }
 
@@ -490,16 +490,16 @@ div {
     }
 
     &::-webkit-scrollbar {
-        @apply opacity-0 h-0;
+        @apply h-0 opacity-0;
     }
 
     .glider-track {
-        @apply w-full m-0 p-0 flex z-10;
+        @apply z-10 flex w-full p-0 m-0;
     }
 }
 
 .glider-slide {
-    @apply select-none justify-center content-center w-full m-2;
+    @apply content-center justify-center w-full m-2 select-none;
     min-width: 150px;
 
     img {
@@ -519,7 +519,7 @@ div {
 }
 
 .glider-dot {
-    @apply block w-3 h-3 m-1 bg-black opacity-25 rounded-full shadow cursor-pointer;
+    @apply block w-3 h-3 m-1 bg-black rounded-full shadow opacity-25 cursor-pointer;
 
     &.active {
         @apply opacity-100;
@@ -528,7 +528,7 @@ div {
 
 @media (max-width: 36em) {
     .glider::-webkit-scrollbar {
-        @apply opacity-100 w-2 h-1 appearance-none;
+        @apply w-2 h-1 opacity-100 appearance-none;
     }
 
     .glider::-webkit-scrollbar-thumb {

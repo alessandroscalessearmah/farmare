@@ -83,7 +83,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
         <div class="flex flex-row items-center justify-center lg:justify-between order-2 w-3/5 md:w-2/4 lg:order-1 lg:w-[30%] h-14">
 
             <!--Logo-->
-            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-90' : 'scale-100'">
+            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-75' : 'scale-100'">
                 <?= $block->getChildHtml('logo'); ?>
             </div>
             <div class="hidden lg:hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-numero-whatsapp')->toHtml(); ?></div>

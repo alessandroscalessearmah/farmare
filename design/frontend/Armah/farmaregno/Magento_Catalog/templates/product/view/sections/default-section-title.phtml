@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+/** @var AbstractBlock $sectionBlock */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\AbstractBlock;
+
+?>
+<div x-data="{ open: false }" @click.away="open = false" class="relative">
+    <h2 @click="open = !open" class="w-full text-2xl font-bold text-center text-giallo title-font md:text-left cursor-pointer">
+        - <?= $sectionBlock->getTitle() ? $escaper->escapeHtml($sectionBlock->getTitle()) : '&nbsp;' ?>
+    </h2>

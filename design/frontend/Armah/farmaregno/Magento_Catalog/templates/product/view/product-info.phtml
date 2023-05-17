@@ -1,0 +1,217 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\ProductAttributes;
+use Hyva\Theme\ViewModel\ProductCompare;
+use Hyva\Theme\ViewModel\ProductPage;
+use Hyva\Theme\ViewModel\Wishlist;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Hyva\Theme\ViewModel\SvgIcons;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
+
+/** @var ProductPage $productViewModel */
+$productViewModel = $viewModels->require(ProductPage::class);
+/** @var ProductAttributes $attributesViewModel */
+$attributesViewModel = $viewModels->require(ProductAttributes::class);
+/** @var Product $product */
+$product = $productViewModel->getProduct();
+
+?>
+<div class="order-2 w-full mb-6 md:w-7/12 md:pl-5 lg:pl-10 md:pb-6 lg:w-[45%] md:mb-0">
+    <h1 class="hidden pb-4 mt-5 mb-3 text-xl text-gray-900 border-b-2 md:block md:text-3xl title-font">
+        <strong class="font-semibold md:font-bold"><?= $escaper->escapeHtml($product->getName()) ?></strong>
+    </h1>
+
+    <?php if ($shortDescription = $productViewModel->getShortDescription()) { ?>
+        <div class="mb-4 leading-relaxed prose product-description"><?= /* @noEscape */ $shortDescription ?></div>
+    <?php } ?>
+
+    <div class="flex my-2">
+       <div class="text-3xl">
+        TRUSTPILOT RECENSIONI
+       </div>
+    </div>
+
+    <div class="flex flex-row items-center justify-between w-full gap-4 lg:items-center lg:justify-start lg:flex-row sm:w-4/5">
+        <div class="flex">
+            <span class="font-semibold text-gray-900 product-detail-value"><?= $escaper->escapeHtml(__('Brand: ')) ?></span>
+            <span class="px-2 ml-2 font-semibold text-white rounded-lg bg-primary product-detail-label <?php if (empty($product->getAttributeText('farmaregno_brand'))) {
+                                                                                                            echo 'hidden';
+                                                                                                        } ?>">
+                <?php
+                $brand = $product->getAttributeText('farmaregno_brand');
+                if (is_array($brand)) {
+                    echo $escaper->escapeHtml(implode(', ', $brand));
+                } else {
+                    echo $escaper->escapeHtml($brand);
+                }
+                ?>
+            </span>
+        </div>
+        <div class="flex">
+            <span class="font-semibold text-gray-900 product-detail-label"><?= $escaper->escapeHtml(__('Minsan: ')) ?></span>
+            <span class="px-2 ml-2 font-semibold text-white rounded-lg bg-primary product-detail-label uppercase <?php if (empty($product->getSku())) {
+                                                                                                                        echo 'hidden';
+                                                                                                                    } ?>">
+                <?= $escaper->escapeHtml($product->getSku()) ?>
+
+            </span>
+        </div>
+
+        </template>
+    </div>
+
+    <div class="flex flex-col justify-between my-4 sm:flex-row">
+        <?= $block->getChildHtml("alert.urls") ?>
+    </div>
+
+
+    <?= $block->getChildHtml('product.info.form') ?>
+
+    <div class="flex flex-col items-end gap-20 my-4 sm:flex-row">
+
+        <div class="flex flex-col w-2/5 gap-2">
+            <?= $block->getChildHtml("product.info.price") ?>
+            <?php
+            $product = $this->getProduct();
+            $regularPrice = (float)$product->getPriceInfo()->getPrice('regular_price')->getValue();
+            $specialPrice = (float)$product->getPriceInfo()->getPrice('final_price')->getValue();
+
+            if ($specialPrice < $regularPrice) {
+                $risparmio = $regularPrice - $specialPrice;
+            } else {
+                $risparmio = 0;
+            }
+            ?>
+            <?php if ($risparmio > 0) : ?>
+                <div class="flex items-center justify-center gap-2 p-2 lowercase rounded-full bg-giallo">
+                    <span class="block text-lg font-medium lg:hidden">
+                        <?= $escaper->escapeHtml(__('Saving ')) ?>
+                    </span>
+                    <span class="hidden text-lg font-bold lg:block">
+                        <?= $escaper->escapeHtml(__('Saving ')) ?>
+                    </span>
+                    <span class="text-2xl font-semibold tracking-tighter lg:font-black lg:text-lg lg:ml-1 lg:tracking-normal">
+                        <?= number_format($risparmio, 2, ',', ' ') . "€" ?>
+
+                    </span>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="flex flex-col w-3/5 gap-2 mt-4 ml-auto sm:mt-0">
+            <a class="flex items-center justify-center gap-2 font-semibold text-primary-lighter" href="tel:390731081507">
+                <?= $hyvaicons->cuffieHtml('w-4 h-4'); ?>
+                <?= $escaper->escapeHtml(__('Talk to a pharmacist')) ?>
+            </a>
+            <?php if ($product->isSaleable()) : ?>
+                <div class="flex flex-row items-center gap-1">
+                    <?= $block->getChildHtml("product.info.quantity") ?>
+                    <?= $block->getChildHtml("product.info.stockstatus") ?>
+                </div>
+                <?= $block->getChildHtml("product.info.addtocart") ?>
+            <?php endif; ?>
+        </div>
+
+    </div>
+
+    <div x-data="initComponent()" @private-content-loaded.window="receiveCustomerData($event.detail.data)">
+        <template x-if="cart">
+            <div class="w-full pr-2 mt-2 bg-white border-4 rounded-full xl:tracking-tighter 2xl:tracking-tight border-giallo">
+                <div class="flex flex-row items-center justify-start font-bold lg:text-base lg:text-left">
+                    <span class="flex items-center justify-center mr-2 rounded-full bg-giallo">
+                        <?= $heroicons->BellHtml('w-10 h-10'); ?>
+                    </span>
+                    <span class="mr-1 text-base text-primary sm:text-lg lg:text-xl"><?= $escaper->escapeHtml(__("Add ")) ?></span>
+                    <span class="text-lg text-primary sm:text-xl lg:text-xl" x-text="hyva.formatPrice(buyMore)"></span>
+                    <span class="ml-1 text-base sm:text-lg text-primary lg:text-xl"><?= $escaper->escapeHtml(__(" for free shipping")) ?></span>
+                </div>
+            </div>
+        </template>
+        <template x-if="free">
+            <div class="w-full px-2 py-3 mt-2 bg-green-400 rounded-lg xl:tracking-tighter 2xl:tracking-tight">
+                <div class="font-bold text-white lg:text-base lg:text-left">
+                    <span class="text-base sm:text-lg lg:text-base"><?= $escaper->escapeHtml(__("Complimenti hai raggiunto la spedizione gratuita")) ?></span>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <?php if ($product->isSaleable()) : ?>
+        <div class="flex justify-end mt-4">
+            <?= $block->getChildHtml('addtocart.shortcut.buttons') ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="flex justify-end mt-4">
+        <?= $block->getChildHtml('product.info.emailtofriend'); ?>
+        <?= $block->getChildHtml('product.info.additional.actions'); ?>
+    </div>
+
+    <?php if ($tierPriceBlock = $block->getChildHtml("product.price.tier")) : ?>
+        <div class="py-4 my-2 tier-price-container">
+            <?=
+            /** @noEscape */
+            $tierPriceBlock ?>
+        </div>
+    <?php endif; ?>
+
+    <?= $block->getChildHtml("product.info.additional") ?>
+</div>
+
+<script>
+    "use strict";
+
+    function initComponent() {
+        return {
+            cart: false,
+            customer: false,
+            free: false,
+            receiveCustomerData(data) {
+
+
+                console.log(data.cart.subtotalAmount)
+                if (data.cart.subtotalAmount === 0) {
+                    this.cart = true;
+                    this.buyMore = 69.90;
+                    this.free = false;
+                    return;
+                }
+                if (data.cart.subtotalAmount < 69.90) {
+                    this.cart = true;
+                    this.free = false;
+                    this.buyMore = 69.90 - data.cart.subtotalAmount;
+                    return;
+                }
+
+                // if the subtotalAmount is >= 69.90, then we don't need to show the banner
+                if (data.cart.subtotalAmount >= 69.90) {
+                    this.cart = false;
+                    this.free = true;
+                    return;
+                }
+            }
+        }
+    }
+</script>

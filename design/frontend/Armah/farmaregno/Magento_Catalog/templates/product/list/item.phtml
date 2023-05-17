@@ -95,19 +95,13 @@ $imageCustomAttributes = $product->getData('image_custom_attributes')
                 ->setProductId($productId)
                 ->toHtml(); ?>
         </a>
-        <div class="product-info flex flex-col grow">
+        <div class="flex flex-col product-info grow">
             <?php $productNameStripped = $block->stripTags($product->getName(), null, true); ?>
             <div class="mt-2 mb-1 items-center justify-center text-primary font-semibold text-base text-center px-8 leading-5 <?= $viewIsGrid ? '' : 'md:text-left' ?>">
                 <a class="product-item-link" href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
                     <?= /* @noEscape */ $catalogOutputHelper->productAttribute($product, $product->getName(), 'name') ?>
                 </a>
             </div>
-
-            <?php if (!$hideRatingSummary) : ?>
-                <div class="py-1 mx-auto <?= $viewIsGrid ? '' : 'md:mx-0 md:w-auto' ?>">
-                    <?= $block->getReviewsSummaryHtml($product, 'short') ?>
-                </div>
-            <?php endif; ?>
 
             <?php if ($product->isAvailable() && !$hideDetails) : ?>
                 <?= $block->getProductDetailsHtml($product) ?>

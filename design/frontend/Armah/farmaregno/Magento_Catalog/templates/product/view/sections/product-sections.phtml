@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+/** @var Details $block */
+/** @var Escaper $escaper */
+
+use Magento\Catalog\Block\Product\View\Details;
+use Magento\Framework\Escaper;
+
+$titleRenderer = $block->getChildBlock('product.section.title.renderer');
+$defaultTitleTemplate = $titleRenderer->getTemplate();
+
+?>
+<!--product-sections.phtml-->
+<div id="tabs-container" class="flex flex-col justify-around lg:flex-row lg:justify-between">
+    <div class="w-full px-8 border border-r-0 rounded-l-3xl lg:w-1/2">
+        <?php
+        foreach ($block->getGroupSortedChildNames('detailed_info_row1', '') as $sectionName) {
+            $sectionBlock  = $block->getLayout()->getBlock($sectionName);
+            $sectionHtml   = (string) $sectionBlock->toHtml();
+            $titleTemplate = $sectionBlock->getData('title_template') ?? $defaultTitleTemplate;
+
+            if (empty(trim($sectionHtml))) {
+                continue;
+            }
+        ?>
+            <section id="<?= $escaper->escapeHtmlAttr($sectionBlock->getNameInLayout()) ?>">
+                <?=
+                $titleRenderer->setTemplate($titleTemplate)
+                    ->assign('sectionBlock', $sectionBlock)
+                    ->toHtml()
+                ?>
+                <div class="w-full leading-8">
+                    <?=
+                    /** @noEscape  */
+                    $sectionHtml ?>
+                </div>
+            </section>
+        <?php } ?>
+    </div>
+    <div class="w-full border-y border-r-transparent rounded-r-3xl lg:w-1/2">
+        <div class="h-full p-12 border rounded-3xl bg-primary">
+            <?php
+            foreach ($block->getGroupSortedChildNames('detailed_info', '') as $sectionName) {
+                $sectionBlock  = $block->getLayout()->getBlock($sectionName);
+                $sectionHtml   = (string) $sectionBlock->toHtml();
+                $titleTemplate = $sectionBlock->getData('title_template') ?? $defaultTitleTemplate;
+
+                if (empty(trim($sectionHtml))) {
+                    continue;
+                }
+            ?>
+                <section id="<?= $escaper->escapeHtmlAttr($sectionBlock->getNameInLayout()) ?>">
+                    <?=
+                    $titleRenderer->setTemplate($titleTemplate)
+                        ->assign('sectionBlock', $sectionBlock)
+                        ->toHtml()
+                    ?>
+                    <div class="w-full">
+                        <?=
+                        /** @noEscape  */
+                        $sectionHtml ?>
+                    </div>
+                </section>
+            <?php } ?>
+        </div>
+    </div>
+</div>
