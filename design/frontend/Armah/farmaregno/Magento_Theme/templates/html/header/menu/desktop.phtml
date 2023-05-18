@@ -35,7 +35,7 @@ $uniqueId = '_' . uniqid();
 
 $menuItems = [[
     "id" => 0,
-    "name" => "Apri il Menù",
+    "name" => "Menù",
     "url" => "#",
     "childData" =>
     $viewModelNavigation->getNavigation(7)
@@ -60,11 +60,11 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                         </span>
 
                         <div class="absolute left-0 z-10 w-full -mt-3 transition-opacity ease-out opacity-0 pointer-events-none top-full group-hover/parent:opacity-100 focus-within:opacity-100 group-hover/parent:pointer-events-auto" :style="`margin-top: 0; top: ${hoverTopPosition}px;`">
-                            <div class="container relative py-2 py-4 mx-auto bg-white shadow-xl min-h-screen-50" :style="`min-height: ${menuMinHeight}px`">
-                                <ul class="w-60">
+                            <div class="container relative pt-12 pb-8 mx-auto bg-white shadow-xl min-h-screen-50" :style="`min-height: ${menuMinHeight}px`">
+                                <ul class="border-r-2 w-60 border-primary">
                                     <?php foreach ($itemLevel1['childData'] as $itemLevel2) : ?>
                                         <?php $singleItems = []; ?>
-                                        <li class="flex items-center justify-between w-full group/child hover:bg-gray-100" <?php if (!empty($itemLevel2['childData'])) : ?> @mouseover.stop="setMenuMinHeight($event.currentTarget)" <?php endif; ?>>
+                                        <li class="flex items-center justify-between w-full group/child hover:bg-primary hover:text-white" <?php if (!empty($itemLevel2['childData'])) : ?> @mouseover.stop="setMenuMinHeight($event.currentTarget)" <?php endif; ?>>
                                             <a href="<?= $escaper->escapeUrl($itemLevel2['url']) ?>" class="relative z-10 w-full px-2 py-2 capitalize break-words" @focus="setMenuMinHeight($event.currentTarget.parentNode)">
                                                 <?= strtolower($escaper->escapeHtml($itemLevel2['name'])) ?>
                                             </a>
@@ -73,21 +73,22 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                                                     <?= $heroiconsSolid->chevronRightHtml('w-5 h-5 inline', 25, 25) ?>
                                                 </span>
                                                 <div class="container absolute top-0 left-0 w-full h-full opacity-0 pointer-events-none focus-within:opacity-100 group-hover/child:opacity-100 group-hover/child:pointer-events-auto">
-                                                    <ul class="grid flex-1 grid-cols-4 p-4 ml-60 gap-y-8 gap-x-8">
+                                                    
+                                                <ul class="grid flex-1 grid-cols-3 px-4 pt-12 pb-8 ml-60 gap-y-8 gap-x-8">
                                                         <?php foreach ($itemLevel2['childData'] as $itemLevel3) : ?>
                                                             <?php if (empty($itemLevel3['childData'])) : ?>
                                                                 <?php $singleItems[] = $itemLevel3 ?>
                                                                 <?php continue; ?>
                                                             <?php endif; ?>
                                                             <li class="level-1 min-w-48">
-                                                                <a href="<?= $escaper->escapeUrl($itemLevel3['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel3['name']) ?>" class="block px-2 py-1 text-base font-semibold leading-loose capitalize level-1 hover:underline">
+                                                                <a href="<?= $escaper->escapeUrl($itemLevel3['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel3['name']) ?>" class="block px-2 py-1 text-base font-semibold leading-4 capitalize level-1 hover:underline text-primary">
                                                                     <?= strtolower($escaper->escapeHtml($itemLevel3['name'])) ?>
                                                                 </a>
 
                                                                 <ul class="z-10 w-full">
                                                                     <?php foreach ($itemLevel3['childData'] as $itemLevel4) : ?>
                                                                         <li class="level-2">
-                                                                            <a href="<?= $escaper->escapeUrl($itemLevel4['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel4['name']) ?>" class="block px-2 py-1 text-lg capitalize level-2 md:text-sm hover:underline"><?= strtolower($escaper->escapeHtml($itemLevel4['name'])) ?></a>
+                                                                            <a href="<?= $escaper->escapeUrl($itemLevel4['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel4['name']) ?>" class="block px-2 py-1 text-lg text-gray-900 capitalize level-2 md:text-sm md:leading-4 hover:underline"><?= strtolower($escaper->escapeHtml($itemLevel4['name'])) ?></a>
                                                                         </li>
                                                                     <?php endforeach; ?>
                                                                 </ul>
@@ -97,7 +98,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                                                         <?php if ($singleItems) : ?>
                                                             <li class="level-1 min-w-48">
                                                                 <?php foreach ($singleItems as $item) : ?>
-                                                                    <a href="<?= $escaper->escapeUrl($item['url']) ?>" title="<?= $escaper->escapeHtmlAttr($item['name']) ?>" class="block p-1 text-base font-semibold leading-loose capitalize level-1 hover:underline">
+                                                                    <a href="<?= $escaper->escapeUrl($item['url']) ?>" title="<?= $escaper->escapeHtmlAttr($item['name']) ?>" class="block p-1 text-base font-semibold leading-loose capitalize level-1 hover:underline text-primary">
                                                                         <?= strtolower($escaper->escapeHtml($item['name'])) ?>
                                                                     </a>
                                                                 <?php endforeach; ?>

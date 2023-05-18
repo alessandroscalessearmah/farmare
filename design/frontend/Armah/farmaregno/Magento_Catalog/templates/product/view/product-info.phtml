@@ -55,7 +55,6 @@ $product = $productViewModel->getProduct();
 
     <div class="flex flex-row items-center justify-between w-full gap-4 lg:items-center lg:justify-start lg:flex-row sm:w-4/5">
         <div class="flex">
-            <span class="font-semibold text-gray-900 product-detail-value"><?= $escaper->escapeHtml(__('Brand: ')) ?></span>
             <span class="px-2 ml-2 font-semibold text-white rounded-lg bg-primary product-detail-label <?php if (empty($product->getAttributeText('farmaregno_brand'))) {
                                                                                                             echo 'hidden';
                                                                                                         } ?>">
@@ -69,16 +68,7 @@ $product = $productViewModel->getProduct();
                 ?>
             </span>
         </div>
-        <div class="flex">
-            <span class="font-semibold text-gray-900 product-detail-label"><?= $escaper->escapeHtml(__('Minsan: ')) ?></span>
-            <span class="px-2 ml-2 font-semibold text-white rounded-lg bg-primary product-detail-label uppercase <?php if (empty($product->getSku())) {
-                                                                                                                        echo 'hidden';
-                                                                                                                    } ?>">
-                <?= $escaper->escapeHtml($product->getSku()) ?>
-
-            </span>
-        </div>
-
+       
         </template>
     </div>
 
@@ -194,19 +184,19 @@ $product = $productViewModel->getProduct();
                 console.log(data.cart.subtotalAmount)
                 if (data.cart.subtotalAmount === 0) {
                     this.cart = true;
-                    this.buyMore = 69.90;
+                    this.buyMore = 49.90;
                     this.free = false;
                     return;
                 }
-                if (data.cart.subtotalAmount < 69.90) {
+                if (data.cart.subtotalAmount < 49.90) {
                     this.cart = true;
                     this.free = false;
-                    this.buyMore = 69.90 - data.cart.subtotalAmount;
+                    this.buyMore = 49.90 - data.cart.subtotalAmount;
                     return;
                 }
 
-                // if the subtotalAmount is >= 69.90, then we don't need to show the banner
-                if (data.cart.subtotalAmount >= 69.90) {
+                // if the subtotalAmount is >= 49.90, then we don't need to show the banner
+                if (data.cart.subtotalAmount >= 49.90) {
                     this.cart = false;
                     this.free = true;
                     return;

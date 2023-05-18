@@ -17,6 +17,8 @@ use Magento\Framework\View\Element\AbstractBlock;
 
 ?>
 <div x-data="{ open: false }" @click.away="open = false" class="relative">
-    <h2 @click="open = !open" class="w-full text-2xl font-bold text-center text-giallo title-font md:text-left cursor-pointer">
-        - <?= $sectionBlock->getTitle() ? $escaper->escapeHtml($sectionBlock->getTitle()) : '&nbsp;' ?>
+    <h2 @click="open = !open" class="w-1/2 text-2xl font-bold text-center cursor-pointer text-giallo title-font md:text-left">
+        <span x-show="!open">+</span>
+        <span x-show="open">-</span>
+        <?= $sectionBlock->getTitle() ? $escaper->escapeHtml($sectionBlock->getTitle()) : '&nbsp;' ?>
     </h2>

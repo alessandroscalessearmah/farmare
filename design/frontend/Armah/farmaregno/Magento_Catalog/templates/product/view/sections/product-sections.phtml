@@ -12,11 +12,14 @@ declare(strict_types=1);
 /** @var Details $block */
 /** @var Escaper $escaper */
 
+use Hyva\Theme\ViewModel\SvgIcons;
 use Magento\Catalog\Block\Product\View\Details;
 use Magento\Framework\Escaper;
 
 $titleRenderer = $block->getChildBlock('product.section.title.renderer');
 $defaultTitleTemplate = $titleRenderer->getTemplate();
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
 
 ?>
 <!--product-sections.phtml-->
@@ -47,7 +50,7 @@ $defaultTitleTemplate = $titleRenderer->getTemplate();
         <?php } ?>
     </div>
     <div class="w-full border-y border-r-transparent rounded-r-3xl lg:w-1/2">
-        <div class="h-full p-12 border rounded-3xl bg-primary">
+        <div class="relative h-full p-12 border rounded-3xl bg-primary">
             <?php
             foreach ($block->getGroupSortedChildNames('detailed_info', '') as $sectionName) {
                 $sectionBlock  = $block->getLayout()->getBlock($sectionName);
@@ -71,6 +74,7 @@ $defaultTitleTemplate = $titleRenderer->getTemplate();
                     </div>
                 </section>
             <?php } ?>
+            <?= $hyvaicons->plusfarmaregnoGrigioHtml('w-24 bottom-6 right-6 h-24 absolute', 25, 25) ?>
         </div>
     </div>
 </div>

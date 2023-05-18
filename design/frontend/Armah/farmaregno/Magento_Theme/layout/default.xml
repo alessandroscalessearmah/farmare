@@ -108,40 +108,86 @@
         </referenceContainer>
 
         <referenceContainer name="footer">
-            <container name="footer.container.gruppo" htmlTag="div" htmlClass="custom-footer-container-blocks" before="-">
-                <container name="footer.container" htmlTag="div" htmlClass="custom-footer-blocks">
-                    <block class="Magento\Cms\Block\Block" name="footer-azienda-prima-colonna">
+
+            <container name="home.pre.footer" after="newsletter.footer">
+                <container name="home.banner.centrale.garanzia" htmlId="home-banner-centrale-garanzia-id" htmlTag="div" htmlClass="z-0">
+                    <block class="Magento\Cms\Block\Block" name="home-banner-centrale-garanzia">
                         <arguments>
-                            <argument name="block_id" xsi:type="string">footer-prima-colonna</argument>
+                            <argument name="block_id" xsi:type="string">home-banner-centrale-garanzia</argument>
                         </arguments>
                     </block>
-                    <block class="Magento\Cms\Block\Block" name="footer-sicurezza-e-trasparenza-seconda-colonna">
+                </container>
+                <container name="container.blocco.banner.servizi" htmlTag="div" htmlClass="home-altezza-xml-banner-servizi">
+                    <container name="blocco.banner.servizi" htmlTag="div" htmlClass="container">
+                        <block class="Magento\Cms\Block\Block" name="home-banner-servizi">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">home-banner-servizi</argument>
+                            </arguments>
+                        </block>
+                    </container>
+                </container>
+            </container>
+
+            <container name="master.footer.container.gruppo" after="-">
+                <block class="Magento\Cms\Block\Block" name="footer-logo-centrale">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer-logo-centrale</argument>
+                    </arguments>
+                </block>
+                <container name="footer.container.gruppo" htmlTag="div" htmlClass="custom-footer-container-blocks">
+                    <container name="footer.container" htmlTag="div" htmlClass="custom-footer-blocks">
+                        <block class="Magento\Cms\Block\Block" name="footer-azienda-prima-colonna">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-prima-colonna</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="footer-sicurezza-e-trasparenza-seconda-colonna">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-seconda-colonna
+                                </argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="footer-dati-terza-colonna">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-terza-colonna
+                                </argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="footer-assistenza-quarta-colonna">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-quarta-colonna
+                                </argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="footer-guida-ai-prodotti-quinta-colonna">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-quinta-colonna
+                                </argument>
+                            </arguments>
+                        </block>
+                    </container>
+                </container>
+                <container name="sotto.footer.gruppo" htmlTag="div" htmlClass="custom-sotto-footer-blocks">
+                    <block class="Magento\Cms\Block\Block" name="footer-social-network">
                         <arguments>
-                            <argument name="block_id" xsi:type="string">footer-seconda-colonna
+                            <argument name="block_id" xsi:type="string">footer-social-network
                             </argument>
                         </arguments>
                     </block>
-                    <block class="Magento\Cms\Block\Block" name="footer-dati-terza-colonna">
+                    <block class="Magento\Cms\Block\Block" name="footer-pagamenti-accettati">
                         <arguments>
-                            <argument name="block_id" xsi:type="string">footer-terza-colonna
+                            <argument name="block_id" xsi:type="string">footer-pagamenti-accettati
                             </argument>
                         </arguments>
                     </block>
-                    <block class="Magento\Cms\Block\Block" name="footer-assistenza-quarta-colonna">
+                    <block class="Magento\Cms\Block\Block" name="footer-spedizione">
                         <arguments>
-                            <argument name="block_id" xsi:type="string">footer-quarta-colonna
-                            </argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Cms\Block\Block" name="footer-guida-ai-prodotti-quinta-colonna">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">footer-quinta-colonna
+                            <argument name="block_id" xsi:type="string">footer-spedizione
                             </argument>
                         </arguments>
                     </block>
                 </container>
             </container>
-            <block name="footer-content" template="Magento_Theme::html/footer.phtml"/>
         </referenceContainer>
 
         <referenceContainer name="after.body.start">
@@ -149,6 +195,7 @@
         </referenceContainer>
 
         <referenceContainer name="before.body.end">
+            <block name="footer-content" template="Magento_Theme::html/footer.phtml"/>
             <block class="Magento\Theme\Block\Html\Footer" name="absolute_footer" template="Magento_Theme::html/absolute_footer.phtml" />
         </referenceContainer>
 

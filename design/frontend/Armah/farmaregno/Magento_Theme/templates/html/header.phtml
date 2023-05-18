@@ -80,10 +80,10 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
         <!-- mobile -->
         <?= $block->getChildHtml("topmenu.mobile") ?>
 
-        <div class="flex flex-row items-center justify-center lg:justify-between order-2 w-3/5 md:w-2/4 lg:order-1 lg:w-[30%] h-14">
+        <div class="flex flex-row items-center justify-center lg:justify-between order-2 w-1/3 md:w-2/4 lg:order-1 lg:w-[30%] h-14">
 
             <!--Logo-->
-            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-75' : 'scale-100'">
+            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-125 sm:scale-125 md:scale-75' : 'scale-100 md:scale-90'">
                 <?= $block->getChildHtml('logo'); ?>
             </div>
             <div class="hidden lg:hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-numero-whatsapp')->toHtml(); ?></div>
@@ -101,24 +101,24 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
             </div>
 
         </div>
-        <div class="flex flex-row h-full items-center justify-end md:justify-end xl:justify-between order-3 w-1/5 md:w-1/4 xl:w-[30%] xl:ml-2 2xl:ml-0">
+        <div class="flex flex-row h-full items-center justify-end md:justify-end xl:justify-between order-3 w-1/3 lg:w-1/4 xl:w-[30%] xl:ml-2 2xl:ml-0">
 
             <div class="flex items-center justify-between w-full">
 
-                <!--Search Icon-->
-                <div class="flex items-center mr-1 md:mr-0 lg:mr-2 lg:hidden lg:justify-start">
-                    <button id="menu-search-icon" type="submit" title="<?= $escaper->escapeHtml(__("Search")) ?>" class="lg:hidden action search" aria-label="Search" @click.prevent=" searchOpen = !searchOpen; $nextTick(function () { document.querySelector('#search').select(); }); ">
-                        <?= $heroicons->searchHtml('text-primary lg:text-white border-current inline w-6 h-6'); ?>
-                    </button>
-                </div>
-
-                <div class="flex flex-row items-center justify-between w-full">
+                <div class="flex flex-row items-center justify-end w-full gap-2 lg:gap-4 lg:items-end xl:gap-0 xl:items-center xl:justify-between">
 
                     <!-- header-blocco-spedizione-gratuita -->
                     <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-spedizione-gratuita')->toHtml(); ?></div>
 
                     <!-- header-blocco-spedizione-gratuita -->
                     <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-whatsapp')->toHtml(); ?></div>
+
+                    <!--Search Icon-->
+                    <div class="flex items-center mr-1 md:mr-0 lg:mr-2 lg:hidden lg:justify-start">
+                        <button id="menu-search-icon" type="submit" title="<?= $escaper->escapeHtml(__("Search")) ?>" class="lg:hidden action search" aria-label="Search" @click.prevent=" searchOpen = !searchOpen; $nextTick(function () { document.querySelector('#search').select(); }); ">
+                            <?= $heroicons->searchHtml('text-white border-current inline w-6 h-6'); ?>
+                        </button>
+                    </div>
 
                     <!--Customer Icon & Dropdown-->
                     <div class="flex flex-col items-center font-bold leading-5 text-white">
@@ -134,8 +134,8 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
                         <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
                             <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-5 h-7'); ?>
 
-                            <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-5 h-5 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-3 sm:px-0 bg-giallo"></span>
-                            <?= $escaper->escapeHtml(__('Cart')); ?>
+                            <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-5 h-5 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-8 lg:-right-3 sm:px-0 bg-giallo"></span>
+                            <span class="hidden lg:block"><?= $escaper->escapeHtml(__('Cart')); ?></span>
                         </a>
 
                     </div>
@@ -162,5 +162,3 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
 
 <!--Authentication Pop-Up-->
 <?= $block->getChildHtml("authentication-popup") ?>
-
-

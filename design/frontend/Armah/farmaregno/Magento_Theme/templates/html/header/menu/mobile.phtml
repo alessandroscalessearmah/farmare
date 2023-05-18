@@ -30,12 +30,12 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 
 ?>
 <div x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
-     class="z-20 order-2 sm:order-1 lg:order-2 navigation lg:hidden"
+     class="z-20 flex justify-start order-2 w-1/3 sm:order-1 lg:order-2 navigation lg:hidden"
 >
     <!-- mobile -->
     <div @load.window="setActiveMenu($root)"
-         class="bg-container-lighter"
-         :class="{'h-screen overflow-x-hidden overflow-y-auto fixed top-0 left-0 w-full' : open}"
+         class=""
+         :class="{'h-full overflow-x-hidden overflow-y-auto fixed top-0 left-0 w-full bg-white' : open}"
          @toggle-mobile-menu.window="open = !open"
          @keydown.window.escape="open=false"
     >
@@ -45,7 +45,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                        class="flex items-center justify-center cursor-pointer"
                        :class="{ 'ml-auto': open }">
                     <?= $heroicons->xHtml('hidden p-4', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }"]); ?>
-                    <?= $heroicons->menuHtml('p-3', 48, 48, [":class" => "{ 'hidden' : open, 'block': !open }"]); ?>
+                    <?= $heroicons->menuHtml('p-3 text-white', 48, 48, [":class" => "{ 'hidden' : open, 'block': !open }"]); ?>
                 </a>
             </div>
         </div>
@@ -63,15 +63,13 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                         'translate-x-0' : !mobilePanelActiveId
                     }"
                 >
-                    <a class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                        bg-container-lighter border-container level-0"
+                    <a class="flex items-center w-full px-8 py-4 border-b cursor-pointer bg-container-lighter border-container level-0"
                        href="<?= $escaper->escapeUrl($menuItem['url']) ?>"
                        title="<?= $escaper->escapeHtmlAttr($menuItem['name']) ?>">
                         <?= $escaper->escapeHtml($menuItem['name']) ?>
                     </a>
                     <?php if (!empty($menuItem['childData'])): ?>
-                    <a class="absolute right-0 flex w-8 h-8 mr-8 border rounded cursor-pointer
-                        bg-container-lighter border-container"
+                    <a class="absolute right-0 flex w-8 h-8 mr-8 border rounded cursor-pointer bg-container-lighter border-container"
                           @click="mobilePanelActiveId =
                           mobilePanelActiveId === '<?= /* @noEscape */ (string) $index ?>' ?
                            0 : '<?= /* @noEscape */ (string) $index ?>'"
@@ -82,8 +80,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                 </span>
                 <?php if (!empty($menuItem['childData'])): ?>
                     <div
-                        class="absolute top-0 right-0 z-10 w-full h-full transition-transform duration-200 ease-in-out
-                            translate-x-full transform bg-container-lighter"
+                        class="absolute top-0 right-0 z-10 w-full h-full transition-transform duration-200 ease-in-out transform translate-x-full bg-container-lighter"
                         :class="{
                             'translate-x-full' : mobilePanelActiveId !== '<?= /* @noEscape */ (string) $index ?>',
                             'translate-x-0' : mobilePanelActiveId === '<?= /* @noEscape */ (string) $index ?>',
@@ -99,8 +96,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                         </a>
                         <a href="<?= $escaper->escapeUrl($menuItem['url']) ?>"
                            title="<?= $escaper->escapeHtmlAttr($menuItem['name']) ?>"
-                           class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                            bg-container-lighter border-container"
+                           class="flex items-center w-full px-8 py-4 border-b cursor-pointer bg-container-lighter border-container"
                         >
                             <span class="w-6"></span>
                             <span class="ml-4"><?= $escaper->escapeHtml(__('View All')) ?></span></a>
@@ -108,8 +104,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
 
                             <a href="<?= $escaper->escapeUrl($subMenuItem['url']) ?>"
                                title="<?= $escaper->escapeHtmlAttr($subMenuItem['name']) ?>"
-                               class="flex items-center w-full px-8 py-4 border-b cursor-pointer
-                                bg-container-lighter border-container"
+                               class="flex items-center w-full px-8 py-4 border-b cursor-pointer bg-container-lighter border-container"
                             >
                                 <span class="w-6"></span>
                                 <span class="ml-4 text-base text-gray-700 lg:ml-0">

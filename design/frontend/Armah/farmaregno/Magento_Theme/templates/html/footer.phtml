@@ -15,7 +15,12 @@ use Magento\Framework\Escaper;
 /** @var Template $block */
 /** @var Escaper $escaper */
 ?>
-<div class="text-gray-700 body-font bg-container-darker border-container-darker">
-    <div class="py-2 bg-secondary">
+<div class="py-1 bg-secondary">
+    <div class="container flex justify-center text-sm">
+        <?= $block->escapeHtml(__('eCommerce Agency')) ?>
+        <span>•</span>
+        <a class="mx-1 hover:underline" href="https://www.armah.it/">armah.it</a>
+        <span>•</span>
+        <a class="ml-1 hover:underline" href="https://www.stefanoquitadamo.com/">stefanoquitadamo.com</a>
     </div>
 </div>
