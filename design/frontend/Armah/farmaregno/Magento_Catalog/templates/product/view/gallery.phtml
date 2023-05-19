@@ -45,7 +45,7 @@ $product = $block->getProduct();
 $ingredients = $product->getAttributeText('farmaregno_ingredienti');
 ?>
 
-<div id="gallery" x-data="initGallery()" x-init="initActive(); $nextTick(() => calcPageSize())" x-bind="eventListeners" class="order-1 w-full p-2 border md:w-5/12 lg:w-[55%] md:h-auto rounded-3xl">
+<div id="gallery" x-data="initGallery()" x-init="initActive(); $nextTick(() => calcPageSize())" x-bind="eventListeners" class="order-1 w-full p-2 border lg:w-1/2 xl:w-[55%] md:h-full xl:h-auto rounded-3xl">
     <div :class="{'w-full h-full fixed block top-0 left-0 bg-white z-50 flex': fullscreen}">
         <div class="absolute top-0 right-0 pt-4 pr-4">
             <button @click="fullscreen = false; $nextTick(() => calcPageSize())" type="button" class="hidden text-gray-400 transition duration-150 ease-in-out hover:text-gray-500 focus:outline-none focus:text-gray-500" :class="{ 'hidden': !fullscreen, 'block': fullscreen }" aria-label="Close">
@@ -55,7 +55,7 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
 
         <div class="relative self-center w-full" x-transition:enter="ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="relative mb-6">
-                <?= '<div class="absolute z-10 flex flex-col w-full gap-2" x-show="!fullscreen">'; ?>
+                <?= '<div class="absolute flex flex-col w-full gap-2" x-show="!fullscreen">'; ?>
 
                 <?php
                 $product = $this->getProduct();
@@ -69,7 +69,7 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
                 }
                 ?>
                 <?php if ($sconto > 0) : ?>
-                    <div class="flex items-center justify-end w-full px-4 py-1 text-2xl font-semibold tracking-tighter rounded-t-3xl bg-primary text-giallo lg:font-semibold lg:text-base lg:tracking-normal">
+                    <div class="z-20 flex items-center justify-end w-full px-4 py-1 text-2xl font-semibold tracking-tighter rounded-t-3xl bg-primary text-giallo lg:font-semibold lg:text-base lg:tracking-normal">
                         <?= $escaper->escapeHtml(__('Discounted by')); ?>
                         <?= number_format($sconto, 0, ',') . "% " ?>
                     </div>
@@ -84,12 +84,12 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
                         foreach ($ingredients as $ingredient) {
                             $imageName = str_replace(' ', '-', strtolower($ingredient)) . '.png';
                             $imageUrl = $block->getViewFileUrl('images/' . $imageName);
-                            echo '<img class="w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredient . '" title="' . $ingredient . '"/>';
+                            echo '<img class="z-20 w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredient . '" title="' . $ingredient . '"/>';
                         }
                     } else {
                         $imageName = str_replace(' ', '-', strtolower($ingredients)) . '.png';
                         $imageUrl = $block->getViewFileUrl('images/' . $imageName);
-                        echo '<img class="w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredients . '" title="' . $ingredients . '"/>';
+                        echo '<img class="z-20 w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredients . '" title="' . $ingredients . '"/>';
                     }
                 }
                 echo '</div>';
@@ -108,7 +108,7 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
                 ?>
                 <img alt="main product photo" title="<?= $escaper->escapeHtmlAttr($productName) ?>" class="object-contain object-center w-full h-auto max-h-[70vh]" :class="'opacity-0'" src="<?= /* @noEscape */ $mainImageData ?>" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" itemprop="image" @click="fullscreen = true; $nextTick(() => calcPageSize())" />
                 <template x-for="(image, index) in images" :key="index">
-                    <img :alt="image.caption || '<?= $escaper->escapeJs($productName) ?>'" :title="image.caption || '<?= $escaper->escapeJs($productName) ?>'" @click="fullscreen = true; $nextTick(() => calcPageSize())" class="absolute inset-x-0 bottom-0 object-contain object-center w-full m-auto top-16 max-h-[70vh]" :class="{ 'cursor-pointer': !fullscreen }" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" :loading="active!==index ? 'lazy' : 'eager'" :src="fullscreen ? image.full : image.img" x-transition.opacity.duration.500ms x-show="active===index" />
+                    <img :alt="image.caption || '<?= $escaper->escapeJs($productName) ?>'" :title="image.caption || '<?= $escaper->escapeJs($productName) ?>'" @click="fullscreen = true; $nextTick(() => calcPageSize())" class="absolute inset-x-0 bottom-0 object-contain object-center w-full m-auto top-16 max-h-[69vw] sm:max-h-[70vh] lg:max-h-[55vh] xl:max-h-[70vh]" :class="{ 'cursor-pointer': !fullscreen }" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" :loading="active!==index ? 'lazy' : 'eager'" :src="fullscreen ? image.full : image.img" x-transition.opacity.duration.500ms x-show="active===index" />
                 </template>
                 <div class="absolute inset-0 hidden w-full h-full bg-white nonmobile" :class="{ 'hidden': activeVideoType !== 'youtube' }" x-transition.opacity.duration.500ms x-show="
                          images[active].type === 'video' && activeVideoType === 'youtube'

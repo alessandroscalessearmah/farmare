@@ -33,7 +33,7 @@ body {
 }
 
 .columns {
-    @apply container grid grid-cols-1 mt-20 gap-x-8 gap-y-4 sm:mt-24 md:mt-40;
+    @apply container grid grid-cols-1 mt-20 gap-x-8 gap-y-4 sm:mt-24 md:mt-28;
     grid-template-rows: auto minmax(0,1fr);
 
     .main {
@@ -46,7 +46,7 @@ body {
 
 }
 .catalog-category-view .columns {
-    @apply container grid grid-cols-1 gap-0 mt-36 lg:mt-52 xl:mt-44 !important;
+    @apply container grid grid-cols-1 gap-0 mt-36 md:mt-44 lg:mt-40 !important;
     grid-template-rows: auto minmax(0,1fr);
 
     .main {

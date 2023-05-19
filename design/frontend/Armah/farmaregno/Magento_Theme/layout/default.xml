@@ -67,8 +67,10 @@
                     </block>
                 </container>
                 <!-- DESKTOP -->
-                <container name="header.container.third" htmlId="header-third-row" htmlTag="div" htmlClass="container flex items-center justify-between order-3 relative h-12">
-                    <container name="primo.header.container.third" htmlTag="div" htmlClass="header-container-third">
+                <block name="bottom.block" class="Magento\Customer\Block\Account\Customer" template="Magento_Theme::html/bottom-block.phtml" />
+
+                <container name="header.container.third" htmlId="header-third-row" htmlTag="div" htmlClass="header-container-third">
+                    <container name="primo.header.container.third" htmlTag="div" htmlClass="header-container-third-primo">
                         <block name="topmenu_generic" as="topmenu" template="Magento_Theme::html/header/topmenu.phtml" ttl="3600">
                             <arguments>
                                 <argument name="cache_lifetime" xsi:type="string">3600</argument>
@@ -78,7 +80,7 @@
                     </container>
 
                     <!-- TRUSTPILOT -->
-                    <container name="container.header.desktop.trustpilot" htmlTag="div" htmlClass="header-container-third">
+                    <container name="container.header.desktop.trustpilot" htmlTag="div" htmlClass="header-container-third-secondo">
                         <block class="Magento\Cms\Block\Block" name="header-desktop-trustpilot">
                             <arguments>
                                 <argument name="block_id" xsi:type="string">header-desktop-trustpilot</argument>
@@ -87,7 +89,7 @@
                     </container>
 
                     <!-- BOTTONI - BLOG -->
-                    <container name="header.desktop.switch.bottoni" htmlTag="div" htmlClass="header-container-third">
+                    <container name="header.desktop.switch.bottoni" htmlTag="div" htmlClass="header-container-third-terzo">
                         <block class="Magento\Cms\Block\Block" name="header-desktop-switch-bottoni">
                             <arguments>
                                 <argument name="block_id" xsi:type="string">header-desktop-switch-bottoni</argument>

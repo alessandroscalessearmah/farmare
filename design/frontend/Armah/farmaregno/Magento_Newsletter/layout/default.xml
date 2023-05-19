@@ -11,7 +11,7 @@
     <body>
         <referenceContainer name="footer">
             <container name="newsletter.footer" htmlTag="div" htmlClass="bg-newsletter" before="-">
-                <container name="newsletter.footer.container" htmlTag="div" htmlClass="container flex h-40 items-center">
+                <container name="newsletter.footer.container" htmlTag="div" htmlClass="container-newsletter">
                     <block class="Magento\Newsletter\Block\Subscribe" name="form.subscribe" as="subscribe" template="Magento_Newsletter::subscribe.phtml" ifconfig="newsletter/general/active" />
                 </container>
             </container>

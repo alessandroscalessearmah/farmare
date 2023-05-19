@@ -75,7 +75,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
     }
 </script>
 <div id="header" class="z-30 w-full border-b bg-primary" x-data="initHeader()" @keydown.window.escape="searchOpen = false;" @private-content-loaded.window="getData(event.detail.data)" @scroll.window="handleScroll">
-    <div :class="{'py-1 sm:py-2': scrolled, 'py-1 md:pt-6 md:pb-5': !scrolled}" class="container flex flex-row items-center justify-between w-full px-6 mx-auto mt-0 duration-300 ease-in-out transition-padding">
+    <div :class="{'pt-2 pb-1 sm:py-2': scrolled, 'py-1 md:pt-4 lg:pt-6 md:pb-4 lg:pb-5': !scrolled}" class="container flex flex-row items-center justify-between w-full px-6 mx-auto mt-0 duration-300 ease-in-out transition-padding">
 
         <!-- mobile -->
         <?= $block->getChildHtml("topmenu.mobile") ?>
@@ -83,7 +83,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
         <div class="flex flex-row items-center justify-center lg:justify-between order-2 w-1/3 md:w-2/4 lg:order-1 lg:w-[30%] h-14">
 
             <!--Logo-->
-            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-125 sm:scale-125 md:scale-75' : 'scale-100 md:scale-90'">
+            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-125 sm:scale-125 md:scale-75' : 'scale-110 sm:scale-100 md:scale-90'">
                 <?= $block->getChildHtml('logo'); ?>
             </div>
             <div class="hidden lg:hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-numero-whatsapp')->toHtml(); ?></div>
@@ -113,13 +113,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
                     <!-- header-blocco-spedizione-gratuita -->
                     <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-whatsapp')->toHtml(); ?></div>
 
-                    <!--Search Icon-->
-                    <div class="flex items-center mr-1 md:mr-0 lg:mr-2 lg:hidden lg:justify-start">
-                        <button id="menu-search-icon" type="submit" title="<?= $escaper->escapeHtml(__("Search")) ?>" class="lg:hidden action search" aria-label="Search" @click.prevent=" searchOpen = !searchOpen; $nextTick(function () { document.querySelector('#search').select(); }); ">
-                            <?= $heroicons->searchHtml('text-white border-current inline w-6 h-6'); ?>
-                        </button>
-                    </div>
-
+                
                     <!--Customer Icon & Dropdown-->
                     <div class="flex flex-col items-center font-bold leading-5 text-white">
                         <a id="customer-menu" class="relative flex-col items-center hidden no-underline lg:flex" @click.prevent.stop="$dispatch('toggle-customer',{});" href="#">
@@ -145,9 +139,10 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
         </div>
     </div>
     <!--Search-->
-    <div class="absolute z-10 w-full bg-white border-t shadow-sm border-container-lighter" id="search-content" :class="{ 'block': searchOpen}" x-cloak x-show="searchOpen" @click.outside="searchOpen = false">
-        <?= $block->getChildHtml('header-search'); ?>
-    </div>
+    <div class="absolute z-10 w-full border-t shadow-sm bg-secondary lg:bg-white border-container-lighter lg:hidden" id="search-content">
+    <?= $block->getChildHtml('header-search'); ?>
+</div>
+
 
 </div>
 

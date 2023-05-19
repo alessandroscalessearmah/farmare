@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\CustomerRegistration;
+use Magento\Customer\Model\Account\Redirect;
+
+
+
+/** @var CustomerRegistration $customerRegistration */
+$customerRegistration = $viewModels->require(CustomerRegistration::class);
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+/** @var HeroiconsSolid $heroiconsSolid */
+$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+
+?>
+
+<body x-cloak x-data="{}" x-init="handleScrollSensitiveDiv()">
+
+
+    <script>
+        function handleScrollSensitiveDiv() {
+            let lastScrollTop = 0;
+            const scrollSensitiveDiv = document.getElementById('scroll-sensitive-content');
+
+            window.addEventListener('scroll', () => {
+                let currentScrollTop = window.pageYOffset;
+
+                if (currentScrollTop > lastScrollTop && currentScrollTop <= 100) {
+                    // Scrolling down at the beginning of the page
+                    scrollSensitiveDiv.classList.add('hidden');
+                } else if (currentScrollTop === 0) {
+                    // Scrolling back to the top of the page
+                    scrollSensitiveDiv.classList.remove('hidden');
+                }
+
+                lastScrollTop = currentScrollTop;
+            });
+
+        }
+    </script>
+
+    <div x-cloak id="scroll-sensitive-content" class="master-bottom-block">
+        <div x-cloak class="container">
+
+            <div class="flex items-center justify-center transition">
+
+                <!-- TRUSTPILOT -->
+                <?php
+                $cmsBlock = $this->getLayout()
+                    ->createBlock("Magento\Cms\Block\Block")
+                    ->setBlockId("header-desktop-trustpilot")
+                    ->toHtml();
+                echo $cmsBlock;
+                ?>
+                
+
+            </div>
+        </div>
+    </div>

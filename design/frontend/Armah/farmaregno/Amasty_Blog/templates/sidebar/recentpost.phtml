@@ -25,7 +25,7 @@ $collection = $block->getCollection();
                     <!-- <.?= $escaper->escapeHtml($block->getBlockHeader()); ?> -->
                 </h3>
             </div>
-            <div class="flex justify-between gap-16 mt-6 amblog-list" data-amblog-js="content">
+            <div class="flex flex-col justify-between gap-16 mt-6 md:flex-row" data-amblog-js="content">
                 <?php foreach ($collection as $post) : ?>
                     <?php $activeClass = $post->getIsActive() ? 'active' : ''; ?>
                     <div class="post-item-info <?= /* @noEscape */ $activeClass; ?> amblog-recent-post-<?= (int)$post->getId(); ?>">
@@ -35,7 +35,7 @@ $collection = $block->getCollection();
                             && ($src = $block->getThumbnailSrc($post))
                         ) : ?>
                             <a href="<?= $escaper->escapeUrl($post->getUrl()) ?>" title="<?= $escaper->escapeHtmlAttr($post->getTitle()) ?>" aria-label="<?= $escaper->escapeHtmlAttr($post->getTitle()) ?>" class="post-image">
-                                <img src="<?= $escaper->escapeUrl($src); ?>" alt="<?= $escaper->escapeHtmlAttr($post->getThumbnailAlt()); ?>">
+                                <img class="w-full mx-auto" src="<?= $escaper->escapeUrl($src); ?>" alt="<?= $escaper->escapeHtmlAttr($post->getThumbnailAlt()); ?>">
                             </a>
                         <?php endif; ?>
                         <div class="text-xl font-semibold post-item-details text-primary">

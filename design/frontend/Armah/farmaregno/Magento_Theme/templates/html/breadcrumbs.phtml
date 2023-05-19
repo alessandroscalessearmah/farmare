@@ -17,13 +17,13 @@ use Magento\Framework\Escaper;
 
 ?>
 <?php if ($crumbs && is_array($crumbs)): ?>
-<nav class="breadcrumbs bg-container-lighter shadow-sm" aria-label="Breadcrumb">
+<nav class="breadcrumbs" aria-label="Breadcrumb">
     <div class="container">
-        <ol class="items list-reset py-4 rounded flex flex-wrap text-grey text-sm">
+        <ol class="flex flex-wrap justify-end py-4 text-sm rounded items list-reset text-grey">
             <?php foreach ($crumbs as $crumbName => $crumbInfo): ?>
                 <li class="item flex <?= $escaper->escapeHtmlAttr($crumbName) ?>">
                 <?php if (!$crumbInfo['first']): ?>
-                    <span aria-hidden="true" class="separator text-primary-lighter px-2">/</span>
+                    <span aria-hidden="true" class="px-1 separator text-primary-lighter">></span>
                 <?php endif; ?>
                 <?php if ($crumbInfo['link']): ?>
                     <a href="<?= $escaper->escapeUrl($crumbInfo['link']) ?>"

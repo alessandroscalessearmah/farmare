@@ -64,7 +64,20 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '900': '#7c430b',
           '950': '#482300',
         },
+        verde: {
 
+          '50': '#f4f9f8',
+          '100': '#d9eee9',
+          '200': '#b4dbd3',
+          lighter: '#86c2b8',
+          DEFAULT: '#5ca49a',
+          darker: '#438980',
+          '600': '#346d67',
+          '700': '#2c5954',
+          '800': '#274846',
+          '900': '#243d3b',
+          '950': '#102322',
+        },
         background: {
           lighter: colors.blue['100'],
           "DEFAULT": colors.blue['200'],

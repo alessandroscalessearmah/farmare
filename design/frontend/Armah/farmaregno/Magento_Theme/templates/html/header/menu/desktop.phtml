@@ -13,6 +13,8 @@ use Hyva\Theme\ViewModel\SvgIcons;
 use Hyva\Theme\ViewModel\Navigation;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Escaper;
+use Magento\Cms\Block\Block as CmsBlock;
+
 
 /** @var Template $block */
 /** @var Escaper $escaper */
@@ -73,13 +75,15 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                                                     <?= $heroiconsSolid->chevronRightHtml('w-5 h-5 inline', 25, 25) ?>
                                                 </span>
                                                 <div class="container absolute top-0 left-0 w-full h-full opacity-0 pointer-events-none focus-within:opacity-100 group-hover/child:opacity-100 group-hover/child:pointer-events-auto">
-                                                    
-                                                <ul class="grid flex-1 grid-cols-3 px-4 pt-12 pb-8 ml-60 gap-y-8 gap-x-8">
+
+                                                    <ul class="grid flex-1 grid-cols-3 px-4 pt-12 pb-8 ml-60 gap-y-8 gap-x-8">
                                                         <?php foreach ($itemLevel2['childData'] as $itemLevel3) : ?>
                                                             <?php if (empty($itemLevel3['childData'])) : ?>
                                                                 <?php $singleItems[] = $itemLevel3 ?>
                                                                 <?php continue; ?>
                                                             <?php endif; ?>
+
+
                                                             <li class="level-1 min-w-48">
                                                                 <a href="<?= $escaper->escapeUrl($itemLevel3['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel3['name']) ?>" class="block px-2 py-1 text-base font-semibold leading-4 capitalize level-1 hover:underline text-primary">
                                                                     <?= strtolower($escaper->escapeHtml($itemLevel3['name'])) ?>
@@ -91,9 +95,14 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                                                                             <a href="<?= $escaper->escapeUrl($itemLevel4['url']) ?>" title="<?= $escaper->escapeHtmlAttr($itemLevel4['name']) ?>" class="block px-2 py-1 text-lg text-gray-900 capitalize level-2 md:text-sm md:leading-4 hover:underline"><?= strtolower($escaper->escapeHtml($itemLevel4['name'])) ?></a>
                                                                         </li>
                                                                     <?php endforeach; ?>
-                                                                </ul>
 
+
+                                                                </ul>
+                                                                
                                                             </li>
+ 
+
+
                                                         <?php endforeach; ?>
                                                         <?php if ($singleItems) : ?>
                                                             <li class="level-1 min-w-48">
@@ -103,12 +112,44 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                                                                     </a>
                                                                 <?php endforeach; ?>
                                                             <?php endif; ?>
+                                                            <?php 
+    // Get all keys from childData
+    $keys = array_keys($itemLevel1['childData']);
+
+    // Loop through keys and get category IDs
+    $categoryIds = [];
+    foreach ($keys as $key) {
+        // Check if key starts with 'category-node-'
+        if (strpos($key, 'category-node-') === 0) {
+            // Remove 'category-node-' from key and add to category IDs array
+            $categoryIds[] = str_replace('category-node-', '', $key);
+        }
+    }
+
+    // Loop through category IDs to create CMS blocks
+    foreach ($categoryIds as $catId) {
+        // Attempt to create CMS block
+        $cmsBlockHtml = $this->getLayout()
+            ->createBlock(CmsBlock::class)
+            ->setBlockId('megamenu_block_right_cat' . $catId)
+            ->toHtml();
+
+        // Original code to display the block
+        if (!empty($cmsBlockHtml)) : ?>
+            <div class="max-w-xs 2xl:block">
+                <?= /** @noEscape */ $cmsBlockHtml ?>
+            </div>
+        <?php endif;
+    }
+?>
                                                     </ul>
+                                                    
                                                 </div>
                                             <?php endif ?>
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
+          
                             </div>
                         </div>
                     <?php endif; ?>
@@ -119,6 +160,9 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
     </div>
 
 </div>
+
+
+
 <script>
     'use strict';
 

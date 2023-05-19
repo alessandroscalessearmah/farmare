@@ -109,7 +109,7 @@ $displayAll = $block->getConfig('general/region/display_all');
                     <div class="relative flex items-center control">
                         <?php $minimumPasswordLength = $block->getMinimumPasswordLength() ?>
                         <input :type="showPassword ? 'text' : 'password'" placeholder="Password" name="password" id="password" name="password" id="password" title="<?= $escaper->escapeHtmlAttr(__('Password')) ?>" minlength="<?= $escaper->escapeHtmlAttr($minimumPasswordLength) ?>" class="bg-gray-100 rounded-full width-customer form-input focus:ring-0 focus:border-primary" required x-on:change="checkPasswordsMatch()" autocomplete="off">
-                        <div x-on:click="showPassword = !showPassword" class="absolute right-0 px-4 cursor-pointer" :aria-label="showPassword ? '<?= $escaper->escapeJs(__('Hide Password')) ?>' : '<?= $escaper->escapeJs(__('Show Password')) ?>'">
+                        <div x-on:click="showPassword = !showPassword" class="absolute left-[205px] px-4 cursor-pointer" :aria-label="showPassword ? '<?= $escaper->escapeJs(__('Hide Password')) ?>' : '<?= $escaper->escapeJs(__('Show Password')) ?>'">
                             <template x-if="!showPassword">
                                 <?= $heroIcons->eyeHtml('w-5 h-5'); ?>
                             </template>
@@ -118,7 +118,7 @@ $displayAll = $block->getConfig('general/region/display_all');
                             </template>
                         </div>
                     </div>
-                    <p class="mt-3 text-sm text-secondary">
+                    <p class="mt-3 text-sm text-primary">
                         <?= $escaper->escapeHtml(
                             __('Minimum of different classes of characters in password is %1.' . ' Classes of characters: Lower Case, Upper Case, Digits, Special Characters.',
                                 $block->getRequiredCharacterClassesNumber()
@@ -134,7 +134,7 @@ $displayAll = $block->getConfig('general/region/display_all');
                     </label>
                     <div class="relative flex items-center control">
                         <input :type="showPasswordConfirm ? 'text' : 'password'" name="password_confirmation" name="password_confirmation" title="<?= $escaper->escapeHtmlAttr(__('Confirm Password')) ?>" id="password-confirmation" x-on:change="checkPasswordsMatch()" x-on:keyup="checkPasswordsMatch()" required minlength="<?= $escaper->escapeHtmlAttr($minimumPasswordLength) ?>" placeholder="Conferma Password" class="bg-gray-100 rounded-full width-customer form-input focus:ring-0 focus:border-primary" autocomplete="off">
-                        <div x-on:click="showPasswordConfirm = !showPasswordConfirm" class="absolute right-0 px-4 cursor-pointer" :aria-label="showPasswordConfirm ? '<?= $escaper->escapeJs(__('Hide Password')) ?>' : '<?= $escaper->escapeJs(__('Show Password')) ?>'">
+                        <div x-on:click="showPasswordConfirm = !showPasswordConfirm" class="absolute left-[205px] px-4 cursor-pointer" :aria-label="showPasswordConfirm ? '<?= $escaper->escapeJs(__('Hide Password')) ?>' : '<?= $escaper->escapeJs(__('Show Password')) ?>'">
                             <template x-if="!showPasswordConfirm">
                                 <?= $heroIcons->eyeHtml('w-5 h-5'); ?>
                             </template>
