@@ -25,7 +25,7 @@ $collection = $block->getCollection();
                     <!-- <.?= $escaper->escapeHtml($block->getBlockHeader()); ?> -->
                 </h3>
             </div>
-            <div class="flex flex-col justify-between gap-16 mt-6 md:flex-row" data-amblog-js="content">
+            <div class="recent-posts" data-amblog-js="content">
                 <?php foreach ($collection as $post) : ?>
                     <?php $activeClass = $post->getIsActive() ? 'active' : ''; ?>
                     <div class="post-item-info <?= /* @noEscape */ $activeClass; ?> amblog-recent-post-<?= (int)$post->getId(); ?>">

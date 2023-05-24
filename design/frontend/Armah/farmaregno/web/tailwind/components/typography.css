@@ -318,3 +318,18 @@ body {
 form label, fieldset label {
     @apply text-primary !important;
 }
+
+/* recent posts */
+
+.recent-posts {
+    @apply flex flex-col justify-between gap-16 p-4 mt-6
+}
+.cms-index-index .recent-posts {
+    @apply flex flex-row justify-between gap-16 p-4 mt-6
+}
+
+/* title */
+
+.catalog-category-view .container-category {
+    @apply px-0
+}
