@@ -126,7 +126,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
                     <div class="flex flex-col font-bold leading-5 text-white">
 
                         <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
-                            <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-5 h-7'); ?>
+                            <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-7 h-7'); ?>
 
                             <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-5 h-5 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-8 lg:-right-3 sm:px-0 bg-giallo"></span>
                             <span class="hidden lg:block"><?= $escaper->escapeHtml(__('Cart')); ?></span>

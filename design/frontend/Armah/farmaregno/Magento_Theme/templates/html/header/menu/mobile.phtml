@@ -156,7 +156,7 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                 </div>
                 <a @click="$dispatch('toggle-mobile-menu')" class="flex items-center justify-center cursor-pointer" :class="{ 'ml-auto ': open }" x-cloak>
                     <?= $heroicons->xHtml('p-0 lg:p-4 w-6 lg:w-auto h-auto mx-4 text-gray-400', 64, 64, [":class" => "{ 'hidden' : !open, 'block': open }"]); ?>
-                    <?= $heroicons->menuHtml('w-7 h-7 text-white', 48, 48, [":class" => "{ 'hidden' : open, 'block': !open }"]); ?>
+                    <?= $heroicons->menuHtml('w-9 h-9 text-white', 48, 48, [":class" => "{ 'hidden' : open, 'block': !open }"]); ?>
                 </a>
             </div>
         </div>

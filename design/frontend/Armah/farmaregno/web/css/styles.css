@@ -3741,10 +3741,16 @@ form label, fieldset label {
 .cms-index-index .recent-posts {
   margin-top: 1.5rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   gap: 4rem;
   padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .cms-index-index .recent-posts {
+    flex-direction: row;
+  }
 }
 
 /* title */
