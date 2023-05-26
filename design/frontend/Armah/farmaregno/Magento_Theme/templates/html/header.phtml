@@ -105,7 +105,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
 
             <div class="flex items-center justify-between w-full">
 
-                <div class="flex flex-row items-center justify-end w-full gap-2 lg:gap-4 lg:items-end xl:gap-0 xl:items-center xl:justify-between">
+                <div class="flex flex-row items-center justify-end w-full gap-2 lg:gap-4 lg:items-end xl:gap-4 xl:items-end xl:justify-end">
 
                     <!-- header-blocco-spedizione-gratuita -->
                     <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-spedizione-gratuita')->toHtml(); ?></div>
@@ -116,8 +116,8 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
                 
                     <!--Customer Icon & Dropdown-->
                     <div class="flex flex-col items-center font-bold leading-5 text-white">
-                        <a id="customer-menu" class="relative flex-col items-center hidden no-underline lg:flex" @click.prevent.stop="$dispatch('toggle-customer',{});" href="#">
-                            <?= $hyvaicons->userHtml('text-primary lg:text-white border-current inline w-7 h-6'); ?>
+                        <a id="customer-menu" class="relative flex-col items-center hidden text-sm no-underline lg:flex" @click.prevent.stop="$dispatch('toggle-customer',{});" href="#">
+                            <?= $hyvaicons->userHtml('text-primary lg:text-white border-current inline w-6 h-6'); ?>
                             <?= $escaper->escapeHtml(__('Login')); ?>
                         </a>
 
@@ -125,10 +125,10 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
                     <!--Carrello-->
                     <div class="flex flex-col font-bold leading-5 text-white">
 
-                        <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
-                            <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-7 h-7'); ?>
+                        <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center text-sm no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
+                            <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-5 h-5'); ?>
 
-                            <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-5 h-5 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-8 lg:-right-3 sm:px-0 bg-giallo"></span>
+                            <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-4 h-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-8 lg:-right-3 sm:px-0 bg-giallo"></span>
                             <span class="hidden lg:block"><?= $escaper->escapeHtml(__('Cart')); ?></span>
                         </a>
 

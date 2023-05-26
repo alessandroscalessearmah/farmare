@@ -92,7 +92,7 @@ $helper = $this->helper(SearchHelper::class);
                value="<?= /** @noEscape */ $helper->getEscapedQueryText() ?>"
                placeholder="<?= $escaper->escapeHtmlAttr(__('Search over 70,000 products...')) ?>"
                maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>"
-               class="w-full h-8 p-2 text-sm font-semibold leading-normal text-gray-800 transition border-transparent rounded-lg appearance-none sm:h-10 sm:text-lg focus:ring-0 bg-secondary focus:border-transparent focus:outline-none lg:text-base"
+               class="w-full h-8 p-2 text-sm font-semibold leading-normal text-gray-800 transition bg-white border-transparent rounded-lg appearance-none sm:h-12 sm:text-lg focus:ring-0 focus:border-transparent focus:outline-none lg:text-base"
                @focus.once="suggest"
                @input.debounce.300="suggest"
                @keydown.arrow-down.prevent="focusElement($root.querySelector('[tabindex]'))"
@@ -117,7 +117,7 @@ $helper = $this->helper(SearchHelper::class);
          </template>
         <button type="submit"
                 title="<?= $escaper->escapeHtml(__('Search')) ?>"
-                class="absolute top-0 right-0 items-center justify-center w-8 h-8 p-0 bg-transparent shadow-none md:h-8 lg:mr-2 md:w-9 lg:top-1 btn lg:bg-giallo lg:hover:bg-giallo-lighter action search"
+                class="absolute top-0 right-0 items-center justify-center w-8 h-8 p-0 bg-transparent shadow-none md:h-10 lg:mr-2 md:w-10 lg:top-1 btn lg:bg-giallo lg:hover:bg-giallo-lighter action search"
                 aria-label="Search"
         >
         <?= $hyvaicons->searchHtml('text-primary lg:text-white border-current inline w-5 h-5'); ?>

@@ -3298,12 +3298,6 @@ body {
   }
 }
 
-@media (min-width: 1536px) {
-  .span-header-spedizione-gratuita {
-    font-size: 1.25rem;
-  }
-}
-
 /* header.container.third */
 
 .header-container-third {
@@ -5470,6 +5464,10 @@ a.pagebuilder-button-secondary:focus, button.pagebuilder-button-secondary:focus,
   width: 20rem;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .w-56 {
   width: 14rem;
 }
@@ -5500,10 +5498,6 @@ a.pagebuilder-button-secondary:focus, button.pagebuilder-button-secondary:focus,
 
 .w-60 {
   width: 15rem;
-}
-
-.w-9 {
-  width: 2.25rem;
 }
 
 .w-20 {
@@ -7720,6 +7714,10 @@ fieldset ~ fieldset {
     height: 2.5rem;
   }
 
+  .sm\:h-12 {
+    height: 3rem;
+  }
+
   .sm\:max-h-\[70vh\] {
     max-height: 70vh;
   }
@@ -7996,6 +7994,10 @@ fieldset ~ fieldset {
     height: auto;
   }
 
+  .md\:h-10 {
+    height: 2.5rem;
+  }
+
   .md\:w-32 {
     width: 8rem;
   }
@@ -8054,6 +8056,10 @@ fieldset ~ fieldset {
 
   .md\:w-7\/12 {
     width: 58.333333%;
+  }
+
+  .md\:w-10 {
+    width: 2.5rem;
   }
 
   .md\:-translate-x-1\/3 {
@@ -8783,8 +8789,12 @@ fieldset ~ fieldset {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .xl\:items-center {
-    align-items: center;
+  .xl\:items-end {
+    align-items: flex-end;
+  }
+
+  .xl\:justify-end {
+    justify-content: flex-end;
   }
 
   .xl\:justify-between {
@@ -8797,6 +8807,14 @@ fieldset ~ fieldset {
 
   .xl\:gap-20 {
     gap: 5rem;
+  }
+
+  .xl\:gap-6 {
+    gap: 1.5rem;
+  }
+
+  .xl\:gap-4 {
+    gap: 1rem;
   }
 
   .xl\:border-none {
