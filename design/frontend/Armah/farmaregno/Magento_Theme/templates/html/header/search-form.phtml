@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -27,6 +28,21 @@ $helper = $this->helper(SearchHelper::class);
 <script>
     'use strict';
 
+    function typeWriter(text, inputElement, i = 0) {
+    if (i < text.length) {
+        inputElement.setAttribute("placeholder", text.substring(0, i+1));
+        setTimeout(function() {
+            typeWriter(text, inputElement, i + 1)
+        }, 100);
+    } else {
+        setTimeout(function() {
+            inputElement.setAttribute("placeholder", "");
+            typeWriter(text, inputElement);
+        }, 2000);
+    }
+}
+
+
     function initMiniSearch() {
         return {
             minSearchLength: <?= (int) $helper->getMinQueryLength() ?>,
@@ -43,23 +59,24 @@ $helper = $this->helper(SearchHelper::class);
             },
             fetchSuggestions(term) {
                 fetch(
-                    window.BASE_URL + 'search/ajax/suggest?' + new URLSearchParams({q: term}),
-                    {
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
+                        window.BASE_URL + 'search/ajax/suggest?' + new URLSearchParams({
+                            q: term
+                        }), {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
                         }
-                    }
-                )
-                .then(response => response.json())
-                .then(result => this.suggestions = result);
+                    )
+                    .then(response => response.json())
+                    .then(result => this.suggestions = result);
             },
             search(term) {
                 const search = this.$refs.searchInput;
                 term = term || search.value;
                 if (term.length < this.minSearchLength) {
                     search.setCustomValidity('<?= $escaper->escapeJs(
-                        __('Minimum Search query length is %1', $helper->getMinQueryLength())
-                    ) ?>');
+                                                    __('Minimum Search query length is %1', $helper->getMinQueryLength())
+                                                ) ?>');
                     search.reportValidity();
                 } else {
                     search.setCustomValidity('');
@@ -77,50 +94,36 @@ $helper = $this->helper(SearchHelper::class);
             }
         }
     }
+    document.addEventListener('DOMContentLoaded', function () {
+    var inputElement = document.getElementById("search");
+    var placeholderText = "<?= __('Search over 70,000 products...') ?>";
+    placeholderText = placeholderText.replace(/&#x20;/g, " ");
+    typeWriter(placeholderText, inputElement);
+});
+
 </script>
-<div class="container h-8 mx-auto text-black sm:h-10 lg:px-0 xl:px-6 lg:h-auto" x-data="initMiniSearch()">
-     <form class="relative form minisearch" id="search_mini_form" x-ref="form" @submit.prevent="search()"
-          action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>" method="get">
+<div class="container h-6 mx-auto text-black sm:h-6 lg:px-0 xl:px-6 lg:h-auto" x-data="initMiniSearch()">
+    <form class="relative form minisearch" id="search_mini_form" x-ref="form" @submit.prevent="search()" action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>" method="get">
         <label class="hidden" for="search" data-role="minisearch-label">
             <span><?= $escaper->escapeHtml(__('Search')) ?></span>
         </label>
-        <input id="search"
-               x-ref="searchInput"
-               type="search"
-               autocomplete="off"
-               name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()) ?>"
-               value="<?= /** @noEscape */ $helper->getEscapedQueryText() ?>"
-               placeholder="<?= $escaper->escapeHtmlAttr(__('Search over 70,000 products...')) ?>"
-               maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>"
-               class="w-full h-8 p-2 text-sm font-semibold leading-normal text-gray-800 transition bg-white border-transparent rounded-lg appearance-none sm:h-12 sm:text-lg focus:ring-0 focus:border-transparent focus:outline-none lg:text-base"
-               @focus.once="suggest"
-               @input.debounce.300="suggest"
-               @keydown.arrow-down.prevent="focusElement($root.querySelector('[tabindex]'))"
-        />
-         <template x-if="suggestions.length > 0">
-             <div class="flex flex-col w-full mt-1 leading-normal transition appearance-none text-grey-800">
-                 <template x-for="suggestion in suggestions">
-                     <div class="flex justify-between p-2 mb-1 border cursor-pointer bg-container-lighter even:bg-container border-container hover:bg-container-darker"
-                          tabindex="0"
-                          @click="search(suggestion.title)"
-                          @keydown.enter="search(suggestion.title)"
-                          @keydown.arrow-up.prevent="
+        <input id="search" x-ref="searchInput" type="search" autocomplete="off" name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()) ?>" value="<?=
+                                                                                                                                                            /** @noEscape */
+                                                                                                                                                            $helper->getEscapedQueryText() ?>" placeholder="<?= $escaper->escapeHtmlAttr(__('Search over 70,000 products...')) ?>" maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>" class="w-full h-8 px-4 pt-3 text-xs font-normal leading-normal text-gray-800 transition bg-white border-gray-400 rounded appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 lg:text-xs sm:h-9 sm:text-lg" @focus.once="suggest" @input.debounce.300="suggest" @keydown.arrow-down.prevent="focusElement($root.querySelector('[tabindex]'))" />
+        <template x-if="suggestions.length > 0">
+            <div class="flex flex-col w-full mt-1 leading-normal transition appearance-none text-grey-800">
+                <template x-for="suggestion in suggestions">
+                    <div class="flex justify-between p-2 mb-1 border cursor-pointer bg-container-lighter even:bg-container border-container hover:bg-container-darker" tabindex="0" @click="search(suggestion.title)" @keydown.enter="search(suggestion.title)" @keydown.arrow-up.prevent="
                               focusElement($event.target.previousElementSibling) || $refs.searchInput.focus()
-                          "
-                          @keydown.arrow-down.prevent="focusElement($event.target.nextElementSibling)"
-                     >
-                         <span x-text="suggestion.title"></span>
-                         <span x-text="suggestion.num_results"></span>
-                     </div>
-                 </template>
-             </div>
-         </template>
-        <button type="submit"
-                title="<?= $escaper->escapeHtml(__('Search')) ?>"
-                class="absolute top-0 right-0 items-center justify-center w-8 h-8 p-0 bg-transparent shadow-none md:h-10 lg:mr-2 md:w-10 lg:top-1 btn lg:bg-giallo lg:hover:bg-giallo-lighter action search"
-                aria-label="Search"
-        >
-        <?= $hyvaicons->searchHtml('text-primary lg:text-white border-current inline w-5 h-5'); ?>
-            </button>
+                          " @keydown.arrow-down.prevent="focusElement($event.target.nextElementSibling)">
+                        <span x-text="suggestion.title"></span>
+                        <span x-text="suggestion.num_results"></span>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <button type="submit" title="<?= $escaper->escapeHtml(__('Search')) ?>" class="absolute top-0 right-0 items-center justify-center w-8 h-8 p-0 rounded shadow-none action bg-primary btn lg:hover:bg-primary-lighter lg:mr-1 lg:top-1 md:h-7 md:w-7 search" aria-label="Search">
+            <?= $hyvaicons->searchHtml('text-primary lg:text-white border-current inline w-5 h-5'); ?>
+        </button>
     </form>
 </div>

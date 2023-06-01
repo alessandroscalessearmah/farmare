@@ -1,0 +1,93 @@
+<script src="https://cdn.jsdelivr.net/npm/swiper@8.4.6/swiper-bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/swiper@8.4.6/swiper-bundle.min.css" rel="stylesheet">
+</link>
+
+<div x-data="{swiper: null}" x-init="swiper = new Swiper($refs.container, {
+        loop: true,
+        slidesPerView: 1.5,
+        spaceBetween: 4,
+        autoplay: {
+        delay: 3000,
+        },
+        navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        },
+  
+      breakpoints: {
+        0: {
+          slidesPerView: 1,
+          spaceBetween: 1,
+        },
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 3,
+        },
+        1280: {
+          slidesPerView: 5,
+          spaceBetween: 2,
+        },
+      },
+    })" class="flex flex-row w-full overflow-x-hidden">
+
+    <div class="w-full pb-0 swiper-container" x-ref="container">
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <div class="flex items-center justify-center h-full overflow-hidden rounded sm:h-auto sm:flex-col">
+                    <div class="flex-shrink-0 w-full">
+                        <img class="justify-center w-32 py-4 mx-auto text-sm font-normal text-gray-900 shadow-none rounded-xl " href="/farmaci-da-banco/allergie/antistaminici.html" src="{{media url=wysiwyg/brands/aboca.svg}}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="swiper-slide">
+                <div class="flex items-center justify-center h-full overflow-hidden rounded sm:h-auto sm:flex-col">
+                    <div class="flex-shrink-0 w-full">
+                        <img class="justify-center w-32 py-4 mx-auto text-sm font-normal text-gray-900 shadow-none rounded-xl " href="/integratori-e-alimenti/integratori-sportivi.html" src="{{media url=wysiwyg/brands/bioscalin.svg}}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="flex items-center justify-center h-full overflow-hidden rounded sm:h-auto sm:flex-col">
+                    <div class="flex-shrink-0 w-full">
+                        <img class="justify-center w-32 py-4 mx-auto text-sm font-normal text-gray-900 shadow-none rounded-xl " href="/cosmetica/prodotti-solari/viso.html" src="{{media url=wysiwyg/brands/eucerin.svg}}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="flex items-center justify-center h-full overflow-hidden rounded sm:h-auto sm:flex-col">
+                    <div class="flex-shrink-0 w-full">
+                        <img class="justify-center w-32 py-4 mx-auto text-sm font-normal text-gray-900 shadow-none rounded-xl " href="/cosmetica/corpo/esfolianti-corpo.html" src="{{media url=wysiwyg/brands/rilastil.png}}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="flex items-center justify-center h-full overflow-hidden rounded sm:h-auto sm:flex-col">
+                    <div class="flex-shrink-0 w-full">
+                        <img class="justify-center w-32 py-4 mx-auto text-sm font-normal text-gray-900 shadow-none rounded-xl " href="/cosmetica/corpo/esfolianti-corpo.html" src="{{media url=wysiwyg/brands/Vicks.svg}}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="flex items-center justify-center h-full overflow-hidden rounded sm:h-auto sm:flex-col">
+                    <div class="flex-shrink-0 w-full">
+                        <img class="justify-center w-32 py-4 mx-auto text-sm font-normal text-gray-900 shadow-none rounded-xl " href="/cosmetica/corpo/esfolianti-corpo.html" src="{{media url=wysiwyg/brands/vichy.svg}}" alt="" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

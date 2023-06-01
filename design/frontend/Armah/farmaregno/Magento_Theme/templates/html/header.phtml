@@ -74,24 +74,20 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
         }
     }
 </script>
-<div id="header" class="z-30 w-full border-b bg-primary" x-data="initHeader()" @keydown.window.escape="searchOpen = false;" @private-content-loaded.window="getData(event.detail.data)" @scroll.window="handleScroll">
-    <div :class="{'pt-2 pb-1 sm:py-2': scrolled, 'py-1 md:pt-4 lg:pt-6 md:pb-4 lg:pb-5': !scrolled}" class="container flex flex-row items-center justify-between w-full px-6 mx-auto mt-0 duration-300 ease-in-out transition-padding">
+<div id="header" class="z-30 flex w-full h-12 border-t border-gray-100 bg-secondary" x-data="initHeader()" @keydown.window.escape="searchOpen = false;" @private-content-loaded.window="getData(event.detail.data)" @scroll.window="handleScroll">
+    <div class="container flex flex-row items-center justify-between w-full px-6 mx-auto duration-300 ease-in-out transition-padding">
 
         <!-- mobile -->
         <?= $block->getChildHtml("topmenu.mobile") ?>
 
-        <div class="flex flex-row items-center justify-center lg:justify-between order-2 w-1/3 md:w-2/4 lg:order-1 lg:w-[30%] h-14">
+        <div class="flex flex-row items-center justify-start order-2 w-1/3 md:w-2/4 lg:order-1 lg:w-1/5 h-14">
 
-            <!--Logo-->
-            <div x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)" class="transition-transform duration-500 ease-in-out transform" :class="scrolled ? 'scale-125 sm:scale-125 md:scale-75' : 'scale-110 sm:scale-100 md:scale-90'">
-                <?= $block->getChildHtml('logo'); ?>
-            </div>
-            <div class="hidden lg:hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-numero-whatsapp')->toHtml(); ?></div>
-
+    
+            <?= $block->getChildHtml("primo.header.container.third") ?>
 
         </div>
 
-        <div class="relative flex-row items-start hidden xl:px-4 2xl:px-8 lg:order-2 lg:justify-center xl:justify-between lg:w-[40%] xl:w-2/5 2xl:w-5/12 lg:flex" id="search-content">
+        <div class="relative flex-row items-start hidden xl:px-4 2xl:px-8 lg:order-2 lg:justify-center xl:justify-between lg:w-[40%] xl:w-2/5 2xl:w-3/5 lg:flex" id="search-content">
 
 
             <!--Search-->
@@ -101,7 +97,7 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
             </div>
 
         </div>
-        <div class="flex flex-row h-full items-center justify-end md:justify-end xl:justify-between order-3 w-1/3 lg:w-1/4 xl:w-[30%] xl:ml-2 2xl:ml-0">
+        <div class="flex flex-row items-center justify-end order-3 w-1/3 h-full md:justify-end xl:justify-between lg:w-1/4 xl:w-1/5 xl:ml-2 2xl:ml-0">
 
             <div class="flex items-center justify-between w-full">
 
@@ -110,29 +106,6 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
                     <!-- header-blocco-spedizione-gratuita -->
                     <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-spedizione-gratuita')->toHtml(); ?></div>
 
-                    <!-- header-blocco-spedizione-gratuita -->
-                    <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-whatsapp')->toHtml(); ?></div>
-
-                
-                    <!--Customer Icon & Dropdown-->
-                    <div class="flex flex-col items-center font-bold leading-5 text-white">
-                        <a id="customer-menu" class="relative flex-col items-center hidden text-sm no-underline lg:flex" @click.prevent.stop="$dispatch('toggle-customer',{});" href="#">
-                            <?= $hyvaicons->userHtml('text-primary lg:text-white border-current inline w-6 h-6'); ?>
-                            <?= $escaper->escapeHtml(__('Login')); ?>
-                        </a>
-
-                    </div>
-                    <!--Carrello-->
-                    <div class="flex flex-col font-bold leading-5 text-white">
-
-                        <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center text-sm no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
-                            <?= $hyvaicons->shopHtml('text-primary lg:text-white border-current inline w-5 h-5'); ?>
-
-                            <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-4 h-4 text-xs font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-4 -right-8 lg:-right-3 sm:px-0 bg-giallo"></span>
-                            <span class="hidden lg:block"><?= $escaper->escapeHtml(__('Cart')); ?></span>
-                        </a>
-
-                    </div>
                 </div>
             </div>
 

@@ -36,7 +36,7 @@ $uniqueId = '_' . uniqid();
 // Order is important here: 1. build the menu data, 2. then set the cache tags from the view model identities
 $menuItems = [[
     "id" => 0,
-    "name" => "Menù",
+    "name" => "Categorie",
     "url" => "#",
     "childData" =>
     $viewModelNavigation->getNavigation(5)
@@ -52,15 +52,15 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                 <?php $singleItems = []; ?>
                 <div class="flex items-center px-2 mx-2 transition transition-colors duration-500 border-b-2 border-transparent level-0 group/parent xl:px-4 xl:mx-4 hover:border-primary focus-within:border-primary" @mouseover.stop="hoverTopPosition = $event.currentTarget.offsetTop + $event.currentTarget.getBoundingClientRect().height">
                 <span class="items-center inline">
-                            <?= $hyvaicons->Bars3BottomLeftHtml('w-8 h-8 inline', 25, 25) ?>
+                            <?= $hyvaicons->Bars3BottomLeftHtml('w-8 h-8 inline text-primary', 25, 25) ?>
                         </span>
-                    <a href="<?= $escaper->escapeUrl($itemLevel1['url']) ?>" @focus="hoverTopPosition = $event.currentTarget.parentNode.offsetTop + $event.currentTarget.parentNode.getBoundingClientRect().height" title="<?= $escaper->escapeHtmlAttr($itemLevel1['name']) ?>" class="block p-2 text-base text-gray-700 level-0 whitespace-nowrap">
-                        <span class="font-semibold"><?= $escaper->escapeHtml($itemLevel1['name']) ?></span>
+                    <a href="<?= $escaper->escapeUrl($itemLevel1['url']) ?>" @focus="hoverTopPosition = $event.currentTarget.parentNode.offsetTop + $event.currentTarget.parentNode.getBoundingClientRect().height" title="<?= $escaper->escapeHtmlAttr($itemLevel1['name']) ?>" class="block p-2 text-base text-primary level-0 whitespace-nowrap">
+                        <?= $escaper->escapeHtml($itemLevel1['name']) ?>
                     </a>
                     <?php if (!empty($itemLevel1['childData'])) : ?>
                         
                         <div class="absolute left-0 z-10 w-full -mt-3 transition-opacity ease-out opacity-0 pointer-events-none top-full group-hover/parent:opacity-100 focus-within:opacity-100 group-hover/parent:pointer-events-auto" :style="`margin-top: 0; top: ${hoverTopPosition}px;`">
-                            <div class="container relative pt-10 pb-64 mx-auto bg-white shadow-xl min-h-screen-50" :style="`min-height: ${menuMinHeight}px`">
+                            <div class="container relative pt-5 pb-64 mx-auto bg-white shadow-xl min-h-screen-50" :style="`min-height: ${menuMinHeight}px`">
                                 <ul class="border-r-2 w-80 border-primary">
                                     <?php foreach ($itemLevel1['childData'] as $itemLevel2) : ?>
 

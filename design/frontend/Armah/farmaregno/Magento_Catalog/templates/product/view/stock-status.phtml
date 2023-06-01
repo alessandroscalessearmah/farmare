@@ -36,17 +36,18 @@ if (!$product || !$product->getId()) {
     return;
 }
 ?>
-<div class="flex justify-center w-1/2 h-10 xl:w-3/5">
+<div class="">
     <?php if ($product->getIsSalable()) : ?>
 
-        <div class="flex items-center justify-center w-full rounded-lg bg-verde">
-            <span class="font-medium text-white"><?= $escaper->escapeHtmlAttr(__('available')) ?></span>
+        <div class="flex">
+            <?= $hyvaicons->checkgreenHtml('w-6 h-6 ml-auto') ?>
+            <span class="ml-2"><?= $escaper->escapeHtmlAttr(__('Product Available')) ?></span>
         </div>
         </p>
     <?php else : ?>
-        <div class="ml-0.5 prodotto-non-disponibile">
-            <?= $hyvaicons->checkredHtml('svg-stockstatus') ?>
-            <span class="span-prodotto-non-disponibile"><?= $escaper->escapeHtmlAttr(__('Not available')) ?></span>
+        <div class="flex">
+            <?= $hyvaicons->checkredHtml('w-6 h-6 ml-auto') ?>
+            <span class="ml-2"><?= $escaper->escapeHtmlAttr(__('Product not available')) ?></span>
         </div>
     <?php endif; ?>
 </div>

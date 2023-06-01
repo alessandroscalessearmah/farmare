@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -16,9 +15,8 @@ use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\AbstractBlock;
 
 ?>
-<div x-data="{ open: false }" @click.away="open = false" class="relative">
-    <h2 @click="open = !open" class="w-1/2 text-2xl font-bold text-center cursor-pointer text-giallo title-font md:text-left">
-        <span x-show="!open">+</span>
-        <span x-show="open">-</span>
+<div class="flex pt-6 pb-3 mx-auto mb-6 md:flex-row">
+    <h2 class="w-full text-2xl font-bold text-center text-gray-900 title-font md:text-left">
         <?= $sectionBlock->getTitle() ? $escaper->escapeHtml($sectionBlock->getTitle()) : '&nbsp;' ?>
     </h2>
+</div>

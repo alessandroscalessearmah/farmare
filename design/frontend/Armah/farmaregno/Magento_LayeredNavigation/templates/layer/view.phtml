@@ -101,7 +101,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                             </span>
                         </div>
                         <template x-if="open">
-                            <div class="container pt-3 border-t lg:px-0 border-secondary filter-options-content">
+                            <div class="pt-3 border-t lg:px-0 border-secondary filter-options-content">
                                 <?= /* @noEscape */ $block->getChildBlock('renderer')->render($filter) ?>
                             </div>
                         </template>
@@ -110,13 +110,6 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             <?php endforeach; ?>
         </div>
     </div>
-
-
-
-
-
-
-
 
     <script>
         function initLayeredNavigation() {

@@ -35,26 +35,26 @@ $recaptcha = $block->getData('viewModelRecaptcha');
 
                 <?= $hyvaicons->plusfarmaregnoHtml('text-white absolute w-24 h-24', 18, 18); ?>
 
-            <span class="z-10 text-white text-7xl lg:text-7xl xl:text-8xl md:text-8xl"><?= $escaper->escapeHtml(__('5')) ?></span>
+            <span class="z-10 mt-2 text-white text-7xl lg:text-7xl xl:text-8xl md:text-8xl"><?= $escaper->escapeHtml(__('5')) ?></span>
             <span class="absolute z-10 h-full text-xl text-white lg:text-base xl:text-2xl -bottom-7 lg:-bottom-4 xl:-bottom-7 right-5 lg:right-3 xl:right-4"><?= $escaper->escapeHtml(__('%')) ?></span>
         </div>
         <div class="flex-col hidden w-4/5 lg:tracking-tighter lg:flex xl:tracking-normal lg:pl-3 xl:pl-5 2xl:pl-0">
-            <span class="font-bold text-verde 2xl lg:text-xl 2xl:text-3xl"><?= $escaper->escapeHtml(__('Would you like to receive exclusive offers?')) ?></span>
+            <span class="font-semibold text-verde 2xl lg:text-xl 2xl:text-3xl"><?= $escaper->escapeHtml(__('Would you like to receive exclusive offers?')) ?></span>
             <span class="text-gray-800 lg:text-base xl:text-lg 2xl:text-xl"><?= $escaper->escapeHtml(__('Subscribe to our newsletter to receive')) ?></span>
             <div>
                 <span class="text-gray-800 lg:text-base xl:text-lg 2xl:text-xl"><?= $escaper->escapeHtml(__('a coupon')) ?></span>
-                <span class="font-bold text-primary lg:text-base xl:text-lg 2xl:text-xl"><?= $escaper->escapeHtml(__('5% Discount')) ?></span>
+                <span class="text-primary lg:text-base xl:text-lg 2xl:text-xl"><?= $escaper->escapeHtml(__('5% Discount')) ?></span>
                 <span class="text-gray-800 lg:text-base xl:text-lg 2xl:text-xl"><?= $escaper->escapeHtml(__('on your first order')) ?></span>
             </div>
         </div>
     </div>
     <div class="flex flex-col w-full gap-2 md:w-4/5 lg:w-1/2 md:gap-0">
         <div class="flex flex-col text-sm font-medium sm:text-base sm:w-4/5 lg:hidden">
-            <span class="hidden font-bold text-verde"><?= $escaper->escapeHtml(__('Would you like to receive exclusive offers?')) ?></span>
+            <span class="hidden text-verde"><?= $escaper->escapeHtml(__('Would you like to receive exclusive offers?')) ?></span>
             <span class="text-gray-800 md:text-center"><?= $escaper->escapeHtml(__('Sign up for the newsletter and receive ')) ?></span>
             <div class="md:text-center">
                 <span class="text-gray-800"><?= $escaper->escapeHtml(__('a coupon')) ?></span>
-                <span class="font-bold text-primary"><?= $escaper->escapeHtml(__('5% Discount')) ?></span>
+                <span class="text-primary"><?= $escaper->escapeHtml(__('5% Discount')) ?></span>
                 <span class="text-gray-800"><?= $escaper->escapeHtml(__('on your first order')) ?></span>
             </div>
         </div>
@@ -63,17 +63,17 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                 <label for="newsletter-subscribe" class="sr-only">
                     <?= $escaper->escapeHtml(__('Email Address')) ?>
                 </label>
-                <input name="email" type="email" required id="newsletter-subscribe" class="inline-flex w-full pl-4 text-sm font-semibold rounded-lg sm:pl-8 sm:text-lg form-input" placeholder="<?= $escaper->escapeHtmlAttr(__('Enter your email address')) ?>">
+                <input name="email" type="email" required id="newsletter-subscribe" class="inline-flex w-full pl-4 text-sm rounded-lg sm:pl-8 sm:text-lg form-input" placeholder="<?= $escaper->escapeHtmlAttr(__('Enter your email address')) ?>">
                 <?= $block->getBlockHtml('formkey') ?>
                 <?= $recaptcha ? $recaptcha->getInputHtml(ReCaptcha::RECAPTCHA_FORM_ID_NEWSLETTER) : '' ?>
 
-                <button class="inline-flex justify-center w-32 ml-auto text-xl font-semibold rounded-lg bg-arancio shrink-0 xl:mt-0 btn hover:bg-arancio-lighter">
+                <button class="inline-flex justify-center w-32 ml-auto text-xl rounded-lg bg-rosso shrink-0 xl:mt-0 btn hover:bg-rosso-lighter">
                     <?= $escaper->escapeHtml(__('Subscribe')) ?>
                 </button>
             </div>
             <div class="flex flex-row items-center mt-1 xl:mt-2">
                 <input required id="checkbox-dati" type="checkbox" value="" name="checkbox-dati" class="w-4 h-4 mr-1 border border-gray-300 rounded focus:rounded-none focus:border-0 xl:mr-0 xl:h-4 xl:w-4 hover:bg-gray-100 focus:ring-0" data-validate='{"required":true}'>
-                <label for="checkbox-dati" class="mb-0 ml-2 text-sm font-semibold text-primary lg:ml-4 lg:text-base lg:leading-5"><?= $escaper->escapeHtml(__('I accept privacy policy')) ?></label>
+                <label for="checkbox-dati" class="mb-0 ml-2 text-sm text-primary lg:ml-4 lg:text-base lg:leading-5"><?= $escaper->escapeHtml(__('I accept privacy policy')) ?></label>
             </div>
             <div>
                 <template x-if="displayErrorMessage">

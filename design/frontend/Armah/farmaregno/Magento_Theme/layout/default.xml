@@ -27,24 +27,40 @@
         </referenceContainer>
 
         <referenceContainer name="header.container" htmlClass="flex flex-col" htmlId="main-header">
-            <container name="header.container.first.second" htmlId="header-first-second-row" htmlTag="div" htmlClass="fixed flex flex-col z-50 w-full top-0 bg-white" before="-">
-
+            <container name="header.container.first.second" htmlId="header-first-second-row" htmlTag="div" before="-">
                 <!-- SE VUOI AGGIUNGERE UN BLOCCO IN ALTO, SOPRA L'HEADER, DECOMMENTA QUESTA RIGA -->
                 <!-- <block name="top.block" class="Magento\Customer\Block\Account\Customer" template="Magento_Theme::html/top-block.phtml" /> -->
+                <container name="container.header.container.second" htmlTag="div" htmlClass="bg-primary">
+                    <container name="header.container.second" htmlId="header-second-row" htmlTag="div" htmlClass="header-container-third order-2" after="first">
 
-                <container name="header.container.second" htmlId="header-second-row" htmlTag="div" htmlClass="flex flex-col order-2" after="first">
+                        <block name="bottom.block" class="Magento\Customer\Block\Account\Customer" template="Magento_Theme::html/bottom-block.phtml">
+                            <block name="logo" class="Magento\Theme\Block\Html\Header\Logo">
+                                <arguments>
+                                    <argument name="logoPathResolver" xsi:type="object">
+                                    Hyva\Theme\ViewModel\Logo\LogoPathResolver</argument>
+                                    <!-- These values are used if no width or height is set in the
+                                adminhtml theme configuration -->
+                                    <argument name="logo_width" xsi:type="number">189</argument>
+                                    <argument name="logo_height" xsi:type="number">64</argument>
+                                </arguments>
+                            </block>
+                        </block>
+                    </container>
+                </container>
+
+                <container name="header.container.third" htmlId="header-third-row" htmlTag="div" htmlClass="flex flex-col order-3">
                     <block name="header-content" template="Magento_Theme::html/header.phtml">
                         <block class="Magento\Customer\Block\Account\Customer" name="topmenu_mobile" as="topmenu.mobile" template="Magento_Theme::html/header/menu/mobile.phtml" />
-                        <block name="logo" class="Magento\Theme\Block\Html\Header\Logo">
-                            <arguments>
-                                <argument name="logoPathResolver" xsi:type="object">
-                                    Hyva\Theme\ViewModel\Logo\LogoPathResolver</argument>
-                                <!-- These values are used if no width or height is set in the
-                                adminhtml theme configuration -->
-                                <argument name="logo_width" xsi:type="number">189</argument>
-                                <argument name="logo_height" xsi:type="number">64</argument>
-                            </arguments>
-                        </block>
+
+                        <!-- DESKTOP -->
+                        <container name="primo.header.container.third" htmlTag="div" htmlClass="header-container-third-primo">
+                            <block name="topmenu_generic" as="topmenu" template="Magento_Theme::html/header/topmenu.phtml" ttl="3600">
+                                <arguments>
+                                    <argument name="cache_lifetime" xsi:type="string">3600</argument>
+                                </arguments>
+                                <block name="topmenu_desktop" as="topmenu.desktop" template="Magento_Theme::html/header/menu/desktop.phtml" />
+                            </block>
+                        </container>
                         <block name="header-search" template="Magento_Theme::html/header/search-form.phtml" />
 
                         <block name="wishlist-drawer" template="Magento_Theme::html/wishlist/wishlist-drawer.phtml" ifconfig="checkout/sidebar/display">
@@ -66,38 +82,9 @@
 
                     </block>
                 </container>
-                <!-- DESKTOP -->
-                <block name="bottom.block" class="Magento\Customer\Block\Account\Customer" template="Magento_Theme::html/bottom-block.phtml" />
-
-                <container name="header.container.third" htmlId="header-third-row" htmlTag="div" htmlClass="header-container-third">
-                    <container name="primo.header.container.third" htmlTag="div" htmlClass="header-container-third-primo">
-                        <block name="topmenu_generic" as="topmenu" template="Magento_Theme::html/header/topmenu.phtml" ttl="3600">
-                            <arguments>
-                                <argument name="cache_lifetime" xsi:type="string">3600</argument>
-                            </arguments>
-                            <block name="topmenu_desktop" as="topmenu.desktop" template="Magento_Theme::html/header/menu/desktop.phtml" />
-                        </block>
-                    </container>
-
-                    <!-- TRUSTPILOT -->
-                    <container name="container.header.desktop.trustpilot" htmlTag="div" htmlClass="header-container-third-secondo">
-                        <block class="Magento\Cms\Block\Block" name="header-desktop-trustpilot">
-                            <arguments>
-                                <argument name="block_id" xsi:type="string">header-desktop-trustpilot</argument>
-                            </arguments>
-                        </block>
-                    </container>
-
-                    <!-- BOTTONI - BLOG -->
-                    <container name="header.desktop.switch.bottoni" htmlTag="div" htmlClass="header-container-third-terzo">
-                        <block class="Magento\Cms\Block\Block" name="header-desktop-switch-bottoni">
-                            <arguments>
-                                <argument name="block_id" xsi:type="string">header-desktop-switch-bottoni</argument>
-                            </arguments>
-                        </block>
-                    </container>
-                </container>
             </container>
+
+
 
         </referenceContainer>
 

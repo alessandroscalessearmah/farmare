@@ -11,10 +11,14 @@ declare(strict_types=1);
 
 use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\SvgIcons;
 use Hyva\Theme\ViewModel\CustomerRegistration;
+use Magento\Customer\Block\Account\Customer;
 use Magento\Customer\Model\Account\Redirect;
+use Magento\Framework\Escaper;
 
-
+/** @var Hyva\Theme\ViewModel\StoreConfig $storeConfig */
+$storeConfig = $viewModels->require(Hyva\Theme\ViewModel\StoreConfig::class);
 
 /** @var CustomerRegistration $customerRegistration */
 $customerRegistration = $viewModels->require(CustomerRegistration::class);
@@ -25,48 +29,95 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
 /** @var HeroiconsSolid $heroiconsSolid */
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
 
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
+
+$showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sidebar::XML_PATH_CHECKOUT_SIDEBAR_DISPLAY);
+
 ?>
 
-<body x-cloak x-data="{}" x-init="handleScrollSensitiveDiv()">
+<div class="container flex flex-row items-center justify-between w-full font-markpro h-9 lg:h-auto">
+    <!--Logo-->
+    <?= $block->getChildHtml('logo'); ?>
+    <div class="order-2"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-desktop-trustpilot')->toHtml(); ?></div>
 
+    <div class="order-3 hidden w-auto lg:flex">
 
-    <script>
-        function handleScrollSensitiveDiv() {
-            let lastScrollTop = 0;
-            const scrollSensitiveDiv = document.getElementById('scroll-sensitive-content');
+        <nav class="flex flex-row items-center text-sm" :class="{ 'hidden' : !open }" @click.away="open = false" aria-labelledby="customer-menu">
+            <?php if ($block->customerLoggedIn()) : ?>
+                <a class="block px-4 py-2 text-sm font-normal text-white lowercase lg:px-3 lg:py-2 hover:underline" href="<?= $escaper->escapeUrl($block->getUrl('customer/account')) ?>">
+                    <?= $escaper->escapeHtml(__('My Account')); ?>
+                </a>
+                <span class="text-white">o</span>
+                <a class="block px-4 py-2 text-sm font-normal text-white lowercase lg:px-3 lg:py-2 hover:underline" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/logout')) ?>">
+                    <?= $escaper->escapeHtml(__('Sign Out')); ?>
+                </a>
+            <?php else : ?>
+                <a class="block mx-4 my-2 font-normal text-white lowercase lg:mx-2 lg:my-2 hover:underline" onclick="hyva.setCookie && hyva.setCookie( '<?=
+                                                                                                                                                            /** @noEscape */
+                                                                                                                                                            Redirect::LOGIN_REDIRECT_URL ?>', window.location.href, 1)" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/index')) ?>"> <?= $escaper->escapeHtml(__('Sign-in')); ?>
+                </a>
+                <span class="text-white">o</span>
+                <?php if ($customerRegistration->isAllowed()) : ?>
+                    <a class="block mx-4 my-2 font-normal text-white lowercase lg:mx-2 lg:my-2 hover:underline" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/create')) ?>">
+                        <?= $escaper->escapeHtml(__('Sign-up')); ?>
+                    </a>
+                <?php endif; ?>
+            <?php endif; ?>
+        </nav>
+        <!--Carrello-->
+        <div  x-data="initHeader()" @private-content-loaded.window="getData(event.detail.data)" class="flex flex-col justify-center font-bold leading-5 text-white ml-14">
 
-            window.addEventListener('scroll', () => {
-                let currentScrollTop = window.pageYOffset;
+            <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center text-sm no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
+                <?= $hyvaicons->shopHtml('text-white border-current inline w-7 h-7'); ?>
 
-                if (currentScrollTop > lastScrollTop && currentScrollTop <= 100) {
-                    // Scrolling down at the beginning of the page
-                    scrollSensitiveDiv.classList.add('hidden');
-                } else if (currentScrollTop === 0) {
-                    // Scrolling back to the top of the page
-                    scrollSensitiveDiv.classList.remove('hidden');
-                }
+                <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-4 h-4 text-[0.6rem] font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-3 -right-8 lg:-right-7 sm:px-0 bg-rosso"></span>
+            </a>
 
-                lastScrollTop = currentScrollTop;
-            });
-
-        }
-    </script>
-
-    <div x-cloak id="scroll-sensitive-content" class="master-bottom-block">
-        <div x-cloak class="container">
-
-            <div class="flex items-center justify-center transition">
-
-                <!-- TRUSTPILOT -->
-                <?php
-                $cmsBlock = $this->getLayout()
-                    ->createBlock("Magento\Cms\Block\Block")
-                    ->setBlockId("header-desktop-trustpilot")
-                    ->toHtml();
-                echo $cmsBlock;
-                ?>
-                
-
-            </div>
         </div>
     </div>
+</div>
+
+<!--Cart Drawer-->
+<?= $block->getChildHtml("cart-drawer") ?>
+
+<script>
+    function initHeader() {
+        return {
+            searchOpen: false,
+            cart: {},
+            scrolled: false,
+            wishlistProducts: null,
+            wishlistItemCount: 0,
+            wishlistCountLabel: null,
+            wishlistItems: {},
+            getData(data) {
+                if (data.cart) {
+                    this.cart = data.cart
+                }
+                if (data.wishlist) {
+                    this.wishlistProducts = data.wishlist;
+                    this.wishlistCountLabel = '(' + this.wishlistProducts.counter + ')';
+                    this.wishlistItemCount = this.wishlistProducts.items.length;
+                    this.wishlistItems = this.wishlistProducts.items;
+                }
+            },
+            handleScroll() {
+                this.scrolled = window.scrollY > 10;
+            }
+        }
+    }
+
+    function initCompareHeader() {
+        return {
+            compareProducts: null,
+            itemCount: 0,
+            receiveCompareData(data) {
+                if (data['compare-products']) {
+                    this.compareProducts = data['compare-products'];
+                    this.itemCount = this.compareProducts.count;
+                }
+            }
+        }
+    }
+</script>

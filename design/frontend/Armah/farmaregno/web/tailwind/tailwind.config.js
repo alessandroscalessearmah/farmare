@@ -22,7 +22,7 @@ module.exports = hyvaModules.mergeTailwindConfig({
 
       },
       fontFamily: {
-        sans: ["Manrope", "sans-serif"]
+        sans: ['MarkPro', 'serif'],
       },
       colors: {
         primary: {
@@ -64,8 +64,21 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '900': '#7c430b',
           '950': '#482300',
         },
+        rosso: {
+          '50': '#fff4ed',
+          '100': '#ffe6d4',
+          '200': '#ffc9a9',
+          '300': '#ffa272',
+          '400': '#fe7139',
+          lighter: '#fc4b13',
+          DEFAULT: '#f33209',
+          darker: '#c52109',
+          '800': '#9c1c10',
+          '900': '#7e1a10',
+          '950': '#440a06',
+      },
+      
         verde: {
-
           '50': '#f4f9f8',
           '100': '#d9eee9',
           '200': '#b4dbd3',
@@ -145,6 +158,19 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '900': '#82340c',
           '950': '#461804',
         },
+        rosso: {
+          '50': '#fff4ed',
+          '100': '#ffe6d4',
+          '200': '#ffc9a9',
+          '300': '#ffa272',
+          '400': '#fe7139',
+          lighter: '#fc4b13',
+          DEFAULT: '#f33209',
+          darker: '#c52109',
+          '800': '#9c1c10',
+          '900': '#7e1a10',
+          '950': '#440a06',
+      },
         verde: {
 
           '50': '#f4f9f8',
@@ -214,6 +240,19 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '900': '#82340c',
           '950': '#461804',
         },
+        rosso: {
+          '50': '#fff4ed',
+          '100': '#ffe6d4',
+          '200': '#ffc9a9',
+          '300': '#ffa272',
+          '400': '#fe7139',
+          lighter: '#fc4b13',
+          DEFAULT: '#f33209',
+          darker: '#c52109',
+          '800': '#9c1c10',
+          '900': '#7e1a10',
+          '950': '#440a06',
+      },
         verde: {
 
           '50': '#f4f9f8',
@@ -287,6 +326,19 @@ module.exports = hyvaModules.mergeTailwindConfig({
           '900': '#82340c',
           '950': '#461804',
         },
+        rosso: {
+          '50': '#fff4ed',
+          '100': '#ffe6d4',
+          '200': '#ffc9a9',
+          '300': '#ffa272',
+          '400': '#fe7139',
+          lighter: '#fc4b13',
+          DEFAULT: '#f33209',
+          darker: '#c52109',
+          '800': '#9c1c10',
+          '900': '#7e1a10',
+          '950': '#440a06',
+      },
         verde: {
 
           '50': '#f4f9f8',

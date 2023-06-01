@@ -4,7 +4,7 @@
         @apply block;
 
         .price {
-            @apply text-lg font-bold text-primary;
+            @apply text-xl font-bold text-primary;
         }
 
         .price-label {
@@ -20,7 +20,7 @@
         @apply text-gray-500;
 
         .price {
-            @apply text-xl font-bold text-gray-500 line-through;
+            @apply text-sm font-bold text-gray-500 line-through;
         }
     }
 }

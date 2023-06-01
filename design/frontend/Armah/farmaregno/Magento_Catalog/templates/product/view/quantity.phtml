@@ -74,14 +74,14 @@ $step = $stockItemViewModel->getQtyIncrements($product)
             };
         }
     </script>
-    <div x-data="initQtyField()" class="flex w-full sm:w-1/2 xl:w-2/5">
+    <div x-data="initQtyField()" class="flex w-full sm:w-1/2">
     <?php if ($product->isSaleable()): ?>
         <div class="w-full">
             <label for="qty[<?= (int)$product->getId() ?>]" class="sr-only">
                 <?= $escaper->escapeHtml(__('Quantity')) ?>
             </label>
             <div class="flex items-center">
-                <button @click="qty--" class="px-4 py-2 font-bold text-gray-800 bg-gray-100 rounded-l-lg hover:bg-gray-300">-</button>
+                <button @click="qty--" class="px-4 py-2 font-bold text-gray-800 bg-gray-100 border-0 rounded-l-lg rounded-r-none shadow-none hover:bg-gray-300 btn focus:ring-2">-</button>
                 <input name="qty"
                     @private-content-loaded.window="onGetCartData($event.detail, $dispatch)"
                     id="qty[<?= (int)$product->getId() ?>]"
@@ -98,11 +98,11 @@ $step = $stockItemViewModel->getQtyIncrements($product)
                     <?php if ($step): ?>step="<?= /** @noEscape */ $step ?>"<?php endif; ?>
                     <?php endif; ?>
                     :value="qty"
-                    class="w-full h-10 px-2 py-2 text-xl text-center bg-gray-100 rounded-none focus:outline-none"
+                    class="w-full h-10 p-2 text-xl text-center bg-gray-100 rounded-none focus:outline-none"
                     x-model.number="qty"
                     @change="$dispatch('update-qty-<?= (int)$product->getId() ?>', qty)"
                 />
-                <button @click="qty++" class="px-4 py-2 font-bold text-gray-800 bg-gray-100 rounded-r-lg hover:bg-gray-300">+</button>
+                <button @click="qty++" class="px-4 py-2 font-bold text-gray-800 bg-gray-100 rounded-l-none rounded-r-lg shadow-none hover:bg-gray-300 btn focus:ring-2">+</button>
             </div>
         </div>
     <?php endif; ?>

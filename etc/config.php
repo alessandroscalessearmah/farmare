@@ -371,6 +371,7 @@ return [
         'Amasty_CheckoutDeliveryDate' => 0,
         'PayPal_BraintreeGraphQl' => 0,
         'Siteation_HyvaIconsFeather' => 1,
-        'Temando_ShippingRemover' => 0
+        'Temando_ShippingRemover' => 0,
+        'Trustpilot_Reviews' => 1
     ]
 ];

@@ -29,10 +29,10 @@ $product = $block->getProduct();
 ?>
 
 <?php if ($attributes = $block->getAdditionalData()) : ?>
-    <div x-show="open" class="overflow-x-auto table-wrapper max-w-prose" id="product-attributes" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
+    <div x-show="open" class="overflow-x-auto table-wrapper" id="product-attributes" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90">
         <table class="w-full additional-attributes">
             <?php foreach ($attributes as $attribute) : ?>
-                <div class="flex flex-row gap-4 my-2 text-sm font-light text-white">
+                <div class="flex flex-row gap-4 my-2 text-sm font-light text-gray-900">
                     <div class="product-attribute-label" scope="row"><?= $escaper->escapeHtml($attribute['label']) ?>:</div>
                     <div class="flex-none product-attribute-value" data-th="<?= $escaper->escapeHtmlAttr($attribute['label']) ?>"><?= /* @noEscape */
                                                                                                                                     $catalogOutputHelper->productAttribute($product, $attribute['value'], $attribute['code']) ?></div>

@@ -39,25 +39,17 @@ $product = $productViewModel->getProduct();
 
 ?>
 <div class="order-2 w-full mb-6 md:pl-5 lg:pl-10 md:pb-6 lg:w-1/2 xl:w-[45%] md:mb-0">
-    <h1 class="hidden pb-4 mt-5 mb-3 text-xl text-gray-900 border-b-2 md:block md:text-3xl title-font">
+    <?php  ?>
+    <h1 class="hidden my-3 text-xl text-primary md:block md:text-3xl title-font">
         <strong class="font-semibold md:font-bold"><?= $escaper->escapeHtml($product->getName()) ?></strong>
     </h1>
 
-    <?php if ($shortDescription = $productViewModel->getShortDescription()) { ?>
-        <div class="mb-4 leading-relaxed prose product-description"><?= /* @noEscape */ $shortDescription ?></div>
-    <?php } ?>
-
-    <div class="flex my-2">
-       <div class="text-3xl">
-        TRUSTPILOT RECENSIONI
-       </div>
-    </div>
-
     <div class="flex flex-row items-center justify-between w-full gap-4 lg:items-center lg:justify-start lg:flex-row sm:w-4/5">
-        <div class="flex">
-            <span class="px-2 sm:ml-2 font-semibold text-white rounded-lg bg-primary product-detail-label <?php if (empty($product->getAttributeText('farmaregno_brand'))) {
-                                                                                                            echo 'hidden';
-                                                                                                        } ?>">
+        <div class="flex mt-2">
+            <span class="font-semibold text-gray-900 product-detail-value"><?= $escaper->escapeHtml(__('Brands:')) ?></span>
+            <a href="#" class="px-2 ml-2 font-semibold text-primary hover:bg-primary hover:text-white border-primary focus:ring-0 btn shadow-none bg-white py-0 border rounded-lg product-detail-label <?php if (empty($product->getAttributeText('farmaregno_brand'))) {
+                                                                                                                                                                                                            echo 'hidden';
+                                                                                                                                                                                                        } ?>">
                 <?php
                 $brand = $product->getAttributeText('farmaregno_brand');
                 if (is_array($brand)) {
@@ -66,14 +58,20 @@ $product = $productViewModel->getProduct();
                     echo $escaper->escapeHtml($brand);
                 }
                 ?>
-            </span>
+            </a>
         </div>
-       
-        </template>
     </div>
 
-    <div class="flex flex-col justify-between my-4 sm:flex-row">
+    <?php if ($shortDescription = $productViewModel->getShortDescription()) { ?>
+        <div class="leading-relaxed prose product-description"><?= /* @noEscape */ $shortDescription ?></div>
+    <?php } ?>
+
+
+
+    <div class="flex flex-col justify-between sm:flex-row">
         <?= $block->getChildHtml("alert.urls") ?>
+        <?= $block->getChildHtml("product.info.stockstatus") ?>
+
     </div>
 
 
@@ -83,31 +81,7 @@ $product = $productViewModel->getProduct();
 
         <div class="flex flex-col w-full gap-2 lg:w-2/5">
             <?= $block->getChildHtml("product.info.price") ?>
-            <?php
-            $product = $this->getProduct();
-            $regularPrice = (float)$product->getPriceInfo()->getPrice('regular_price')->getValue();
-            $specialPrice = (float)$product->getPriceInfo()->getPrice('final_price')->getValue();
 
-            if ($specialPrice < $regularPrice) {
-                $risparmio = $regularPrice - $specialPrice;
-            } else {
-                $risparmio = 0;
-            }
-            ?>
-            <?php if ($risparmio > 0) : ?>
-                <div class="flex items-center justify-center gap-2 p-2 lowercase rounded-lg bg-giallo">
-                    <span class="block text-lg font-medium lg:hidden">
-                        <?= $escaper->escapeHtml(__('Saving ')) ?>
-                    </span>
-                    <span class="hidden text-lg font-bold lg:block">
-                        <?= $escaper->escapeHtml(__('Saving ')) ?>
-                    </span>
-                    <span class="text-2xl font-semibold tracking-tighter lg:font-black lg:text-lg lg:ml-1 lg:tracking-normal">
-                        <?= number_format($risparmio, 2, ',', ' ') . "€" ?>
-
-                    </span>
-                </div>
-            <?php endif; ?>
         </div>
 
         <div class="flex flex-col w-full gap-2 mt-4 ml-auto lg:w-3/5 sm:mt-0">
@@ -118,7 +92,31 @@ $product = $productViewModel->getProduct();
             <?php if ($product->isSaleable()) : ?>
                 <div class="flex flex-row items-center gap-1">
                     <?= $block->getChildHtml("product.info.quantity") ?>
-                    <?= $block->getChildHtml("product.info.stockstatus") ?>
+                    <?php
+                    $product = $this->getProduct();
+                    $regularPrice = (float)$product->getPriceInfo()->getPrice('regular_price')->getValue();
+                    $specialPrice = (float)$product->getPriceInfo()->getPrice('final_price')->getValue();
+
+                    if ($specialPrice < $regularPrice) {
+                        $risparmio = $regularPrice - $specialPrice;
+                    } else {
+                        $risparmio = 0;
+                    }
+                    ?>
+                    <?php if ($risparmio > 0) : ?>
+                        <div class="flex items-center justify-center w-1/2 gap-2 p-2 lowercase rounded-lg bg-giallo">
+                            <span class="block text-lg font-medium lg:hidden">
+                                <?= $escaper->escapeHtml(__('Saving ')) ?>
+                            </span>
+                            <span class="hidden text-lg font-bold lg:block">
+                                <?= $escaper->escapeHtml(__('Saving ')) ?>
+                            </span>
+                            <span class="text-2xl font-semibold tracking-tighter lg:font-black lg:text-lg lg:ml-1 lg:tracking-normal">
+                                <?= number_format($risparmio, 2, ',', ' ') . "€" ?>
+
+                            </span>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <?= $block->getChildHtml("product.info.addtocart") ?>
             <?php endif; ?>
@@ -195,7 +193,6 @@ $product = $productViewModel->getProduct();
                     return;
                 }
 
-                // if the subtotalAmount is >= 49.90, then we don't need to show the banner
                 if (data.cart.subtotalAmount >= 49.90) {
                     this.cart = false;
                     this.free = true;

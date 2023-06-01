@@ -21,21 +21,20 @@
                 </block>
             </container>
             <container name="container.home.didascalia.principale" htmlTag="div" htmlClass="container">
-                    <block class="Magento\Cms\Block\Block" name="home-didascalia-principale">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">home-didascalia-principale</argument>
-                        </arguments>
-                    </block>
-                </container>
+                <block class="Magento\Cms\Block\Block" name="home-didascalia-principale">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-didascalia-principale</argument>
+                    </arguments>
+                </block>
+            </container>
             <container name="container.home.carosello" htmlTag="div" htmlClass="container">
-                    <block class="Magento\Cms\Block\Block" name="home-carosello">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">home-carosello</argument>
-                        </arguments>
-                    </block>
-                </container>
-            <container name="container.blocco.newsletter.home" htmlTag="div"
-                htmlClass="altezza-xml-footer">
+                <block class="Magento\Cms\Block\Block" name="home-carosello">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-carosello</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="container.blocco.newsletter.home" htmlTag="div" htmlClass="altezza-xml-footer">
                 <container name="blocco.newsletter.home" htmlTag="div" htmlClass="container">
                     <block class="Magento\Cms\Block\Block" name="home-blocco-newsletter-home">
                         <arguments>
@@ -53,8 +52,22 @@
         <!-- FOOTER -->
 
         <referenceContainer name="footer">
-        <referenceContainer name="newsletter.footer" remove="true"/>
-            <container name="home.pre.footer" before="-">
+            <referenceContainer name="newsletter.footer" remove="true"/>
+            <container name="home.banner.offerte" htmlId="home-banner-offerte-id" htmlTag="div" htmlClass="bg-primary" before="-">
+                <block class="Magento\Cms\Block\Block" name="home-banner-offerte">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-banner-offerte</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="home.quickmenu" htmlTag="div" htmlClass="container my-10" after="home.banner.offerte">
+                <block class="Magento\Cms\Block\Block" name="home-quickmenu">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-quickmenu</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="home.pre.footer">
                 <container name="home.banner.centrale.garanzia" htmlId="home-banner-centrale-garanzia-id" htmlTag="div" htmlClass="z-0">
                     <block class="Magento\Cms\Block\Block" name="home-banner-centrale-garanzia">
                         <arguments>

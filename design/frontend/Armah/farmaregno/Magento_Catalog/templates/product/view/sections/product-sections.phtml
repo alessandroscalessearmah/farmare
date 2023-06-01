@@ -23,8 +23,8 @@ $hyvaicons = $viewModels->require(SvgIcons::class);
 
 ?>
 <!--product-sections.phtml-->
-<div id="tabs-container" class="flex flex-col justify-around lg:flex-row lg:justify-between">
-    <div class="w-full px-8 border border-r-0 rounded-l-3xl lg:w-1/2">
+<div id="tabs-container" class="relative flex flex-col justify-around lg:justify-between">
+    <div class="w-full px-8 py-6 border rounded-3xl lg:w-full">
         <?php
         foreach ($block->getGroupSortedChildNames('detailed_info_row1', '') as $sectionName) {
             $sectionBlock  = $block->getLayout()->getBlock($sectionName);
@@ -48,9 +48,7 @@ $hyvaicons = $viewModels->require(SvgIcons::class);
                 </div>
             </section>
         <?php } ?>
-    </div>
-    <div class="w-full border-y border-r-transparent rounded-r-3xl lg:w-1/2">
-        <div class="relative h-full p-12 border rounded-3xl bg-primary">
+        <div class="w-full">
             <?php
             foreach ($block->getGroupSortedChildNames('detailed_info', '') as $sectionName) {
                 $sectionBlock  = $block->getLayout()->getBlock($sectionName);
@@ -74,7 +72,7 @@ $hyvaicons = $viewModels->require(SvgIcons::class);
                     </div>
                 </section>
             <?php } ?>
-            <?= $hyvaicons->plusfarmaregnoGrigioHtml('w-24 top-4 right-6 h-24 absolute', 25, 25) ?>
         </div>
     </div>
+
 </div>
