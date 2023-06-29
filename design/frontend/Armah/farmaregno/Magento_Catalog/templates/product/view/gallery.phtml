@@ -45,17 +45,11 @@ $product = $block->getProduct();
 $ingredients = $product->getAttributeText('farmaregno_ingredienti');
 ?>
 
-<div id="gallery" x-data="initGallery()" x-init="initActive(); $nextTick(() => calcPageSize())" x-bind="eventListeners" class="order-1 w-full p-2 border lg:w-1/2 xl:w-[55%] md:h-full xl:h-auto rounded-3xl">
-    <div :class="{'w-full h-full fixed block top-0 left-0 bg-white z-50 flex': fullscreen}">
-        <div class="absolute top-0 right-0 pt-4 pr-4">
-            <button @click="fullscreen = false; $nextTick(() => calcPageSize())" type="button" class="hidden text-gray-400 transition duration-150 ease-in-out hover:text-gray-500 focus:outline-none focus:text-gray-500" :class="{ 'hidden': !fullscreen, 'block': fullscreen }" aria-label="Close">
-                <?= $heroicons->xHtml(); ?>
-            </button>
-        </div>
-
+<div id="gallery" x-data="initGallery()" x-init="initActive(); $nextTick(() => calcPageSize())" x-bind="eventListeners" class="order-1 w-full mb-12 lg:w-1/2 md:h-auto">
+    <div class="relative">
         <div class="relative self-center w-full" x-transition:enter="ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div class="relative mb-6">
-                <?= '<div class="absolute flex flex-col w-full gap-2" x-show="!fullscreen">'; ?>
+                <?= '<div class="absolute flex-col hidden w-full gap-2 lg:flex" x-show="!fullscreen">'; ?>
 
                 <?php
                 $product = $this->getProduct();
@@ -69,33 +63,44 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
                 }
                 ?>
                 <?php if ($sconto > 0) : ?>
-                    <div class="absolute right-0 z-20 flex flex-col items-center justify-end p-2 text-2xl font-semibold tracking-wide uppercase border border-primary lg:font-semibold lg:text-3xl rounded-xl text-primary">
+                    <div class="absolute right-0 z-20 flex flex-col items-center justify-end p-2 text-2xl font-semibold tracking-wide uppercase border-2 border-primary bg-giallo lg:font-semibold lg:text-3xl rounded-xl text-primary">
                         <?= number_format($sconto, 0, ',') . "% " ?>
-                        
+
                         <span class="text-xs lg:tracking-normal "><?= $escaper->escapeHtml(__('off')); ?></span>
 
                     </div>
                 <?php endif; ?>
-
                 <?php
 
-                echo '<div class="flex flex-col gap-1 mt-2 ml-1">';
+                echo '<div class="z-40 flex flex-col gap-1 mt-1 ml-1">';
 
                 if ($ingredients) {
                     if (is_array($ingredients)) {
                         foreach ($ingredients as $ingredient) {
                             $imageName = str_replace(' ', '-', strtolower($ingredient)) . '.png';
                             $imageUrl = $block->getViewFileUrl('images/' . $imageName);
-                            echo '<img class="z-20 w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredient . '" title="' . $ingredient . '"/>';
+                            echo '<div x-data="{ tooltip: false }" class="relative">
+                    <img x-on:mouseover="tooltip = true" x-on:mouseout="tooltip = false" class="z-20 w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredient . '"/>
+                    <div x-cloak x-show="tooltip" class="absolute z-40 flex justify-center p-2 mt-2 text-sm text-white shadow-lg w-fit bg-primary rounded-2xl -left-4 -top-16">
+                        ' . $ingredient . '
+                    </div>
+                  </div>';
                         }
                     } else {
                         $imageName = str_replace(' ', '-', strtolower($ingredients)) . '.png';
                         $imageUrl = $block->getViewFileUrl('images/' . $imageName);
-                        echo '<img class="z-20 w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredients . '" title="' . $ingredients . '"/>';
+                        echo '<div x-data="{ tooltip: false }" class="relative">
+                <img x-on:mouseover="tooltip = true" x-on:mouseout="tooltip = false" class="z-20 w-12 h-12 p-2 border rounded-lg" src="' . $imageUrl . '" alt="' . $ingredients . '"/>
+                <div x-cloak x-show="tooltip" class="absolute z-40 flex justify-center p-2 mt-2 text-sm text-white shadow-lg w-fit bg-primary rounded-2xl -left-4 -top-16">
+                    ' . $ingredients . '
+                </div>
+              </div>';
                     }
                 }
                 echo '</div>';
+
                 ?>
+
 
                 <?= '</div>' ?>
 
@@ -108,9 +113,9 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
                  * images. Hence, `opacity-0` instead of `x-show` or `hidden`
                  */
                 ?>
-                <img alt="main product photo" title="<?= $escaper->escapeHtmlAttr($productName) ?>" class="object-contain object-center w-full h-auto max-h-[70vh]" :class="'opacity-0'" src="<?= /* @noEscape */ $mainImageData ?>" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" itemprop="image" @click="fullscreen = true; $nextTick(() => calcPageSize())" />
+                <img alt="main product photo" title="<?= $escaper->escapeHtmlAttr($productName) ?>" class="object-contain object-center w-full h-auto max-h-[65vh]" :class="'opacity-0'" src="<?= /* @noEscape */ $mainImageData ?>" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" itemprop="image" />
                 <template x-for="(image, index) in images" :key="index">
-                    <img :alt="image.caption || '<?= $escaper->escapeJs($productName) ?>'" :title="image.caption || '<?= $escaper->escapeJs($productName) ?>'" @click="fullscreen = true; $nextTick(() => calcPageSize())" class="absolute inset-x-0 bottom-0 object-contain object-center w-full m-auto top-16 max-h-[69vw] sm:max-h-[70vh] lg:max-h-[55vh] xl:max-h-[70vh]" :class="{ 'cursor-pointer': !fullscreen }" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" :loading="active!==index ? 'lazy' : 'eager'" :src="fullscreen ? image.full : image.img" x-transition.opacity.duration.500ms x-show="active===index" />
+                    <img :alt="image.caption || '<?= $escaper->escapeJs($productName) ?>'" :title="image.caption || '<?= $escaper->escapeJs($productName) ?>'" class="absolute inset-0 object-contain object-center w-full m-auto max-h-[65vh]" width="<?= /* @noEscape */ $mediumWidth ?>" height="<?= /* @noEscape */ $mediumHeight ?>" :loading="active!==index ? 'lazy' : 'eager'" :src="fullscreen ? image.full : image.img" x-transition.opacity.duration.500ms x-show="active===index" />
                 </template>
                 <div class="absolute inset-0 hidden w-full h-full bg-white nonmobile" :class="{ 'hidden': activeVideoType !== 'youtube' }" x-transition.opacity.duration.500ms x-show="
                          images[active].type === 'video' && activeVideoType === 'youtube'
@@ -124,8 +129,22 @@ $ingredients = $product->getAttributeText('farmaregno_ingredienti');
                 </div>
             </div>
         </div>
-        <div @resize.window.debounce="calcPageSize(); $nextTick(() => calcActive())">
+        <div x-cloak x-show="images.length > 1" @resize.window.debounce="calcPageSize(); $nextTick(() => calcActive())">
+            <div id="thumbs" class="relative flex items-center justify-center">
+                <button aria-label="<?= $escaper->escapeHtml(__('Previous')) ?>" tabindex="-1" class="absolute transform -translate-y-1/2 top-1/3 lg:top-[40%] left-0 lg:left-4" @click="active = active === 0 ? images.length - 1 : active - 1" @click="scrollPrevious"><?= $heroicons->chevronLeftHtml() ?></button>
+                <div class="relative flex justify-center w-4/5 overflow-auto js_thumbs_slides thumbs-wrapper flex-nowrap js_slides snap md:px-1 xl:px-2" x-ref="jsThumbSlides" @scroll.debounce="calcPageSize(); calcActive()">
+                    <template x-for="(image, index) in images" :key="index">
+                        <div class="flex mb-2 mr-2 js_thumbs_slide shrink-0 lg:mr-4 last:mr-0">
+                            <a href="#" @click.prevent="setActive(index);" class="block rounded-full hover:border-primary focus:border-primary " :class="{'border-primary bg-primary': active === index}">
+                                <div class="transition-all duration-500 rounded-full" :class="{ 'w-16': active === index, 'w-8': !(active === index)}" :style="active === index ? 'height: 5px; background-color: rgb(24 67 79)' : 'height: 5px; background-color: #dcdcdc'" :title="image.caption || '<?= $escaper->escapeJs($productName) ?>'">
+                                </div>
 
+                            </a>
+                        </div>
+                    </template>
+                </div>
+                <button aria-label="<?= $escaper->escapeHtml(__('Next')) ?>" tabindex="-1" class="absolute transform -translate-y-1/2 top-1/3 lg:top-[40%] right-0 lg:ight-4" @click="active = active === images.length - 1 ? 0 : active + 1" @click="scrollNext"><?= $heroicons->chevronRightHtml() ?></button>
+            </div>
         </div>
     </div>
 </div>

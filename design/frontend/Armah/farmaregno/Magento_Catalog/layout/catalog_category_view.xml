@@ -12,9 +12,9 @@
     <body>
         <referenceContainer name="category.view.container" htmlId="category-view-container" htmlClass="category-view container" remove="true"/>
         <referenceBlock name="category.description" remove="true"/>
+    
         <referenceContainer name="content">
-            <block class="Magento\Theme\Block\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="page.main.title"/>
-            <block name="page.main.title" class="Magento\Theme\Block\Html\Title" template="Magento_Theme::html/title.phtml" before="quick_navigation.filter_list.wrapper"/>
+            <block class="Magento\Theme\Block\Html\Title" name="page.main.title" template="Magento_Theme::html/title.phtml"/>
             <block class="Magento\Catalog\Block\Category\View" name="category.description.top" template="Magento_PageBuilder::catalog/category/view/description-top.phtml" after="page.main.title"/>
             <block class="Magento\Catalog\Block\Category\View" name="category.description.bottom" template="Magento_PageBuilder::catalog/category/view/description-bottom.phtml" before="footer"/>
         </referenceContainer>

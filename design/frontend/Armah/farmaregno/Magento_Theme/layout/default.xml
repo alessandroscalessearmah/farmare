@@ -27,23 +27,25 @@
         </referenceContainer>
 
         <referenceContainer name="header.container" htmlClass="flex flex-col" htmlId="main-header">
+            <block name="logo" class="Magento\Theme\Block\Html\Header\Logo">
+                <arguments>
+                    <argument name="logoPathResolver" xsi:type="object">
+                                    Hyva\Theme\ViewModel\Logo\LogoPathResolver</argument>
+                    <!-- These values are used if no width or height is set in the
+                                adminhtml theme configuration -->
+                    <argument name="logo_width" xsi:type="number">189</argument>
+                    <argument name="logo_height" xsi:type="number">64</argument>
+                </arguments>
+            </block>
+
             <container name="header.container.first.second" htmlId="header-first-second-row" htmlTag="div" before="-">
                 <!-- SE VUOI AGGIUNGERE UN BLOCCO IN ALTO, SOPRA L'HEADER, DECOMMENTA QUESTA RIGA -->
                 <!-- <block name="top.block" class="Magento\Customer\Block\Account\Customer" template="Magento_Theme::html/top-block.phtml" /> -->
-                <container name="container.header.container.second" htmlTag="div" htmlClass="bg-primary">
-                    <container name="header.container.second" htmlId="header-second-row" htmlTag="div" htmlClass="header-container-third order-2" after="first">
+                <container name="container.header.container.second" htmlTag="div" htmlClass="container-header-container-third">
+                    <container name="header.container.second" htmlId="header-second-row" htmlTag="div" htmlClass="header-container-third" after="first">
 
                         <block name="bottom.block" class="Magento\Customer\Block\Account\Customer" template="Magento_Theme::html/bottom-block.phtml">
-                            <block name="logo" class="Magento\Theme\Block\Html\Header\Logo">
-                                <arguments>
-                                    <argument name="logoPathResolver" xsi:type="object">
-                                    Hyva\Theme\ViewModel\Logo\LogoPathResolver</argument>
-                                    <!-- These values are used if no width or height is set in the
-                                adminhtml theme configuration -->
-                                    <argument name="logo_width" xsi:type="number">189</argument>
-                                    <argument name="logo_height" xsi:type="number">64</argument>
-                                </arguments>
-                            </block>
+
                         </block>
                     </container>
                 </container>
@@ -157,26 +159,40 @@
                     </container>
                 </container>
                 <container name="sotto.footer.gruppo" htmlTag="div" htmlClass="custom-sotto-footer-blocks">
-                    <block class="Magento\Cms\Block\Block" name="footer-social-network">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">footer-social-network
-                            </argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Cms\Block\Block" name="footer-pagamenti-accettati">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">footer-pagamenti-accettati
-                            </argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento\Cms\Block\Block" name="footer-spedizione">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">footer-spedizione
-                            </argument>
-                        </arguments>
-                    </block>
+                    <container name="footer.prima.colonna.sotto.gruppo" htmlTag="div" htmlClass="width-sotto-footer-group-prima-colonna">
+                        <block class="Magento\Cms\Block\Block" name="footer-social-network">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-social-network
+                                </argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="footer-bollino-garanzia">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-bollino-garanzia
+                                </argument>
+                            </arguments>
+                        </block>
+                    </container>
+                    <container name="footer.seconda.colonna.sotto.gruppo" htmlTag="div" htmlClass="width-sotto-footer-group-seconda-colonna">
+                        <block class="Magento\Cms\Block\Block" name="footer-pagamenti-accettati">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-pagamenti-accettati
+                                </argument>
+                            </arguments>
+                        </block>
+                    </container>
+
+                    <container name="footer.terza.colonna.sotto.gruppo" htmlTag="div" htmlClass="width-sotto-footer-group-terza-colonna">
+                        <block class="Magento\Cms\Block\Block" name="footer-spedizione">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer-spedizione
+                                </argument>
+                            </arguments>
+                        </block>
+                    </container>
                 </container>
             </container>
+
         </referenceContainer>
 
         <referenceContainer name="after.body.start">

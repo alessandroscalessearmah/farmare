@@ -8,11 +8,11 @@ $columns = ($count == 6) ? 3 : 4;
     <?php foreach ($quickBlocks as $block) : ?>
         <?php if (isset($block[0])) : ?>
             <div class="p-m-menu">
-            <a class="text-a-menu-items" href="<?= $block[0]['url'] ?>"><span class="text-span-menu-items"><?= strtolower($block[0]["name"]) ?></span></a>
-
-                <div class="div-img-menu">
-                    <!-- <img class="w-h-menu" src="data:image/svg+xml;base64,<.?= $block[0]["svg"] ?>" alt="<.?= $block[0]["name"] ?>"> -->
-                </div>
+                <a class="text-a-menu-items" href="<?= $block[0]['url'] ?>"><span class="text-span-menu-items"><?= strtolower($block[0]["name"]) ?></span>
+                    <div class="div-img-menu">
+                        <img loading="lazy" class="w-h-menu" src="data:image/svg+xml;base64,<?= $block[0]["svg"] ?>" alt="<?= $block[0]["name"] ?>">
+                    </div>
+                </a>
                 <div class="div-text-menu">
                     <?php $i = 0; ?>
                     <?php foreach ($block as $key => $child) : ?>
@@ -39,9 +39,11 @@ $columns = ($count == 6) ? 3 : 4;
 
 <div x-data="{swiper: null}" x-init="swiper = new Swiper($refs.container, {
       loop: false,
-      slidesPerView: 2,
-      spaceBetween: 4,
-  
+      slidesPerView: 1.2,
+      spaceBetween: 2,
+      autoplay: {
+        delay: 1500,
+      },
       breakpoints: {
         640: {
           slidesPerView: 2,
@@ -65,17 +67,19 @@ $columns = ($count == 6) ? 3 : 4;
             <?php foreach ($quickBlocks as $block) : ?>
                 <?php if (isset($block[0])) : ?>
                     <div class="swiper-slide p-m-menu">
-                        <div class="div-img-menu">
-                            <img class="w-h-menu" src="data:image/svg+xml;base64,<?= $block[0]["svg"] ?>" alt="<?= $block[0]["name"] ?>">
-                        </div>
+
                         <div class="div-text-menu">
                             <?php $i = 0; ?>
                             <?php foreach ($block as $key => $child) : ?>
                                 <?php if ($child["name"] != null) : ?>
                                     <?php if ($i++ == 0) : ?>
-                                        <a class="text-a-menu-items" href="<?= $child['url'] ?>"><span class="text-span-menu-items"><?= $child["name"] ?></span></a>
+                                        <a class="pippo text-a-menu-items" href="<?= $block[0]['url'] ?>"><span class="text-span-menu-items"><?= strtolower($block[0]["name"]) ?></span>
+                                            <div class="div-img-menu">
+                                                <img loading="lazy" class="w-h-menu" src="data:image/svg+xml;base64,<?= $block[0]["svg"] ?>" alt="<?= $block[0]["name"] ?>">
+                                            </div>
+                                        </a>
                                     <?php else : ?>
-                                        <a class="text-menu-items" href="<?= $child['url'] ?>"><?= $child["name"] ?></a>
+                                        <a class="text-menu-items" href="<?= $child['url'] ?>"><?= strtolower($child["name"]) ?></a>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>

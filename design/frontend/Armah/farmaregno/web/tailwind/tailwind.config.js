@@ -22,7 +22,7 @@ module.exports = hyvaModules.mergeTailwindConfig({
 
       },
       fontFamily: {
-        sans: ['MarkPro', 'serif'],
+        sans: ['Manrope', 'serif'],
       },
       colors: {
         primary: {
@@ -379,7 +379,7 @@ module.exports = hyvaModules.mergeTailwindConfig({
       },
       container: {
         center: true,
-        padding: '1.5rem'
+        padding: '0.5rem'
       }
     }
   },
@@ -390,7 +390,7 @@ module.exports = hyvaModules.mergeTailwindConfig({
     '../../**/*.phtml',
     '../../*/layout/*.xml',
     // parent theme in Vendor (if this is a child-theme)
-    '../../../../../../../vendor/hyva-themes/magento2-default-theme/**/*.phtml',
+    //'../../../../../../../vendor/hyva-themes/magento2-default-theme/**/*.phtml',
     // app/code phtml files (if need tailwind classes from app/code modules)
     //'../../../../../../../app/code/**/*.phtml',
   ]

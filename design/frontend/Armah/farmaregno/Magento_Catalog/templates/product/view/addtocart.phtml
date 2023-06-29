@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Hyvä Themes - https://hyva.io
  * Copyright © Hyvä Themes 2020-present. All rights reserved.
@@ -10,6 +11,7 @@ declare(strict_types=1);
 
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\SvgIcons;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
@@ -17,20 +19,20 @@ use Magento\Framework\View\Element\Template;
 /** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
 
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
+
 /** @var HeroiconsOutline $heroicons */
 $heroicons = $viewModels->require(HeroiconsOutline::class);
 ?>
 
-<button type="submit"
-        form="product_addtocart_form"
-        title="<?= $escaper->escapeHtmlAttr(__('Purchase')) ?>"
-        class="justify-center text-lg font-bold uppercase btn bg-rosso hover:bg-rosso-400 hover:scale-105"
-        id="product-addtocart-button"
->
-    <span class="block"><?= $block->getData('is_cart_configure') ?
-            $escaper->escapeHtml(__('Update item')) :
-            $escaper->escapeHtml(__('Purchase')) ?>
-    </span>
+<button type="submit" form="product_addtocart_form" title="<?= $escaper->escapeHtmlAttr(__('Add to cart')) ?>" class="items-center justify-center gap-2 text-lg uppercase btn bg-rosso hover:bg-rosso-400 hover:scale-105" id="product-addtocart-button">
+<?= $hyvaicons->shoppingBagHtml('w-8 h-8'); ?>
+
+        <span class="block"><?= $block->getData('is_cart_configure') ?
+                                        $escaper->escapeHtml(__('Update item')) :
+                                        $escaper->escapeHtml(__('Add to cart')) ?>
+        </span>
 </button>
 
 <?= $block->getChildHtml('', true) ?>

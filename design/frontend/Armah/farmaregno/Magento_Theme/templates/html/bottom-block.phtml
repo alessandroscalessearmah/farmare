@@ -36,12 +36,13 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
 
 ?>
 
-<div class="container flex flex-row items-center justify-between w-full font-markpro h-9 lg:h-auto">
+<div class="flex flex-row items-center justify-center w-full h-full lg:container lg:justify-between lg:h-auto">
     <!--Logo-->
-    <?= $block->getChildHtml('logo'); ?>
-    <div class="order-2"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-desktop-trustpilot')->toHtml(); ?></div>
+    <div class="hidden lg:flex lg:w-1/4"> <?= $block->getBlockHtml('logo'); ?></div>
+    <div class="order-2 hidden w-2/4 lg:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-desktop-trustpilot')->toHtml(); ?></div>
+    <div class="order-2 block w-full lg:hidden"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-mobile-trustpilot')->toHtml(); ?></div>
 
-    <div class="order-3 hidden w-auto lg:flex">
+    <div class="items-center justify-end order-3 hidden w-1/4 lg:flex">
 
         <nav class="flex flex-row items-center text-sm" :class="{ 'hidden' : !open }" @click.away="open = false" aria-labelledby="customer-menu">
             <?php if ($block->customerLoggedIn()) : ?>
@@ -53,20 +54,20 @@ $showMiniCart = $storeConfig->getStoreConfig(\Magento\Checkout\Block\Cart\Sideba
                     <?= $escaper->escapeHtml(__('Sign Out')); ?>
                 </a>
             <?php else : ?>
-                <a class="block mx-4 my-2 font-normal text-white lowercase lg:mx-2 lg:my-2 hover:underline" onclick="hyva.setCookie && hyva.setCookie( '<?=
+                <a class="block mx-4 my-2 text-white capitalize lg:mx-2 lg:my-2 hover:underline" onclick="hyva.setCookie && hyva.setCookie( '<?=
                                                                                                                                                             /** @noEscape */
                                                                                                                                                             Redirect::LOGIN_REDIRECT_URL ?>', window.location.href, 1)" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/index')) ?>"> <?= $escaper->escapeHtml(__('Sign-in')); ?>
                 </a>
-                <span class="text-white">o</span>
+                <span class="text-lg text-white">|</span>
                 <?php if ($customerRegistration->isAllowed()) : ?>
-                    <a class="block mx-4 my-2 font-normal text-white lowercase lg:mx-2 lg:my-2 hover:underline" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/create')) ?>">
+                    <a class="block mx-4 my-2 text-white capitalize lg:mx-2 lg:my-2 hover:underline" href="<?= $escaper->escapeUrl($block->getUrl('customer/account/create')) ?>">
                         <?= $escaper->escapeHtml(__('Sign-up')); ?>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
         </nav>
         <!--Carrello-->
-        <div  x-data="initHeader()" @private-content-loaded.window="getData(event.detail.data)" class="flex flex-col justify-center font-bold leading-5 text-white ml-14">
+        <div  x-data="initHeader()" @private-content-loaded.window="getData(event.detail.data)" class="flex-col justify-center hidden font-bold leading-5 text-white lg:flex ml-14">
 
             <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center text-sm no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
                 <?= $hyvaicons->shopHtml('text-white border-current inline w-7 h-7'); ?>

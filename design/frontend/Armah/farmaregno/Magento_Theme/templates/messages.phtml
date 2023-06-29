@@ -25,7 +25,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             messages: window.mageMessages || [],
             isEmpty() {
                 return this.messages.reduce(
-                    function(isEmpty, message) {
+                    function (isEmpty, message) {
                         return isEmpty && message === undefined
                     }, true
                 )
@@ -33,17 +33,23 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             removeMessage(messageIndex) {
                 this.messages[messageIndex].visible = false;
             },
-            addMessages(messages, hideAfter = 5000) {
+            addMessages(messages, showAfter = 1000, hideAfter = 4000) {
                 messages.map((message) => {
-                    message.visible = true;
-                    this.messages = this.messages.concat(message);
-                    this.setHideTimeOut(this.messages.length - 1, hideAfter);
+                    message.visible = false;
+                    this.messages.push(message);
+                    this.setShowTimeOut(this.messages.length - 1, showAfter, hideAfter);
                 });
             },
-            setHideTimeOut(messageIndex, hideAfter) {
+            setShowTimeOut(messageIndex, showAfter = 500, hideAfter) {
                 setTimeout(() => {
+                    this.messages[messageIndex].visible = true;
+                    this.setHideTimeOut(messageIndex, hideAfter);
+                }, showAfter);
+            },
+            setHideTimeOut(messageIndex, hideAfter) {
+                setTimeout((messageIndex) => {
                     this.removeMessage(messageIndex);
-                }, hideAfter);
+                }, hideAfter, messageIndex);
             },
             eventListeners: {
                 ['@messages-loaded.window']() {
@@ -71,10 +77,20 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
         <div class="w-full">
             <div role="alert" class="container fixed py-3 mx-auto messages top-40 w-fit">
                 <template x-for="(message, index) in messages" :key="index">
-                    <div x-show="message.visible" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90">
-                        <div class="gap-8 h-fit rounded-xl message" :class="message.type" :ui-id="'message-' + message.type">
+                    <div x-show="message.visible" x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform scale-90"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-90"
+                        x-init="requestAnimationFrame(() => message.visible = true)">
+
+
+                        <div class="gap-8 h-fit rounded-xl message" :class="message.type"
+                            :ui-id="'message-' + message.type">
                             <span x-html="message.text"></span>
-                            <a href="#" class="cursor-pointer close" title="close" @click.prevent="removeMessage(index)">
+                            <a href="#" class="cursor-pointer close" title="close"
+                                @click.prevent="removeMessage(index)">
                                 <?= $heroicons->XCircleHtml('text-white w-7 h-7', 18, 18); ?>
                             </a>
                         </div>

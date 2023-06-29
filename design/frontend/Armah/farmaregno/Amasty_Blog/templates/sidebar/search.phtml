@@ -8,6 +8,12 @@
  * @var $escaper Magento\Framework\Escaper
  * @var $block Amasty\Blog\Block\Sidebar\Search
  */
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var HeroiconsOutline $heroicons */
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+
 ?>
 
 <div class="amblog-search" data-amblog-js="accordion">
@@ -35,11 +41,11 @@
                        value="<?= $escaper->escapeHtml($block->getQuery()); ?>"
                        maxlength="100"
                        />
-                       <button class="absolute right-0 rounded w-7 h-7 top-1 bg-primary"
+                       <button class="absolute w-8 h-8 rounded top-1 right-1 bg-primary"
                                role="button"
                                title="<?= $escaper->escapeHtml(__('Search')); ?>"
                                aria-label="<?= $escaper->escapeHtml(__('Search')); ?>"
-                               type="submit"></button>
+                               type="submit"><?= $heroicons->SearchHtml('text-white mx-auto w-6'); ?></button>
                 <ul class="amblog-search-suggest" data-amblog-js="suggest-list"></ul>
             </div>
             <div class="amblog-loader -search"></div>

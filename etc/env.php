@@ -89,8 +89,10 @@ return [
         'config_integration_api' => 1,
         'full_page' => 0,
         'config_webservice' => 1,
-        'translate' => 1,
-        'checkout' => 1
+        'translate' => 0,
+        'checkout' => 1,
+        'amasty_blog' => 1,
+        'amasty_shopby' => 1
     ],
     'install' => [
         'date' => 'Tue, 18 Apr 2023 13:11:57 +0000'

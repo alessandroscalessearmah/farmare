@@ -222,8 +222,11 @@ $displayTax = $productPriceViewModel->displayPriceIncludingTax();
 <div x-data="initPrice<?= (int)$product->getId() ?>()" x-bind="eventListeners" class="price-box price-final_price">
     <template x-if="!activeProductsPriceData && !isPriceHidden()">
         <div class="price-container">
+            <span class="hidden xl:block price-label <?= (!$product->canConfigure() || !is_int($product->getPrice())) ? 'hidden' : '' ?>">
+                <?= ($product->canConfigure() && is_int($product->getPrice())) ? $escaper->escapeHtml(__('As low as')) . ':' : '&nbsp;' ?>
+            </span>
             <?php if ($finalPrice < $regularPrice) : ?>
-                <div class="flex mr-2 old-price">
+                <div class="flex justify-end mr-2 xl:justify-start old-price">
                     <span id="product-price-<?= (int)$product->getId() ?>" class="text-2xl text-gray-500 line-through price-wrapper title-font font-regular">
                         <span class="price" x-html="hyva.formatPrice(<?= (float)$regularPrice ?> + getCustomOptionPrice())">
                             <?=
@@ -245,22 +248,24 @@ $displayTax = $productPriceViewModel->displayPriceIncludingTax();
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
-
-            <div class="inline-block final-price" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
-                <span class="block price-label <?= (!$product->canConfigure() || !is_int($product->getPrice())) ? 'hidden' : '' ?>">
+            <div class="flex items-end gap-4 xl:gap-0">
+                <span class="block xl:hidden price-label text-sm <?= (!$product->canConfigure() || !is_int($product->getPrice())) ? 'hidden' : '' ?>">
                     <?= ($product->canConfigure() && is_int($product->getPrice())) ? $escaper->escapeHtml(__('As low as')) . ':' : '&nbsp;' ?>
                 </span>
 
-                <span id="product-price-<?= (int)$product->getId() ?>" class="text-5xl font-black tracking-tighter text-primary price-wrapper title-font">
-                    <span class="price" x-html="getFormattedFinalPrice()">
-                        <?=
-                        /** @noEscape */
-                        $productViewModel->format($finalPrice) ?>
+                <div class="inline-block final-price" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+
+
+                    <span id="product-price-<?= (int)$product->getId() ?>" class="text-5xl font-black tracking-tighter md:text-4xl lg:text-5xl text-primary price-wrapper title-font">
+                        <span class="price" x-html="getFormattedFinalPrice()">
+                            <?=
+                            /** @noEscape */
+                            $productViewModel->format($finalPrice) ?>
+                        </span>
                     </span>
-                </span>
-                <meta itemprop="price" content="<?= $escaper->escapeHtmlAttr($finalPrice) ?>">
-                <meta itemprop="priceCurrency" content="<?= $escaper->escapeHtmlAttr($productViewModel->getCurrencyData()['code']) ?>">
-            </div>
+                    <meta itemprop="price" content="<?= $escaper->escapeHtmlAttr($finalPrice) ?>">
+                    <meta itemprop="priceCurrency" content="<?= $escaper->escapeHtmlAttr($productViewModel->getCurrencyData()['code']) ?>">
+                </div>
             <?php if ($productPriceViewModel->displayPriceInclAndExclTax()) : ?>
                 <div class="final-price-excl-tax">
                     <span class="text-gray-900 font-regular">
@@ -274,6 +279,8 @@ $displayTax = $productPriceViewModel->displayPriceIncludingTax();
                 </div>
             <?php endif; ?>
         </div>
+        </div>
+
     </template>
     <template x-if="activeProductsPriceData &&
         activeProductsPriceData.oldPrice &&
@@ -292,7 +299,7 @@ $displayTax = $productPriceViewModel->displayPriceIncludingTax();
                     <?= $escaper->escapeHtml(__('As low as')) ?>:
                 </span>
             <?php endif; ?>
-            <span id="product-price-<?= (int)$product->getId() ?>" class="text-2xl font-medium text-gray-900 price-wrapper title-font">
+            <span id="product-price-<?= (int)$product->getId() ?>" class="text-4xl font-bold text-gray-900 price-wrapper title-font">
                 <span class="price" x-html="getFormattedFinalPrice()"></span>
             </span>
         </div>

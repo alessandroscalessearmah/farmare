@@ -59,7 +59,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                     </a>
                     <?php if (!empty($itemLevel1['childData'])) : ?>
                         
-                        <div class="absolute left-0 z-10 w-full -mt-3 transition-opacity ease-out opacity-0 pointer-events-none top-full group-hover/parent:opacity-100 focus-within:opacity-100 group-hover/parent:pointer-events-auto" :style="`margin-top: 0; top: ${hoverTopPosition}px;`">
+                        <div class="container px-0 absolute z-10 w-full translate-x-[-3%] -mt-3 transition-opacity ease-out opacity-0 pointer-events-none top-full group-hover/parent:opacity-100 focus-within:opacity-100 group-hover/parent:pointer-events-auto" :style="`margin-top: 0; top: ${hoverTopPosition}px;`">
                             <div class="container relative pt-5 pb-64 mx-auto bg-white shadow-xl min-h-screen-50" :style="`min-height: ${menuMinHeight}px`">
                                 <ul class="border-r-2 w-80 border-primary">
                                     <?php foreach ($itemLevel1['childData'] as $itemLevel2) : ?>
@@ -124,7 +124,7 @@ $block->setData('cache_tags', $viewModelNavigation->getIdentities());
                                                             $cmsBlockHtml = $catIdLvl2
                                                                 ? $this->getLayout()
                                                                 ->createBlock(CmsBlock::class)
-                                                                ->setBlockId('megamenu_block_right_cat' . $catIdLvl2)
+                                                                ->setBlockId('megamenu-categoria' . $catIdLvl2)
                                                                 ->toHtml()
                                                                 : '';
 

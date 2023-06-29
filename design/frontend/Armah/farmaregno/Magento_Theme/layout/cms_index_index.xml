@@ -20,6 +20,7 @@
                     </arguments>
                 </block>
             </container>
+
             <container name="container.home.didascalia.principale" htmlTag="div" htmlClass="container">
                 <block class="Magento\Cms\Block\Block" name="home-didascalia-principale">
                     <arguments>
@@ -27,14 +28,24 @@
                     </arguments>
                 </block>
             </container>
+
             <container name="container.home.carosello" htmlTag="div" htmlClass="container">
-                <block class="Magento\Cms\Block\Block" name="home-carosello">
+                <block class="Magento\Cms\Block\Block" name="home-carosello-seo">
                     <arguments>
-                        <argument name="block_id" xsi:type="string">home-carosello</argument>
+                        <argument name="block_id" xsi:type="string">home-carosello-seo</argument>
                     </arguments>
                 </block>
             </container>
-            <container name="container.blocco.newsletter.home" htmlTag="div" htmlClass="altezza-xml-footer">
+
+            <container name="prima.sezione.prodotti" htmlTag="div" htmlClass="container-prodotti">
+                <block class="Magento\Cms\Block\Block" name="home-prima-sezione-prodotti">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-prima-sezione-prodotti</argument>
+                    </arguments>
+                </block>
+            </container>
+
+              <container name="container.blocco.newsletter.home" htmlTag="div" htmlClass="altezza-xml-footer">
                 <container name="blocco.newsletter.home" htmlTag="div" htmlClass="container">
                     <block class="Magento\Cms\Block\Block" name="home-blocco-newsletter-home">
                         <arguments>
@@ -43,6 +54,23 @@
                     </block>
                 </container>
             </container>
+
+            <container name="seconda.sezione.prodotti" htmlTag="div" htmlClass="container-prodotti">
+                <block class="Magento\Cms\Block\Block" name="home-seconda-sezione-prodotti">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-seconda-sezione-prodotti</argument>
+                    </arguments>
+                </block>
+            </container>
+
+            <container name="didascalia.sotto.prodotti" htmlTag="div" htmlClass="container">
+                <block class="Magento\Cms\Block\Block" name="home-didascalia-sotto-prodotti">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">home-didascalia-sotto-prodotti</argument>
+                    </arguments>
+                </block>
+            </container>
+
         </referenceContainer>
         <!-- FINE SLIDE -->
 

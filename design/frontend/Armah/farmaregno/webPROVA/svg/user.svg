@@ -1,0 +1,24 @@
+<svg version="1.1" id="svg41" width="31.66626" height="23.747997" viewBox="0 0 31.66626 23.747997" sodipodi:docname="tema-farmaregno.ai"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+   <defs id="defs45">
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath303">
+         <path d="M 0,3409.656 H 2560 V 0 H 0 Z" id="path301" />
+      </clipPath>
+   </defs>
+   <sodipodi:namedview id="namedview43" pagecolor="#ffffff" bordercolor="#999999" borderopacity="1" inkscape:showpageshadow="0" inkscape:pageopacity="0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" showgrid="false" />
+   <g id="g49" inkscape:groupmode="layer" inkscape:label="Page 1" transform="matrix(1.3333333,0,0,-1.3333333,-2435.7209,4502.7062)">
+      <g id="g297">
+         <g id="g299" clip-path="url(#clipPath303)">
+            <g id="g305" transform="translate(1843.1177,3360.7087)">
+               <path d="m 0,0 c -0.001,0.365 -0.229,1.463 -1.235,2.47 -0.968,0.968 -2.789,1.977 -6.187,1.977 -3.399,0 -5.218,-1.009 -6.186,-1.977 C -14.615,1.463 -14.84,0.365 -14.843,0 Z M 1.484,-0.006 C 1.484,-1.49 0,-1.49 0,-1.49 h -14.843 c 0,0 -1.484,0 -1.484,1.484 0,1.484 1.484,5.937 8.905,5.937 7.422,0 8.906,-4.453 8.906,-5.937 m -5.937,11.874 c 0,-1.639 -1.329,-2.968 -2.969,-2.968 -1.639,0 -2.968,1.329 -2.968,2.968 0,1.64 1.329,2.969 2.968,2.969 1.64,0 2.969,-1.329 2.969,-2.969 M -7.422,7.416 c 2.46,0 4.453,1.993 4.453,4.452 0,2.46 -1.993,4.453 -4.453,4.453 -2.459,0 -4.452,-1.993 -4.452,-4.453 0,-2.459 1.993,-4.452 4.452,-4.452" style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" id="path307" />
+            </g>
+            <g id="g309" transform="translate(1850.3224,3372.3604)">
+               <path d="m 0,0 c 0.29,-0.289 0.291,-0.759 0.001,-1.05 0,0 -0.001,0 -0.001,-10e-4 l -4.453,-4.453 c -0.289,-0.29 -0.759,-0.29 -1.049,-0.001 -0.001,0 -0.001,0.001 -0.002,0.001 l -2.226,2.227 c -0.29,0.29 -0.29,0.76 0,1.051 0.29,0.29 0.761,0.29 1.051,0 L -4.978,-3.929 -1.051,0 c 0.29,0.29 0.759,0.291 1.05,0.001 C -0.001,0.001 0,0 0,0" style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none" id="path311" />
+            </g>
+         </g>
+      </g>
+   </g>
+</svg>

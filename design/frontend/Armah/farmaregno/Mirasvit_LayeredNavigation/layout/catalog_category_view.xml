@@ -16,7 +16,7 @@
         <referenceContainer name="content">
             <block class="Mirasvit\LayeredNavigation\Block\Ajax" name="category_ajax" template="Mirasvit_LayeredNavigation::ajax.phtml"/>
 
-            <container name="m.horizontal.navigation.container" htmlTag="div" htmlClass="mst-nav__horizontal-bar" before="breadcrumbs">
+            <container name="m.horizontal.navigation.container" htmlTag="div" htmlClass="mst-nav__horizontal-bar" after="breadcrumbs">
                 <block class="Mirasvit\LayeredNavigation\Block\NavigationHorizontal\Category" name="m.catalog.horizontal" template="Magento_LayeredNavigation::layer/view.phtml">
                     <!-- layout name change only with Mirasvit\LayeredNavigation\Model\Config\HorizontalFilterOptions -->
                     <block class="Mirasvit\LayeredNavigation\Block\Navigation\State" name="m.catalog.navigation.horizontal.state" as="state" before="-"/>

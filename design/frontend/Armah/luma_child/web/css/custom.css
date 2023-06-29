@@ -1,0 +1,419 @@
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 14px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #aaaaaa;
+    border-radius: 14px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #969696;
+}
+
+.amcheckout-step-container .amcheckout-title {
+    border-radius: 1rem;
+    background-color: #dcd7c9;
+}
+
+@media (max-width: 1024px) {
+    .amcheckout-step-container .amcheckout-summary-container .amcheckout-title {
+        background-color: #dcd7c9 !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .amcheckout-step-container .amcheckout-summary-container .amcheckout-title {
+        color: black !important;
+    }
+}
+
+.amcheckout-step-container .amcheckout-title>.amcheckout-icon {
+    border: 2px solid #18434f;
+}
+
+.amcheckout-step-container .amcheckout-title>.amcheckout-icon:before {
+    border-right: 2px solid #18434f;
+    border-bottom: 2px solid #18434f;
+}
+
+.amcheckout-step-container .amcheckout-title>.amcheckout-icon:hover,
+.amcheckout-step-container .amcheckout-title>.amcheckout-icon:hover:before {
+    border-color: #18434f;
+}
+
+.authentication-wrapper button.action-auth-toggle {
+    background: #f33209 !important;
+    border-radius: 1rem !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.authentication-wrapper button.action-auth-toggle:hover {
+    background: #fc4b13 !important;
+    border-radius: 1rem !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+#customer-email-fieldset button {
+    background: #f33209 !important;
+    border-radius: 1rem !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+#customer-email-fieldset button:hover {
+    background: #fc4b13 !important;
+    border-radius: 1rem !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.block-content button {
+    background: #f33209 !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+button.action-update {
+    background: #f33209 !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+button.action-update:hover {
+    background: #fc4b13 !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.block-content button:hover {
+    background: #fc4b13 !important;
+    color: white !important;
+}
+
+.fieldset.address div[name$=".firstname"] {
+    width: 50% !important;
+}
+
+.fieldset.address div[name$=".lastname"] {
+    width: 50% !important;
+}
+
+.label-width-required {
+    width: 97%;
+    float: right;
+}
+
+div[name$=".firstname"] .label-width-required {
+    width: 95% !important;
+}
+
+div[name$=".lastname"] .label-width-required {
+    width: 95% !important;
+}
+
+.street legend.label {
+    float: left;
+}
+
+@media (min-width: 1024px) and (max-width: 1192px) {
+    .label-width-required {
+        width: 97% !important;
+    }
+}
+
+@media (min-width: 505px) and (max-width: 742px) {
+    .label-width-required {
+        width: 96% !important;
+    }
+}
+
+@media (max-width: 504px) {
+    .label-width-required {
+        width: 96% !important;
+    }
+}
+
+@media (max-width: 504px) {
+    div[name$=".firstname"] .label-width-required {
+        width: 95% !important;
+    }
+}
+
+@media (max-width: 743px) {
+    div[name$=".firstname"] .label-width-required {
+        width: 92% !important;
+    }
+
+    div[name$=".lastname"] .label-width-required {
+        width: 92% !important;
+    }
+}
+
+@media (max-width: 743px) {
+    div[name$=".firstname"] .label-width-required {
+        width: 94% !important;
+    }
+
+    div[name$=".lastname"] .label-width-required {
+        width: 94% !important;
+    }
+}
+
+.opc-block-summary .step-title .amcheckout-icon {
+    background: none !important;
+}
+
+strong span.price {
+    font-size: 2rem;
+}
+
+.abs-revert-secondary-color,
+.abs-revert-to-action-secondary,
+.paypal-review .block .actions-toolbar .action.primary,
+.abs-discount-block .actions-toolbar .action.primary,
+.abs-discount-block .actions-toolbar .action.cancel,
+.block-compare .action.primary,
+.cart-summary .block .actions-toolbar>.primary .action.primary,
+.abs-discount-code .form-discount .actions-toolbar .primary .action,
+.cart-summary .form.giftregistry .fieldset .action.primary,
+.paypal-review-discount .actions-toolbar .action.primary,
+.paypal-review-discount .actions-toolbar .action.cancel,
+.cart-discount .actions-toolbar .action.primary,
+.cart-discount .actions-toolbar .action.cancel,
+.checkout-payment-method .payment-option-content .form-discount .actions-toolbar .primary .action {
+    background-color: #f33209 !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.abs-revert-secondary-color,
+.abs-revert-to-action-secondary,
+.paypal-review .block .actions-toolbar .action.primary,
+.abs-discount-block .actions-toolbar .action.primary,
+.abs-discount-block .actions-toolbar .action.cancel,
+.block-compare .action.primary,
+.cart-summary .block .actions-toolbar>.primary .action.primary,
+.abs-discount-code .form-discount .actions-toolbar .primary .action,
+.cart-summary .form.giftregistry .fieldset .action.primary,
+.paypal-review-discount .actions-toolbar .action.primary,
+.paypal-review-discount .actions-toolbar .action.cancel,
+.cart-discount .actions-toolbar .action.primary,
+.cart-discount .actions-toolbar .action.cancel,
+.checkout-payment-method .payment-option-content .form-discount .actions-toolbar .primary .action:hover {
+    background-color: #fc4b13 !important;
+    color: white !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.abs-revert-to-action-secondary:not(:focus),
+.abs-discount-block .actions-toolbar .action.primary:not(:focus),
+.abs-discount-block .actions-toolbar .action.cancel:not(:focus),
+.block-compare .action.primary:not(:focus),
+.cart-summary .block .actions-toolbar>.primary .action.primary:not(:focus),
+.abs-discount-code .form-discount .actions-toolbar .primary .action:not(:focus),
+.cart-summary .form.giftregistry .fieldset .action.primary:not(:focus),
+.paypal-review-discount .actions-toolbar .action.primary:not(:focus),
+.paypal-review-discount .actions-toolbar .action.cancel:not(:focus),
+.cart-discount .actions-toolbar .action.primary:not(:focus),
+.cart-discount .actions-toolbar .action.cancel:not(:focus),
+.checkout-payment-method .payment-option-content .form-discount .actions-toolbar .primary .action:not(:focus) {
+    box-shadow: none !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.amcheckout-step-container input[type="text"],
+.amcheckout-step-container input[type="password"],
+.amcheckout-step-container input[type="url"],
+.amcheckout-step-container input[type="tel"],
+.amcheckout-step-container input[type="search"],
+.amcheckout-step-container input[type="number"],
+.amcheckout-step-container input[type="datetime"],
+.amcheckout-step-container input[type="email"],
+.amcheckout-step-container select {
+    font-size: 14px !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+#discount-form .action-apply {
+    border-top-right-radius: 1rem !important;
+    border-bottom-right-radius: 1rem !important;
+    border-top-left-radius: 0rem !important;
+    border-bottom-left-radius: 0rem !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+#discount-form .payment-option-inner .field #discount-code {
+    border-top-left-radius: 1rem !important;
+    border-bottom-left-radius: 1rem !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.label-width-required .input-text {
+    border-radius: 1rem !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+#customer-email-fieldset .input-text {
+    border-radius: 1rem !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.select {
+    border-radius: 1rem !important;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="url"],
+input[type="tel"],
+input[type="search"],
+input[type="number"],
+input[type*="date"],
+input[type="email"] {
+    border-radius: 1rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.authentication-dropdown {
+    border-radius: 1rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.page-header .header {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.page-header { 
+    background-color: #18434f;
+}
+
+.page-header .header .logo {
+    margin: 0;
+}
+
+.page-header .header .logo img {
+    width: 20rem;
+}
+
+.header.content {
+    padding: 10px 0 10px !important;
+}
+
+.copyright {
+    background-color: #dcd7c9 !important;
+}
+
+.primary .action.checkout,
+.action.checkout.amasty {
+    border-radius: 1rem !important;
+}
+
+.block-customer-login .block-content button {
+    border-radius: 1rem !important;
+}
+
+.amcheckout-step-container .amcheckout-form-login .amcheckout-email,
+.amcheckout-step-container .form-login .amcheckout-email {
+    width: 95%;
+    margin-right: auto;
+}
+
+@media (max-width: 1192px) {
+
+    .fieldset>.field .note,
+    .fieldset>.fields>.field .note {
+        font-size: 1rem !important;
+    }
+}
+
+.amcheckout-step-container .amcheckout-form-login .amcheckout-email .note,
+.amcheckout-step-container .form-login .amcheckout-email .note {
+    margin-left: 1rem !important;
+}
+
+.checkout-payment-method .payment-methods .actions-toolbar .checkout {
+    width: 100%;
+}
+
+.checkout-payment-method .payment-option .payment-option-content {
+    padding: 0 0px 10px !important;
+}
+
+.minicart-items .product-item-details .details-qty {
+    margin-top: 0px !important;
+    margin-left: 2rem !important;
+}
+
+input {
+    border-radius: 1rem !important;
+}
+
+@media (min-width: 768px) {
+
+    ._amcheckout-selectable-item,
+    .amcheckout-step-container .amcheckout-shipping-address .billing-address-details,
+    .amcheckout-step-container .amcheckout-shipping-address .shipping-address-details,
+    .amcheckout-step-container .shipping-address-items .shipping-address-item,
+    .amcheckout-step-container .amcheckout-shipping-methods .amcheckout-method,
+    .amcheckout-step-container .checkout-payment-method .amcheckout-payment-methods .payment-method {
+        width: 100% !important;
+    }
+}
+
+._amcheckout-selectable-item, .amcheckout-step-container .amcheckout-shipping-address .billing-address-details, .amcheckout-step-container .amcheckout-shipping-address .shipping-address-details, .amcheckout-step-container .shipping-address-items .shipping-address-item, .amcheckout-step-container .amcheckout-shipping-methods .amcheckout-method, .amcheckout-step-container .checkout-payment-method .amcheckout-payment-methods .payment-method {
+    border-radius: 16px !important;
+}

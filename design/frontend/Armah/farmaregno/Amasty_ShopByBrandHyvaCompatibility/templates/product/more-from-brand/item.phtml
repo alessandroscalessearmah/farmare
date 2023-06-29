@@ -1,0 +1,66 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Shop By Brand Compatibility with Hyva for Magento 2
+ */
+/** @var HeroiconsOutline $heroicons */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Hyva\Theme\ViewModel\ProductCompare;
+use Hyva\Theme\ViewModel\Wishlist;
+use Magento\Framework\Escaper;
+
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+/** @var HeroiconsSolid $heroiconsSolid */
+$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+/** @var Wishlist $wishlistViewModel */
+$wishlistViewModel = $viewModels->require(Wishlist::class);
+/** @var ProductCompare $compareViewModel */
+$compareViewModel = $viewModels->require(ProductCompare::class);
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+<div class="flex-none w-1/2 py-1 js_slide lg:w-1/3 xl:w-1/6" x-init="$nextTick(() => slideRendered())">
+    <div class="mx-1 card card-interactive">
+        <a :href="getProductUrl(product)"
+               class="relative flex items-center bg-white product photo product-item-photo"
+               style="padding-top:100%"
+               tabindex="-1">
+                <span class="absolute top-0 left-0 flex flex-wrap content-center w-full h-full p-2 overflow-hidden align-center hover:shadow-sm">
+                    <img class="self-center w-full h-auto"
+                         :src="product.small_image.url"
+                         :alt="product.small_image.label"
+                         loading="lazy"
+                         width="500"
+                         height="500"
+                    />
+                </span>
+            </a>
+        <p class="flex items-center justify-center px-4 pt-3 font-semibold text-gray-900">
+                <a class="truncate product-item-link hover:underline"
+                   :href="getProductUrl(product)"
+                >
+                    <span x-html="product.name"></span>
+                </a>
+            </p>
+
+        <template x-if="product.price_range.minimum_price?.final_price?.value">
+            <p class="pt-1 text-lg font-bold text-center text-primary"
+               x-text="hyva.formatPrice(product.price_range.minimum_price.final_price.value)"></p>
+        </template>
+
+        <p class="flex flex-wrap inline gap-2 p-3">
+            
+            <a class="justify-center w-auto mx-auto lg:text-sm btn bg-rosso hover:bg-arancio-lighter"
+               :href="getProductUrl(product)">
+                <span class="inline"><?= $escaper->escapeHtml(__('Product Details')) ?></span>
+            </a>
+
+        </p>
+    </div>
+</div>

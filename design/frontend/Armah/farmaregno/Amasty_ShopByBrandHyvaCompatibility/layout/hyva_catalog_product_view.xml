@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Shop By Brand Compatibility with Hyva for Magento 2
+ */-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.main">
+            <block name="product.info.amshopby.more-from-brand" after="product.detail.page" ifconfig="amshopby_brand/more_from_brand/enable" template="Amasty_ShopByBrandHyvaCompatibility::product/more-from-brand.phtml">
+                <block name="product_item" as="product_item" template="Amasty_ShopByBrandHyvaCompatibility::product/more-from-brand/item.phtml" />
+                <block name="more_from_brand_js" as="more_from_brand_js" template="Amasty_ShopByBrandHyvaCompatibility::product/more-from-brand/js.phtml" />
+            </block>
+
+            <referenceBlock name="product.info.amshopby.morefrom" remove="true" />
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,59 @@
+@layer components {
+    .btn {
+        @apply flex items-center px-4 py-2 text-base font-medium text-white transition-all bg-gray-500 rounded-lg shadow-md;
+
+        @screen md {
+            @apply px-6 text-lg;
+        }
+        @screen xl {
+            @apply text-base;
+        }
+
+        svg {
+            @apply inline-flex;
+        }
+
+        span {
+            vertical-align: middle;
+        }
+
+        &:hover {
+             @apply bg-gray-600;
+         }
+
+        &:focus {
+             @apply border-transparent outline-none ring-4 ring-primary ring-opacity-50;
+        }
+    }
+
+
+    .btn-primary {
+        @apply text-sm font-bold shadow text-giallo-lighter bg-primary;
+
+        &:hover {
+            @apply shadow-lg bg-primary-darker;
+        }
+
+    }
+
+    .btn-secondary {
+        @apply text-base font-bold text-white bg-primary ring-1 ring-white;
+
+    &:hover {
+        @apply shadow-lg bg-giallo text-primary;
+    }
+
+    &:focus {
+        @apply border-2 border-transparent;
+    }
+
+    }
+
+    .btn-size-lg {
+        @apply px-10 py-4 text-lg;
+    }
+
+    .btn-size-sm {
+        @apply px-2 py-2 text-sm;
+    }
+}

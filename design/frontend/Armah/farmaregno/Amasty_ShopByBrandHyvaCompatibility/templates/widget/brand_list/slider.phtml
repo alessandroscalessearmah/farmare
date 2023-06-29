@@ -1,0 +1,324 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) Amasty (https://www.amasty.com)
+ * @package Shop By Brand Compatibility with Hyva for Magento 2
+ */
+
+use Amasty\ShopbyBase\Block\Product\AttributeIcon;
+use Amasty\ShopbyBrand\Block\Widget\BrandSlider;
+use Hyva\GraphqlViewModel\ViewModel\GraphqlViewModel;
+use Amasty\ShopByBrandHyvaCompatibility\ViewModel\BrandsList;
+use Amasty\ShopByBrandHyvaCompatibility\ViewModel\BrandsSliderGraphQlQuery;
+use Hyva\Theme\ViewModel\Store as StoreViewModel;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Amasty\ShopByBaseHyvaCompatibility\ViewModel\Tooltip;
+use Magento\Framework\Escaper;
+
+/** @var Amasty\ShopbyBrand\Block\Widget\BrandSlider $block */
+
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+/** @var AttributeIcon $attributeIconBlock */
+
+$tooltipViewModel = $viewModels->require(Tooltip::class);
+
+/** @var BrandsSliderGraphQlQuery $brandsSliderGraphQlQuery */
+$brandsSliderGraphQlQuery = $viewModels->require(BrandsSliderGraphQlQuery::class);
+/** @var GraphqlViewModel $viewModelGraphQl */
+$viewModelGraphQl = $viewModels->require(GraphqlViewModel::class);
+/** @var StoreViewModel $viewModelStore */
+$viewModelStore = $viewModels->require(StoreViewModel::class);
+/** @var BrandsList $brandsListViewModel */
+$brandsListViewModel = $viewModels->require(BrandsList::class);
+
+$isSliderEnable = $block->isSliderEnabled();
+$swiperPrefix = $isSliderEnable ? 'swiper-' : '';
+$itemsPerView = (int)$block->getData('items_number') ?: BrandSlider::DEFAULT_ITEM_NUMBER;
+$imgWidth = (int)$block->getData('image_width') ?: BrandSlider::DEFAULT_IMG_WIDTH;
+$imgHeight = (int)$block->getData('image_height');
+$sliderWidth = (int)$block->getData('slider_width') ?: ($imgWidth + 10) * $itemsPerView;
+$displayZero = $block->getData('display_zero') ?: 0;
+$sortBy = $block->getData('sort_by') ?: 'name';
+$buttonWidth = 40;
+$fontSizeMultiplier = 0.65;
+
+$sliderId = BrandSlider::HTML_ID . random_int(1, 10000);
+$sliderTitle = $block->getTitle();
+$uniqId = uniqid();
+// phpcs:disable Generic.Files.LineLength.TooLong
+?>
+
+<div class="h-10 opacity-0 am-widget-brand-slider" x-data="amBrandsSlider<?= $escaper->escapeJs($uniqId) ?>()" x-init="retrieveData()">
+    <style>
+        <?php if ($isSliderEnable) : ?>#<?= /* @noEscape */ $sliderId ?> {
+            max-width: <?= /* @noEscape */ $buttonWidth * 2 + $sliderWidth; ?>px;
+        }
+
+        <?php endif; ?>#<?= /* @noEscape */ $sliderId ?>.ambrands-swiper-brand .ambrands-image-block,
+        #<?= /* @noEscape */ $sliderId ?>.ambrands-swiper-brand .ambrands-image-block>.ambrands-image {
+            <?php if ($imgWidth) : ?>max-width: <?= /* @noEscape */ $imgWidth ?>px;
+            <?php endif; ?><?php if ($imgHeight) : ?>max-height: <?= /* @noEscape */ $imgHeight ?>px;
+            <?php endif; ?>
+        }
+
+        .ambrands-swiper-brand .ambrands-empty {
+            max-width: <?= /* @noEscape */ $imgWidth ?>px;
+            line-height: <?= /* @noEscape */ $imgWidth ?>px;
+            font-size: <?= /* @noEscape */ $imgWidth * $fontSizeMultiplier ?>px;
+        }
+
+        <?php if ($block->getHeaderColor()) : ?>.ambrands-slider-container.<?= /* @noEscape */ $sliderId ?> {
+            background-color: <?= $escaper->escapeHtml($block->getHeaderColor()) ?>
+        }
+
+        <?php endif; ?><?php if ($block->getTitleColor()) : ?>.ambrands-slider-container.<?= /* @noEscape */ $sliderId ?>.ambrand-title {
+            color: <?= $escaper->escapeHtml($block->getTitleColor()) ?>;
+        }
+
+        <?php endif; ?>@media screen and (min-width: 1280px) {
+
+            .ambrands-slider-container.<?= /* @noEscape */ $sliderId ?>.js_slide,
+            .ambrands-slider-container.<?= /* @noEscape */ $sliderId ?>.js_dummy_slide {
+                width: <?= $isSliderEnable ? (100 / $itemsPerView) . '%' : 'auto' ?>;
+            }
+        }
+    </style>
+    <div class="ambrands-slider-container <?= /* @noEscape */ $sliderId ?>">
+
+        <div class="ambrands-slider amslider <?= $escaper->escapeHtml($isSliderEnable ? '-enable' : 'grid-mode') ?>" id="<?=
+                                                                                                                            /** @noEscape */
+                                                                                                                            $sliderId ?>">
+
+            <template x-if="brands.length > 0">
+                <div class="ambrands-inner">
+                    <?php if ($block->getData('buttons_show') && $isSliderEnable) : ?>
+                        <button class="swiper-button-prev" aria-label="<?= $escaper->escapeHtmlAttr(__('Previous')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Previous')) ?>"></button>
+                        <button class="swiper-button-next" aria-label="<?= $escaper->escapeHtmlAttr(__('Next')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Next')) ?>"></button>
+                    <?php endif; ?>
+                    <div class="bg-white swiper-container">
+                        <div class="<?=
+                                    /** @noEscape */
+                                    $swiperPrefix ?>wrapper">
+                            <template x-for="brand in brands">
+                                <div class="<?=
+                                            /** @noEscape */
+                                            $swiperPrefix ?>slide">
+                                    <a :href="`/${brand.url}`" class="flex flex-col">
+                                        <span class="ambrands-swiper-brand  <?= ($block->getData('show_label')) ? ' brand-label' : '' ?>">
+                                            <template x-if="brand.img">
+                                                <span class="ambrands-image-block">
+                                                    <img :alt="brand.alt" width="170" height="32" :title="brand.alt" loading="lazy" :src="`/${brand.img}`" class="mx-auto max-width-product-slider ambrands-image" />
+                                                </span>
+                                            </template>
+                                            <template x-if="!brand.img || brand.img === ''">
+                                                <span class="ambrands-image-block">
+                                                    <span class="ambrands-empty" x-html="brand.label.charAt(0)"></span>
+                                                </span>
+                                            </template>
+                                            <?php if ($block->getData('show_label')) : ?>
+                                                <span class="ambrands-label" x-html="brand.label"></span>
+                                            <?php endif; ?>
+                                        </span>
+                                    </a>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <?php if ($block->isPaginationShow()) : ?>
+                <div class="bg-white swiper-pagination"></div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initSwiper<?= $escaper->escapeJs($uniqId) ?>() {
+        return new Swiper('#<?=
+                            /** @noEscape */
+                            $sliderId ?> .swiper-container', {
+            init: false,
+            slidesPerView: 2,
+            <?php if ($block->getLoop()) : ?>
+                on: {
+                    init(swiper) {
+                        const totalSlidesLen = swiper.slides.length;
+                        swiper.el.parentElement.querySelector('.swiper-button-prev').addEventListener('click', () => {
+                            if (swiper.isBeginning) {
+                                swiper.slideTo(totalSlidesLen - 1);
+                            } else {
+                                swiper.slideTo(swiper.realIndex - 1);
+                            }
+                        });
+                        swiper.el.parentElement.querySelector('.swiper-button-next').addEventListener('click', () => {
+                            if (swiper.isEnd) {
+                                swiper.slideTo(0);
+                            } else {
+                                swiper.slideTo(swiper.realIndex + 1);
+                            }
+                        });
+                    },
+                    touchStart(swiper, e) {
+                        if (e.type === 'touchstart') {
+                            swiperTouchStartX = e.touches[0].clientX;
+                        } else {
+                            swiperTouchStartX = e.clientX;
+                        }
+                    },
+                    touchEnd(swiper, e) {
+                        const tolerance = 150;
+                        const totalSlidesLen = swiper.slides.length;
+                        const diff = (() => {
+                            if (e.type === 'touchend') {
+                                return e.changedTouches[0].clientX - swiperTouchStartX;
+                            } else {
+                                return e.clientX - swiperTouchStartX;
+                            }
+                        })();
+
+                        if (swiper.isBeginning && diff >= tolerance) {
+                            swiper.slideTo(totalSlidesLen - 1);
+                        } else if (swiper.isEnd && diff <= -tolerance) {
+                            setTimeout(() => {
+                                swiper.slideTo(0);
+                            }, 1);
+                        }
+                    },
+                },
+            <?php endif; ?>
+            loop: false,
+            simulateTouch: <?= (int) $block->getSimulateTouch() ?>,
+            <?php if ($block->isPaginationShow()) : ?>
+                pagination: {
+                    $i
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+            <?php endif; ?>
+            <?php if ($block->isAutoplay()) : ?>
+                autoplay: {
+                    delay: <?= (int) $block->getAutoplayTime() ?>
+                },
+            <?php endif; ?>
+            breakpoints: {
+                <?php for ($i = 2; $i <= $itemsPerView; $i++) : ?>
+                    <?= ($i + 2) * ($imgWidth + 20 + 10) + $buttonWidth * 2; ?>: {
+                        slidesPerView: <?= (int) $i ?>
+                    },
+                <?php endfor; ?>
+            },
+            <?php if (!$block->getLoop()) : ?>
+                navigation: {
+                    nextEl: '#<?=
+                                /** @noEscape */
+                                $sliderId ?> .swiper-button-next',
+                    prevEl: '#<?=
+                                /** @noEscape */
+                                $sliderId ?> .swiper-button-prev'
+                },
+            <?php endif; ?>
+            spaceBetween: 10
+        });
+    }
+
+    function amBrandsSlider<?= $escaper->escapeJs($uniqId) ?>() {
+        return {
+            brands: [],
+            displayZero: !!<?= $escaper->escapeHtml($displayZero); ?>,
+            sortBy: '<?= $escaper->escapeHtml($sortBy); ?>',
+            isSliderEnabled: <?= $isSliderEnable ? 1 : 0 ?>,
+            getMediaUrl(path) {
+                return `${path}`;
+            },
+
+            retrieveData() {
+                this.sendRequest().then(result => {
+                    const data = result.data?.ambrandslider;
+
+                    const items = data.items.map(brand => {
+                        brand.img = brand.img ? this.getMediaUrl(brand.img) : null;
+                        return brand;
+                    });
+
+                    this.brands = items;
+
+                    if (this.isSliderEnabled) {
+                        this.initSwiper = initSwiper<?= $escaper->escapeJs($uniqId) ?>();
+                    }
+
+                    this.$nextTick(() => {
+                        const sliderWrapper = document.querySelector('.am-widget-brand-slider');
+                        sliderWrapper.classList.remove('opacity-0')
+                        sliderWrapper.classList.remove('h-10');
+                        if (this.isSliderEnabled) {
+                            this.initSwiper.init();
+                            // slides are ready, rerender the slider
+                            this.initSwiper.update();
+                        }
+                    })
+                });
+            },
+
+            getQuery() {
+                return <?=
+                        /** @noEscape */
+                        json_encode($viewModelGraphQl->query(
+                            'brands_slider_query',
+                            'query BrandsSliderQuery($displayZero: Boolean!, $sortBy: String!){'
+                                . $brandsSliderGraphQlQuery->queryString() .
+                                '}'
+                        )); ?>
+            },
+
+            sendRequest() {
+                let variables = {
+                    displayZero: this.displayZero,
+                    sortBy: this.sortBy
+                }
+                return fetch('<?= $escaper->escapeUrl($block->getBaseUrl()) ?>graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Store': '<?= /* @noEscape */ $viewModelStore->getStoreCode() ?>'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        query: this.getQuery(),
+                        variables: variables
+                    })
+                }).then(
+                    response => response.json()
+                );
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window._amSwiperLoaded) {
+            return;
+        }
+
+        // load swiper
+        const script = document.createElement('script');
+        script.src = '<?= $escaper->escapeUrl($block->getViewFileUrl('Amasty_ShopByBrandHyvaCompatibility::js/swiper.min.js')) ?>';
+        script.async = true;
+        document.body.appendChild(script);
+
+        window._amSwiperLoaded = true;
+
+        script.onload = () => {
+            window.dispatchEvent(new CustomEvent('amSwiperLoaded', {}));
+        }
+
+        const styles = document.createElement('link');
+        styles.rel = 'stylesheet';
+        styles.href = '<?= $escaper->escapeUrl($block->getViewFileUrl('Amasty_ShopByBrandHyvaCompatibility::css/swiper.min.css')) ?>';
+
+        document.head.appendChild(styles);
+    })
+</script>

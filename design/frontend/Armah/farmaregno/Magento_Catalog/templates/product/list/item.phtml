@@ -86,9 +86,8 @@ if ($finalPrice < $price) {
 <?php if ($product->isSaleable()) : ?>
     <form method="post" action="<?= $escaper->escapeUrl($productViewModel->getAddToCartUrl($product)) ?>" class="relative item product product-item product_addtocart_form card p-0 rounded-b-xl hover:bg-white card-interactive flex flex-col w-full <?= $viewIsGrid ? '' : 'md:flex-row' ?>" <?php if ($product->getOptions()) : ?> enctype="multipart/form-data" <?php endif; ?>>
         <?php if ($product->getTypeId() == "simple" and $discount > 0) : ?>
-            <span class="absolute top-0 left-0 flex items-center justify-center w-12 h-8 bg-primary">
-                <span class="flex items-center justify-center h-full font-bold text-giallo-lighter sm:text-base md:text-lg"><?= $discount ?>%</span>
-                    <!-- <.?= $escaper->escapeHtml(__('saving')) ?> -->
+            <span class="absolute top-0 left-0 flex items-center justify-center w-12 h-10 pt-0.5 mt-2 ml-2 text-primary rounded bg-giallo">-
+                <span class="flex items-center justify-center h-full text-base font-bold text-primary"><?= $discount ?>%</span>
             </span>
         <?php endif; ?>
         <?=
@@ -102,7 +101,7 @@ if ($finalPrice < $price) {
         <div class="item product product-item card card-interactive flex flex-col w-full <?= $viewIsGrid ? '' : 'md:flex-row' ?>">
         <?php endif; ?>
         <?php /* Product Image */ ?>
-        <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>" class="product photo product-item-photo block mx-auto mb-3 <?= $viewIsGrid ? '' : 'md:w-2/6 md:mb-0 md:mr-5' ?>" tabindex="-1">
+        <a href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>" class="product photo product-item-photo block mx-auto mb-3 w-3/4 sm:w-auto <?= $viewIsGrid ? '' : 'md:w-2/6 md:mb-0 md:mr-5' ?>" tabindex="-1">
 
             <?= $block->getImage($product, $imageDisplayArea)
                 ->setTemplate('Magento_Catalog::product/list/image.phtml')
@@ -112,8 +111,8 @@ if ($finalPrice < $price) {
         </a>
         <div class="flex flex-col product-info grow">
             <?php $productNameStripped = $block->stripTags($product->getName(), null, true); ?>
-            <div class="mt-2 mb-1 items-center justify-center text-primary text-base text-center px-8 leading-5 <?= $viewIsGrid ? '' : 'md:text-left' ?>">
-                <a class="product-item-link" href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
+            <div class="mt-2 mb-1 items-center justify-center text-primary text-sm text-center px-2 leading-5 <?= $viewIsGrid ? '' : 'md:text-left' ?>">
+                <a class="text-left product-item-link" href="<?= $escaper->escapeUrl($product->getProductUrl()) ?>">
                     <?= /* @noEscape */ $catalogOutputHelper->productAttribute($product, $product->getName(), 'name') ?>
                 </a>
             </div>
@@ -166,14 +165,16 @@ if ($finalPrice < $price) {
 
             <div class="">
                 <?php if ($product->getIsSalable()) : ?>
-                    <p class="flex items-center justify-center mt-2 align-middle available stock">
-                        <span class="flex items-center justify-center w-full py-1 mb-0.5 text-base font-bold text-white bg-green-600 rounded-none">
+                    <p class="flex items-center justify-center align-middle available stock">
+                        <span class="flex lowercase items-center justify-center w-full py-1 mb-0.5 text-xs text-white bg-verde rounded-none">
                             <?= $escaper->escapeHtmlAttr(__('Availabile')) ?>
                         </span>
                     </p>
-                    </p>
                 <?php else : ?>
-                    <p class="hidden">
+                    <p class="flex items-center justify-center align-middle available stock">
+                        <span class="flex items-center justify-center w-full py-1 mb-0.5 text-xs text-white bg-red-600 rounded-none">
+                            <?= $escaper->escapeHtmlAttr(__('Not availabile')) ?>
+                        </span>
                     </p>
                 <?php endif; ?>
 
@@ -181,9 +182,9 @@ if ($finalPrice < $price) {
 
                 <div class="flex items-center justify-center">
                     <?php if ($product->isSaleable()) : ?>
-                        <button class="w-full btn bg-rosso hover:bg-rosso-lighter rounded-t-none rounded-b-xl justify-center text-lg uppercase text-white font-bold
+                        <button class="w-full btn hover:bg-arancio bg-rosso-lighter rounded-t-none rounded-b-xl justify-center text-[0.90rem] uppercase text-white font-bold
                         <?= $viewIsGrid ? 'mr-auto' : 'mr-auto md:mr-0' ?>" aria-label="<?= $escaper->escapeHtmlAttr(__('Purchase')) ?>">
-                            <span class="ml-2 inline <?= $viewIsGrid ? 'md:ml-0 lg:ml-2 lg:inline' : '' ?>">
+                            <span class="ml-2 inline <?= $viewIsGrid ? 'md:ml-0 lg:inline' : '' ?>">
                                 <?= $escaper->escapeHtml(__('Purchase')) ?>
                             </span>
                         </button>

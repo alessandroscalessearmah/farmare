@@ -1,0 +1,152 @@
+<?php
+
+/**
+ * Hyvä Themes - https://hyva.io
+ * Copyright © Hyvä Themes 2020-present. All rights reserved.
+ * This product is licensed per Magento install
+ * See https://hyva.io/license
+ */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\SwatchRenderer;
+use Magento\Framework\Escaper;
+use Magento\Swatches\Block\Product\Renderer\Configurable;
+use Magento\Swatches\ViewModel\Product\Renderer\Configurable as ConfigurableViewModel;
+use Hyva\Theme\ViewModel\SvgIcons;
+
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var Configurable $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+/** @var ConfigurableViewModel $configurableViewModel */
+$configurableViewModel = $viewModels->require(ConfigurableViewModel::class);
+
+/** @var SwatchRenderer $swatchRendererViewModel */
+$swatchRendererViewModel = $viewModels->require(SwatchRenderer::class);
+
+/** @var SvgIcons $hyvaicons */
+$hyvaicons = $viewModels->require(SvgIcons::class);
+
+$product = $block->getProduct();
+$productId = $product->getId();
+
+$attributes = $block->decorateArray($block->getAllowAttributes());
+
+$layout = $block->getLayout();
+$swatchItemBlock = $layout->getBlock('product.swatch.item');
+$swatchItemBlock->setData('product_id', $productId);
+
+$tooltipBlockHtml = $block->getBlockHtml('product.swatch.tooltip');
+
+$guidaTaglie = $product->getCustomAttribute('guida_taglie');
+?>
+<?php if ($product->isSaleable() && count($attributes)) : ?>
+    <script>
+        function initConfigurableSwatchOptions_<?= (int) $productId ?>() {
+            const configurableOptionsComponent = initConfigurableOptions(
+                '<?= (int) $productId ?>',
+                <?= /* @noEscape */ $block->getJsonConfig() ?>
+            );
+            const swatchOptionsComponent = initSwatchOptions(
+                <?= /* @noEscape */ $block->getJsonSwatchConfig() ?>
+            );
+
+            return Object.assign(
+                configurableOptionsComponent,
+                swatchOptionsComponent
+            );
+        }
+    </script>
+
+    <div x-data="initConfigurableSwatchOptions_<?= (int) $productId ?>()" x-init="init(); initShowSwatchesIntersect();" @private-content-loaded.window="onGetCartData($event.detail.data)" class="relative mt-10">
+        <div class="flex flex-col justify-between sm:flex-row lg:flex-col xl:flex-row">
+            <div class="flex flex-col px-4 sm:w-3/4 sm:px-0">
+                <?php foreach ($attributes as $attribute) : ?>
+                    <?php $attributeId = $attribute->getAttributeId(); ?>
+                    <?php $productAttribute = $attribute->getProductAttribute();  ?>
+                    <?php if ($swatchRendererViewModel->isSwatchAttribute($productAttribute)) : ?>
+                        <div class="swatch-attribute border-t last:border-b-0 border-container min-h-14
+                            <?= $escaper->escapeHtmlAttr($productAttribute->getAttributeCode()) ?>">
+                            <template x-if="showSwatches">
+                                <div class="flex flex-col items-start w-full py-4 border-gray-300 sm:py-1">
+
+                                    <label class="w-full font-bold text-center text-gray-900 sm:text-left sm:w-1/2 label product-option-label" for="attribute<?= $escaper->escapeHtmlAttr($productAttribute->getAttributeCode()) ?>">
+                                        <span>
+                                            <?= $escaper->escapeHtml($productAttribute->getStoreLabel()) ?>
+                                        </span>
+                                    </label>
+                                    <div class="w-full text-left text-gray-900 sm:ml-2 sm:w-full product-option-values">
+                                        <div class="flex items-center justify-center -mx-4 space-x-4 sm:justify-start swatch-attribute-options" role="radiogroup">
+                                            <template x-for="(item, index) in optionConfig.attributes[<?= (int) $attributeId ?>].options" :key="item.id">
+                                                <?= /* @noEscape */ $swatchItemBlock->setData('attribute_id', $attributeId)->toHtml(); ?>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    <?php else : ?>
+                        <div class="flex items-center w-full py-2 border-t border-gray-300 last:border-b">
+                            <label class="w-1/2 text-left text-gray-700 label" for="attribute<?= $escaper->escapeHtmlAttr($attribute->getAttributeId()) ?>">
+                                <span>
+                                    <?= $escaper->escapeHtml($attribute->getProductAttribute()->getStoreLabel()) ?>
+                                </span>
+                            </label>
+                            <div class="w-1/2 ml-2 text-left text-gray-900">
+                                <select name="super_attribute[<?= $escaper->escapeHtmlAttr($attribute->getAttributeId()) ?>]" id="attribute<?= $escaper->escapeHtmlAttr($attribute->getAttributeId()) ?>" class="form-select super-attribute-select" x-on:change="changeOption(<?= (int) $attribute->getAttributeId() ?>, event.target.value)" required="required">
+                                    <option value="">
+                                        <?= $escaper->escapeHtml(__('Choose an Option...')) ?>
+                                    </option>
+                                    <template x-for="(item, index) in getAllowedAttributeOptions(<?= (int) $attribute->getAttributeId() ?>)" :key="item.id">
+                                        <option :value="item.id" x-html="item.label" :selected="selectedValues[<?= $escaper->escapeHtmlAttr($attribute->getAttributeId()) ?>] ===
+                                item.id">
+                                        </option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <div x-cloak class="mt-5 mb-4 text-center sm:text-left xl:mb-0" x-data="{ open: false }">
+                <a href="#" @click="open = true" class="py-2 mt-4 font-semibold text-primary-lighter">
+                    <?= $escaper->escapeHtml(__('Size Guide')) ?>
+                </a>
+
+                <div x-show="open" class="fixed inset-0 overflow-y-auto z-100">
+                    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                        <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
+
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+
+                        <div class="inline-block overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div class="px-4 pt-5 pb-4 bg-white sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="text-center sm:text-left">
+                                        <?php
+                                        if ($guidaTaglie) {
+                                            echo $hyvaicons->guidaTaglieHtml('w-[22rem] sm:w-[40rem] h-[22rem] sm:h-[40rem]');
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="button" @click="open = false" class="inline-flex justify-center w-full px-4 py-2 text-base font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                    Chiudi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <?= /* @noEscape */ $tooltipBlockHtml ?>
+    </div>
+
+<?php endif; ?>

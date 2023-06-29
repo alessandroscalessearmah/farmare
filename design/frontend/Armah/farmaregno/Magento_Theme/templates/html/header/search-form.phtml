@@ -14,8 +14,6 @@ use Magento\Framework\View\Element\Template;
 use Magento\Search\Helper\Data as SearchHelper;
 use Hyva\Theme\ViewModel\SvgIcons;
 
-// phpcs:disable Magento2.Templates.ThisInTemplate.FoundHelper
-
 /** @var Escaper $escaper */
 /** @var Template $block */
 /** @var SearchHelper $helper */
@@ -27,21 +25,6 @@ $helper = $this->helper(SearchHelper::class);
 ?>
 <script>
     'use strict';
-
-    function typeWriter(text, inputElement, i = 0) {
-    if (i < text.length) {
-        inputElement.setAttribute("placeholder", text.substring(0, i+1));
-        setTimeout(function() {
-            typeWriter(text, inputElement, i + 1)
-        }, 100);
-    } else {
-        setTimeout(function() {
-            inputElement.setAttribute("placeholder", "");
-            typeWriter(text, inputElement);
-        }, 2000);
-    }
-}
-
 
     function initMiniSearch() {
         return {
@@ -59,24 +42,23 @@ $helper = $this->helper(SearchHelper::class);
             },
             fetchSuggestions(term) {
                 fetch(
-                        window.BASE_URL + 'search/ajax/suggest?' + new URLSearchParams({
-                            q: term
-                        }), {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
+                    window.BASE_URL + 'search/ajax/suggest?' + new URLSearchParams({q: term}),
+                    {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
                         }
-                    )
-                    .then(response => response.json())
-                    .then(result => this.suggestions = result);
+                    }
+                )
+                .then(response => response.json())
+                .then(result => this.suggestions = result);
             },
             search(term) {
                 const search = this.$refs.searchInput;
                 term = term || search.value;
                 if (term.length < this.minSearchLength) {
                     search.setCustomValidity('<?= $escaper->escapeJs(
-                                                    __('Minimum Search query length is %1', $helper->getMinQueryLength())
-                                                ) ?>');
+                        __('Minimum Search query length is %1', $helper->getMinQueryLength())
+                    ) ?>');
                     search.reportValidity();
                 } else {
                     search.setCustomValidity('');
@@ -94,22 +76,71 @@ $helper = $this->helper(SearchHelper::class);
             }
         }
     }
-    document.addEventListener('DOMContentLoaded', function () {
-    var inputElement = document.getElementById("search");
-    var placeholderText = "<?= __('Search over 70,000 products...') ?>";
-    placeholderText = placeholderText.replace(/&#x20;/g, " ");
-    typeWriter(placeholderText, inputElement);
-});
-
 </script>
-<div class="container h-6 mx-auto text-black sm:h-6 lg:px-0 xl:px-6 lg:h-auto" x-data="initMiniSearch()">
-    <form class="relative form minisearch" id="search_mini_form" x-ref="form" @submit.prevent="search()" action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>" method="get">
+<div class="container mx-auto text-black lg:px-0 xl:px-6 lg:h-auto" x-data="{ 
+    ...initMiniSearch(), 
+    text: '',
+    textArray : ['Cerca tra oltre 70.000 prodotti...', 'Ricerca per categoria...', 'Ricerca per prodotto...'],
+    textIndex: 0,
+    charIndex: 0,
+    pauseEnd: 1000,
+    cursorSpeed: 420,
+    pauseStart: 20,
+    typeSpeed: 60,
+    direction: 'forward'
+}" x-init="(() => { 
+
+    let typingInterval = setInterval(startTyping, $data.typeSpeed);
+
+    function startTyping(){
+        let current = $data.textArray[ $data.textIndex ];
+        if($data.charIndex > current.length){
+            $data.direction = 'backward';
+            clearInterval(typingInterval);
+            setTimeout(function(){
+                typingInterval = setInterval(startTyping, $data.typeSpeed);
+            }, $data.pauseEnd);
+        }   
+
+        $data.text = current.substring(0, $data.charIndex);
+        if($data.direction == 'forward'){
+            $data.charIndex += 1;
+        } else {
+            if($data.charIndex == 0){
+                $data.direction = 'forward';
+                clearInterval(typingInterval);
+                setTimeout(function(){
+
+                    $data.textIndex += 1;
+                    if($data.textIndex >= $data.textArray.length){
+                        $data.textIndex = 0;
+                    }
+
+                    typingInterval = setInterval(startTyping, $data.typeSpeed);
+                }, $data.pauseStart);
+            }
+            $data.charIndex -= 1;
+        }
+
+    }
+
+    setInterval(function(){
+    if($refs.cursor && $refs.cursor.classList.contains('hidden')){
+        $refs.cursor.classList.remove('hidden');
+    } else if($refs.cursor) {
+        $refs.cursor.classList.add('hidden');
+    }
+}, $data.cursorSpeed);
+
+    
+    suggest();
+})()">
+<form class="relative form minisearch" id="search_mini_form" x-ref="form" @submit.prevent="search()" action="<?= $escaper->escapeUrl($helper->getResultUrl()) ?>" method="get">
         <label class="hidden" for="search" data-role="minisearch-label">
             <span><?= $escaper->escapeHtml(__('Search')) ?></span>
         </label>
-        <input id="search" x-ref="searchInput" type="search" autocomplete="off" name="<?= $escaper->escapeHtmlAttr($helper->getQueryParamName()) ?>" value="<?=
-                                                                                                                                                            /** @noEscape */
-                                                                                                                                                            $helper->getEscapedQueryText() ?>" placeholder="<?= $escaper->escapeHtmlAttr(__('Search over 70,000 products...')) ?>" maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>" class="w-full h-8 px-4 pt-3 text-xs font-normal leading-normal text-gray-800 transition bg-white border-gray-400 rounded appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 lg:text-xs sm:h-9 sm:text-lg" @focus.once="suggest" @input.debounce.300="suggest" @keydown.arrow-down.prevent="focusElement($root.querySelector('[tabindex]'))" />
+        <input id="search" x-ref="searchInput" type="search" autocomplete="off" name="q" value="" :placeholder="text" maxlength="<?= $escaper->escapeHtmlAttr($helper->getMaxQueryLength()) ?>" class="w-full h-8 px-4 pt-3 text-xs font-normal leading-normal text-gray-800 transition bg-white border-gray-400 rounded appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 lg:text-xs sm:h-9 sm:text-lg" @focus.once="suggest" @input.debounce.300="suggest" @keydown.arrow-down.prevent="focusElement($root.querySelector('[tabindex]'))" />
+
         <template x-if="suggestions.length > 0">
             <div class="flex flex-col w-full mt-1 leading-normal transition appearance-none text-grey-800">
                 <template x-for="suggestion in suggestions">
@@ -123,7 +154,7 @@ $helper = $this->helper(SearchHelper::class);
             </div>
         </template>
         <button type="submit" title="<?= $escaper->escapeHtml(__('Search')) ?>" class="absolute top-0 right-0 items-center justify-center w-8 h-8 p-0 rounded shadow-none action bg-primary btn lg:hover:bg-primary-lighter lg:mr-1 lg:top-1 md:h-7 md:w-7 search" aria-label="Search">
-            <?= $hyvaicons->searchHtml('text-primary lg:text-white border-current inline w-5 h-5'); ?>
+            <?= $hyvaicons->searchHtml('text-white border-current inline w-5 h-5'); ?>
         </button>
     </form>
 </div>

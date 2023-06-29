@@ -1,22 +1,19 @@
 {
     "extensions": [
         {
+            "src": "vendor\/amasty\/module-custom-form-hyva"
+        },
+        {
             "src": "vendor\/hyva-themes\/magento2-theme-module\/src"
         },
         {
-            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitAllProducts"
+            "src": "vendor\/amasty\/module-shopby-hyva-compatibility"
         },
         {
-            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitBrand"
+            "src": "vendor\/amasty\/module-shop-by-base-hyva-compatibility"
         },
         {
-            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitQuickNavigation"
-        },
-        {
-            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitScroll"
-        },
-        {
-            "src": "vendor\/mirasvit\/module-navigation-hyva\/src\/MirasvitLayeredNavigation"
+            "src": "vendor\/amasty\/module-shop-by-brand-hyva-compatibility"
         }
     ]
 }

@@ -34,11 +34,11 @@ $logoSrc = $logoPathResolver && method_exists($logoPathResolver, 'getLogoSrc')
     ? $logoPathResolver->getLogoSrc($block->getData('logo_file'))
     : $block->getLogoSrc();
 ?>
-<div class="order-1 w-full sm:order-2 lg:order-1 sm:w-auto sm:pb-0">
-    <a class="flex items-center justify-center text-xl font-medium tracking-wide text-gray-800 no-underline hover:no-underline font-title"
+<div class="order-1 w-full mx-auto sm:order-2 lg:order-1 sm:pb-0">
+    <a class="font-title"
         href="<?= $escaper->escapeUrl($block->getUrl('')) ?>" title="<?= $escaper->escapeHtmlAttr($storeName) ?>"
         aria-label="store logo">
-        <img class="w-32 sm:w-36 md:w-56 xl:w-36" src="<?= $escaper->escapeUrl($logoSrc) ?>" title="<?= $escaper->escapeHtmlAttr($block->getLogoAlt()) ?>"
+        <img class="w-32 mx-auto lg:ml-0 sm:w-36 md:w-36 xl:w-36" src="<?= $escaper->escapeUrl($logoSrc) ?>" title="<?= $escaper->escapeHtmlAttr($block->getLogoAlt()) ?>"
             alt="<?= $escaper->escapeHtmlAttr($block->getLogoAlt()) ?>" <?= $logoWidth ?
                   'width="' . $escaper->escapeHtmlAttr($logoWidth) . '"' :
                   'width="200"' ?> <?= $logoHeight ?

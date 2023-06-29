@@ -19,10 +19,9 @@ $collection = $block->getCollection();
 
     <?php if (count($collection)) : ?>
         <div data-amblog-js="accordion" class="amblog-post-list amblog-widget-container -recent-posts">
-            <div class="flex justify-center w-full border-b-4 border-secondary">
-                <h3 class="px-10 py-2 text-center text-primary font-bold w-[18rem] bg-secondary rounded-t-xl" data-amblog-js="heading">
+            <div class="flex justify-center w-full border-b-4 border-primary">
+                <h3 class="px-10 py-2 text-center text-white font-bold w-[18rem] bg-primary rounded-t-xl uppercase" data-amblog-js="heading">
                     <?= $escaper->escapeHtml(__('Regno Magazine')); ?>
-                    <!-- <.?= $escaper->escapeHtml($block->getBlockHeader()); ?> -->
                 </h3>
             </div>
             <div class="recent-posts" data-amblog-js="content">
@@ -35,7 +34,7 @@ $collection = $block->getCollection();
                             && ($src = $block->getThumbnailSrc($post))
                         ) : ?>
                             <a href="<?= $escaper->escapeUrl($post->getUrl()) ?>" title="<?= $escaper->escapeHtmlAttr($post->getTitle()) ?>" aria-label="<?= $escaper->escapeHtmlAttr($post->getTitle()) ?>" class="post-image">
-                                <img class="w-full mx-auto" src="<?= $escaper->escapeUrl($src); ?>" alt="<?= $escaper->escapeHtmlAttr($post->getThumbnailAlt()); ?>">
+                                <img width="421" height="187" class="w-full mx-auto" loading="lazy" src="<?= $escaper->escapeUrl($src); ?>" alt="<?= $escaper->escapeHtmlAttr($post->getThumbnailAlt()); ?>">
                             </a>
                         <?php endif; ?>
                         <div class="text-xl font-semibold post-item-details text-primary">
@@ -57,7 +56,7 @@ $collection = $block->getCollection();
                                             "amBlogDates": "<?= $escaper->escapeJs($post->getPublishedAt()) ?>"
                                         }' <?php endif; ?>>
                                         <?= $escaper->escapeHtml($block->isHumanized()
-                                            ? __('Loading...')
+                                            ? __('')
                                             : $block->renderDate($post->getPublishedAt())) ?>
                                     </div>
                                     <?php if ($post->getEditedAt() && $block->isShowEditedAt()) : ?>
@@ -65,7 +64,7 @@ $collection = $block->getCollection();
                                             <?= $escaper->escapeHtml(__('Edited')) ?>
                                             <span <?php if ($block->isHumanizedEditedAt()) : ?> data-mage-init='{"amBlogDates": "<?= $escaper->escapeJs($post->getEditedAt()) ?>"}' <?php endif; ?>>
                                                 <?= $escaper->escapeHtml($block->isHumanizedEditedAt()
-                                                    ? __('Loading...')
+                                                    ? __('')
                                                     : $block->renderDate($post->getEditedAt(), true)) ?>
                                             </span>
                                         </span>

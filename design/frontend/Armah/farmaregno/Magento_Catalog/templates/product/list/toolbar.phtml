@@ -83,7 +83,7 @@ $additionalOptions = ['page' => 'p'];
 </script>
 <?php if ($block->getCollection()->getSize()): ?>
     <div x-data="initToolbar<?= /** @noEscape */ $uniqueId ?>()"
-         class="grid items-center grid-flow-row grid-cols-4 gap-2 p-4 rounded-lg toolbar toolbar-products sm:grid-cols-8 md:grid-cols-4 lg:grid-cols-8 bg-container-darker">
+         class="flex flex-wrap items-center justify-between gap-2 p-4 rounded-lg toolbar toolbar-products bg-container-darker">
         <?php if ($block->getIsBottom()): ?>
             <?= /** @noEscape */  $block->fetchView($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
             <?= $block->getPagerHtml() ?>

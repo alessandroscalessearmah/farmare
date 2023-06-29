@@ -61,7 +61,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
 
 
 
-    <div class="block border border-container md:border-0 md:bg-transparent md:py-0 md:px-0 lg:hidden" x-data="initLayeredNavigation()" x-init="checkIsMobileResolution()" @resize.window.debounce="checkIsMobileResolution()" @visibilitychange.window.debounce="checkIsMobileResolution()">
+    <div class="block transition-all border border-container md:border-0 md:bg-transparent md:py-0 md:px-0 lg:hidden" x-data="initLayeredNavigation()" x-init="checkIsMobileResolution()" @resize.window.debounce="checkIsMobileResolution()" @visibilitychange.window.debounce="checkIsMobileResolution()">
         <div class="flex items-center justify-between px-3 py-2 rounded lg:hidden lg:p-0 bg-arancio" @click="blockOpen = !blockOpen">
             <span class="text-lg font-bold text-white uppercase">
                 <?= $escaper->escapeHtml(__('Filtra')) ?>
@@ -76,7 +76,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             </span>
         </div>
 
-        <div class="block block-content filter-content" :class="{'bg-white h-screen lg:h-auto overflow-x-hidden overflow-y-auto lg:overflow-y-hidden fixed lg:static top-0 left-0 w-full lg:w-auto z-50' : open}" x-cloak x-show.transition.in.opacity.duration.600="blockOpen || !isMobile" x-show.transition.out.opacity.duration.600="blockOpen || !isMobile">
+        <div class="block transition-all block-content filter-content" :class="{'transition-all bg-white h-screen lg:h-auto overflow-x-hidden overflow-y-auto lg:overflow-y-hidden fixed lg:static top-0 left-0 w-full lg:w-auto z-50' : open}" x-cloak x-show.transition.in.opacity.duration.600="blockOpen || !isMobile" x-show.transition.out.opacity.duration.600="blockOpen || !isMobile">
 
             <div class="flex items-center w-full p-4 ml-auto lg:hidden" @click="blockOpen = false">
                 <span class="text-2xl font-semibold uppercase text-secondary"><?= $escaper->escapeHtml(__("Filters")) ?></span>

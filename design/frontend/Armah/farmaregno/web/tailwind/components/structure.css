@@ -9,8 +9,19 @@ body {
 }
 
 .page-main {
-    @apply my-0;
+    @apply mt-20 mb-8;
 }
+.catalog-category-view .page-main {
+    @apply my-8;
+}
+
+.ambrand-index-index .page-main {
+    @apply my-8;
+}
+.catalog-product-view .page-main {
+    @apply mt-0;
+}
+
 
 .flex-columns-wrapper {
     @apply flex flex-col;
@@ -20,7 +31,7 @@ body {
     }
 }
 .checkout-cart-index .columns {
-    @apply mt-20 sm:mt-24 md:mt-28 !important;
+    @apply mt-0 !important;
 }
 .cms-page-view .columns {
     @apply mt-0 !important;
@@ -33,7 +44,7 @@ body {
 }
 
 .columns {
-    @apply container grid grid-cols-1 mt-20 gap-x-8 gap-y-4 sm:mt-24 md:mt-28;
+    @apply container grid grid-cols-1 gap-x-8 gap-y-4;
     grid-template-rows: auto minmax(0,1fr);
 
     .main {
@@ -44,19 +55,15 @@ body {
         @apply order-3;
     }
 
-}
-.catalog-category-view .columns {
-    @apply container grid grid-cols-1 gap-0 mt-36 md:mt-44 lg:mt-40 !important;
-    grid-template-rows: auto minmax(0,1fr);
-
-    .main {
-        @apply order-2;
+    .product-main-full-width & {
+        @apply max-w-none;
     }
 
-    .sidebar {
-        @apply order-3;
+    .page-main-full-width & {
+        @apply px-0 max-w-none;
     }
 }
+
 .page-with-filter {
     .columns {
         .sidebar-main {
@@ -74,7 +81,7 @@ body {
             @apply grid-cols-2;
 
             .main {
-                @apply col-span-1;
+                @apply col-span-2;
             }
 
             .sidebar {
@@ -114,24 +121,7 @@ body {
     .page-layout-3columns {
         .columns {
             .main {
-                @apply col-start-1;
-            }
-            .sidebar {
-                @apply order-1;
-            }
-
-            .sidebar ~ .sidebar-additional {
-                @apply order-3;
-            }
-
-        }
-    }
-
-    .catalog-category-view .page-layout-2columns-left,
-    .page-layout-3columns {
-        .columns {
-            .main {
-                @apply col-start-1 !important;
+                @apply col-start-2 !important;
             }
             .sidebar {
                 @apply order-1;
@@ -161,19 +151,12 @@ body {
             @apply grid-cols-4;
         }
     }
-    .catalog-category-view .page-layout-2columns-left,
-    .page-layout-2columns-right,
-    .page-layout-3columns {
-        .columns {
-            @apply grid-cols-1 !important;
-        }
-    }
 
     .page-layout-2columns-left,
     .page-layout-2columns-right {
         .columns {
             .main {
-                @apply col-span-1;
+                @apply col-span-3;
             }
         }
     }

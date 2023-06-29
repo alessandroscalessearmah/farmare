@@ -32,7 +32,7 @@ $loginButtonViewModel = $viewModels->require(LoginButton::class);
 // on the Magento_ReCaptchaCustomer module
 $recaptcha = $block->getData('viewModelRecaptcha');
 ?>
-<div class="w-full p-10 mr-8 lg:w-1/2">
+<div class="w-full sm:p-6 lg:mr-8 lg:w-1/2 sm:border rounded-xl">
     <div aria-labelledby="block-customer-login-heading">
         <form class="form form-login"
               action="<?= $escaper->escapeUrl($block->getPostActionUrl()) ?>"
@@ -43,9 +43,9 @@ $recaptcha = $block->getData('viewModelRecaptcha');
             <?= $block->getBlockHtml('formkey') ?>
             <fieldset class="fieldset login">
                 <legend class="mb-8">
-                    <h2 class="text-3xl font-medium text-gray-700 title-font">
+                    <h1 class="text-3xl font-medium text-gray-700 title-font">
                         <?= $escaper->escapeHtml(__('Login')) ?>
-                    </h2>
+                    </h1>
                 </legend>
                 <div class="hidden mb-8 text-secondary-darker">
                     <?= $escaper->escapeHtml(
@@ -57,7 +57,7 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                     <div class="mb-8 control">
                         <input name="login[username]"
                         placeholder="Email"
-                               class="w-full bg-gray-200 rounded-full form-input focus:ring-0 focus:border-primary"
+                               class="w-full bg-white rounded-xl form-input focus:ring-0 focus:border-primary"
                                required
                                value="<?= $escaper->escapeHtmlAttr($block->getUsername()) ?>"
                             <?php if ($block->isAutocompleteDisabled()): ?>
@@ -73,7 +73,7 @@ $recaptcha = $block->getData('viewModelRecaptcha');
                     <div class="relative flex items-center control">
                         <input name="login[password]"
                         placeholder="Password"
-                               class="w-full bg-gray-200 rounded-full form-input focus:ring-0 focus:border-primary"
+                               class="w-full bg-white rounded-xl form-input focus:ring-0 focus:border-primary"
                                required
                                :type="showPassword ? 'text' : 'password'"
                             <?php if ($block->isAutocompleteDisabled()): ?>
@@ -97,10 +97,10 @@ $recaptcha = $block->getData('viewModelRecaptcha');
 
                 <?= $recaptcha ? $recaptcha->getInputHtml(ReCaptcha::RECAPTCHA_FORM_ID_CUSTOMER_LOGIN) : '' ?>
                 <?= $block->getChildHtml('form_additional_info') ?>
-                <div class="flex flex-col items-center justify-between pt-6 pb-2">
-                        <button type="submit" class="justify-center w-full rounded-full btn bg-arancio hover:bg-arancio-lighter disabled:opacity-75" name="send" <?php if ($loginButtonViewModel->disabled()): ?> disabled="disabled" <?php endif; ?>>
+                <div class="flex flex-col items-center justify-between pt-6 pb-2 sm:flex-row-reverse">
+                        <button type="submit" class="justify-center w-full px-2 rounded-xl btn xl:px-6 bg-rosso hover:bg-rosso-lighter disabled:opacity-75" name="send" <?php if ($loginButtonViewModel->disabled()): ?> disabled="disabled" <?php endif; ?>>
                             <span><?= $escaper->escapeHtml(__('Sign In')) ?></span></button>
-                        <a class="w-full mt-6 text-base text-right hover:underline" href="<?= $escaper->escapeUrl(
+                        <a class="flex w-full mt-6 text-sm text-right xl:text-base hover:underline" href="<?= $escaper->escapeUrl(
                             $block->getForgotPasswordUrl()
                         ) ?>"><span><?= $escaper->escapeHtml(__('Forgot Your Password?')) ?></span>
                         </a>

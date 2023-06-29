@@ -74,20 +74,24 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
         }
     }
 </script>
-<div id="header" class="z-30 flex w-full h-12 border-t border-gray-100 bg-secondary" x-data="initHeader()" @keydown.window.escape="searchOpen = false;" @private-content-loaded.window="getData(event.detail.data)" @scroll.window="handleScroll">
-    <div class="container flex flex-row items-center justify-between w-full px-6 mx-auto duration-300 ease-in-out transition-padding">
+<div id="header" class="z-30 flex w-full h-12 border-gray-100 lg:border-t bg-primary lg:bg-secondary" x-data="initHeader()" @keydown.window.escape="searchOpen = false;" @private-content-loaded.window="getData(event.detail.data)" @scroll.window="handleScroll">
+    <div class="container flex flex-row items-center justify-between w-full px-2 mx-auto duration-300 ease-in-out transition-padding">
 
         <!-- mobile -->
         <?= $block->getChildHtml("topmenu.mobile") ?>
 
-        <div class="flex flex-row items-center justify-start order-2 w-1/3 md:w-2/4 lg:order-1 lg:w-1/5 h-14">
 
-    
+        <div class="flex flex-row items-center justify-center order-2 w-2/4 lg:justify-start lg:order-1 lg:w-1/4 h-14">
+
+            <!--Logo-->
+            <div class="block w-full lg:hidden"><?= $block->getBlockHtml('logo'); ?></div>
+
+
             <?= $block->getChildHtml("primo.header.container.third") ?>
 
         </div>
 
-        <div class="relative flex-row items-start hidden xl:px-4 2xl:px-8 lg:order-2 lg:justify-center xl:justify-between lg:w-[40%] xl:w-2/5 2xl:w-3/5 lg:flex" id="search-content">
+        <div class="relative flex-row items-start hidden px-4 2xl:px-8 lg:order-2 lg:justify-center xl:justify-between lg:w-2/4 lg:flex" id="search-content">
 
 
             <!--Search-->
@@ -97,24 +101,37 @@ $wishlistHelper = $this->helper(WishlistHelper::class);
             </div>
 
         </div>
-        <div class="flex flex-row items-center justify-end order-3 w-1/3 h-full md:justify-end xl:justify-between lg:w-1/4 xl:w-1/5 xl:ml-2 2xl:ml-0">
+        <div class="flex flex-row items-center justify-end order-3 w-1/4 h-full md:justify-end 2xl:justify-between lg:w-1/4 xl:w-1/4 xl:ml-2 2xl:ml-0">
 
-            <div class="flex items-center justify-between w-full">
+            <!-- header-blocco-spedizione-gratuita -->
+            <div class="hidden 2xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-spedizione-gratuita')->toHtml(); ?></div>
 
-                <div class="flex flex-row items-center justify-end w-full gap-2 lg:gap-4 lg:items-end xl:gap-4 xl:items-end xl:justify-end">
+            <!-- header-desktop-switch-bottoni -->
+            <div class="hidden h-full lg:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-desktop-switch-bottoni')->toHtml(); ?></div>
 
-                    <!-- header-blocco-spedizione-gratuita -->
-                    <div class="hidden xl:block"><?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-blocco-spedizione-gratuita')->toHtml(); ?></div>
-
-                </div>
+            <!--Search Icon-->
+            <div class="flex items-center mr-2 lg:hidden lg:justify-start">
+                <button id="menu-search-icon" type="submit" title="<?= $escaper->escapeHtml(__("Search")) ?>" class="flex items-center lg:hidden action search" aria-label="Search" @click.prevent=" searchOpen = !searchOpen; $nextTick(function () { document.querySelector('#search').select(); }); ">
+                    <?= $hyvaicons->searchHtml('text-white border-current inline w-5 h-5'); ?>
+                </button>
             </div>
 
+            <!--Carrello-->
+            <div x-data="initHeader()" @private-content-loaded.window="getData(event.detail.data)" class="flex flex-col justify-center font-bold leading-5 text-white lg:hidden lg:ml-14">
+
+                <a id="menu-cart-icon" <?php if ($showMiniCart) : ?>@click.prevent.stop="$dispatch('toggle-cart',{});" <?php endif ?> class="relative flex flex-col items-center justify-center text-sm no-underline" href="<?= $escaper->escapeUrl($block->getUrl('checkout/cart/index')) ?>">
+                    <?= $hyvaicons->shopHtml('text-white border-current inline w-7 h-7'); ?>
+
+                    <span x-text="cart.summary_count" class="absolute flex items-center justify-center w-4 h-4 text-[0.6rem] font-semibold leading-none text-center text-white uppercase transform -translate-x-5 translate-y-1/2 rounded-full -top-3 -right-6 lg:-right-7 sm:px-0 bg-rosso"></span>
+                </a>
+
+            </div>
         </div>
     </div>
     <!--Search-->
-    <div class="absolute z-10 w-full border-t shadow-sm bg-secondary lg:bg-white border-container-lighter lg:hidden" id="search-content">
-    <?= $block->getChildHtml('header-search'); ?>
-</div>
+    <div class="absolute z-10 w-full bg-white border-t shadow-sm top-12 border-container-lighter" id="search-content" x-show="searchOpen" @click.outside="searchOpen = false" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90">
+        <?= $block->getChildHtml('header-search'); ?>
+    </div>
 
 
 </div>
